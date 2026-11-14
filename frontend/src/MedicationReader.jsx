@@ -7,6 +7,20 @@ function MedicationReader() {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState("");
   const [isDragging, setIsDragging] = useState(false);
+  const [originalText, setOriginalText] = useState("");
+  const [explanation, setExplanation] = useState("");
+  function saveMedicationResults(labelText, plainExplanation) {
+    setOriginalText(labelText);
+    setExplanation(plainExplanation);
+
+    localStorage.setItem(
+      "threeDoorsMedication",
+      JSON.stringify({
+        originalText: labelText,
+        explanation: plainExplanation,
+      })
+    );
+  }
 
 
 
@@ -155,22 +169,20 @@ function handleDrop(event) {
             <div className="med-result-title">
               <span>Original Label Text</span>
               <span className="med-tag">OCR</span>
-            </div>
-
-            <div className="med-result-content">
-              Awaiting label analysis...
-            </div>
+            </div>   
+          <div className="med-result-content">
+            {originalText || "Awaiting label analysis..."}
+          </div>
           </div>
 
           <div className="med-result">
             <div className="med-result-title">
               <span>Plain-Language Explanation</span>
               <span className="med-tag">SUMMARY</span>
-            </div>
-
+            </div>   
             <div className="med-result-content">
-              Your explanation will appear here after
-              the label has been processed.
+              {explanation ||
+                "Your explanation will appear here after the label has been processed."}
             </div>
           </div>
 
