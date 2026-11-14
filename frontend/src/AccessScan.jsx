@@ -10,6 +10,15 @@ function AccessScan() {
   const [photo, setPhoto] = useState(null);
   const [preview, setPreview] = useState("");
   const [error, setError] = useState("");
+  const [checkedItems, setCheckedItems] = useState(() => {
+  try {
+    return JSON.parse(
+      localStorage.getItem("threeDoorsAccessChecklist")
+    ) || [];
+  } catch {
+    return [];
+  }
+});
 
   const checklist = [
     "Step-free entrance",
@@ -18,6 +27,20 @@ function AccessScan() {
     "Accessible parking",
     "Elevator or ramp access",
   ];
+  function toggleChecklistItem(item) {
+  setCheckedItems((previous) => {
+    const updated = previous.includes(item)
+      ? previous.filter((entry) => entry !== item)
+      : [...previous, item];
+
+    localStorage.setItem(
+      "threeDoorsAccessChecklist",
+      JSON.stringify(updated)
+    );
+
+    return updated;
+  });
+}
 
   function handleFile(event) {
     const selectedFile = event.target.files?.[0];
@@ -167,17 +190,48 @@ function AccessScan() {
             before your appointment.
           </p>
 
-          <div className="access-checklist">
-            {checklist.map((item) => (
-              <div className="access-check-item" key={item}>
-                <span className="access-check-circle">?</span>
-                <span>{item}</span>
-                <span className="access-check-status">
-                  Not checked
-                </span>
-              </div>
-            ))}
-          </div>
+          <div className="access-progress">
+  <div className="access-progress-label">
+    <strong>Review progress</strong>
+    <span>
+      {checkedItems.length} of {checklist.length} reviewed
+    </span>
+  </div>
+
+  <div className="access-progress-track">
+    <div
+      className="access-progress-fill"
+      style={{
+        width: `${(checkedItems.length / checklist.length) * 100}%`
+      }}
+    />
+  </div>
+</div>
+
+<div className="access-checklist">
+  {checklist.map((item) => {
+    const isChecked = checkedItems.includes(item);
+
+    return (
+      <label
+        className={`access-check-item ${isChecked ? "is-checked" : ""}`}
+        key={item}
+      >
+        <input
+          type="checkbox"
+          checked={isChecked}
+          onChange={() => toggleChecklistItem(item)}
+        />
+
+        <span>{item}</span>
+
+        <span className="access-check-status">
+          {isChecked ? "Reviewed" : "Not reviewed"}
+        </span>
+      </label>
+    );
+  })}
+</div>
 
           <div className="access-note">
             <strong>Important:</strong> A photo cannot confirm

@@ -139,17 +139,37 @@
 }
 
 /* Product interface preview */
+
 .hero-dashboard {
   width: min(100%, 1050px);
-  margin-top: 66px;
-  padding: 28px;
-  border: 1px solid rgba(255,255,255,.65);
-  border-radius: 20px;
-  background: #fcfcff;
-  box-shadow: 0 30px 75px rgba(0,0,0,.25);
+  margin: 66px auto 0;
+  padding: 32px;
+
+  border: 1px solid rgba(220, 210, 255, 0.8);
+  border-radius: 28px;
+
+  background: linear-gradient(
+    145deg,
+    #ffffff 0%,
+    #faf8ff 65%,
+    #f4f0ff 100%
+  );
+
+  box-shadow:
+    0 30px 75px rgba(0, 0, 0, 0.18),
+    0 8px 24px rgba(125, 100, 190, 0.10);
+
   color: #111b38;
   text-align: left;
 }
+
+  /* Soft layered shadows */
+  box-shadow:
+    0 30px 75px rgba(0, 0, 0, 0.18),
+    0 8px 24px rgba(125, 100, 190, 0.10);
+
+  color: #111b38;
+  text-align: left;
 .dashboard-topbar,
 .dashboard-preview-footer {
   display: flex;
@@ -730,5 +750,556 @@
   .sparkle {
     animation: none;
     opacity: 0.8;
+  }
+}
+.welcome .hero-dashboard {
+  width: min(100%, 1050px);
+  margin-top: 66px;
+  padding: 32px;
+  border: 1px solid #e5def8;
+  border-radius: 28px;
+
+  background: linear-gradient(
+    145deg,
+    #ffffff 0%,
+    #faf8ff 65%,
+    #f4f0ff 100%
+  );
+
+  box-shadow:
+    0 30px 75px rgba(0, 0, 0, 0.18),
+    0 8px 24px rgba(125, 100, 190, 0.10);
+
+  color: #111b38;
+  text-align: left;
+}
+
+/* Dashboard header alignment */
+
+.dashboard-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.dashboard-demo {
+  margin-left: auto;
+  white-space: nowrap;
+}
+/* Dashboard card micro-animations */
+
+@media (prefers-reduced-motion: no-preference) {
+  .dashboard-preview-card {
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  .dashboard-preview-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(93, 76, 157, 0.13);
+    border-color: rgba(155, 130, 230, 0.35);
+  }
+
+  .dashboard-preview-card:hover .dashboard-preview-icon {
+    transform: scale(1.15) rotate(-8deg);
+  }
+
+  .dashboard-preview-icon {
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+}
+/* Keep custom tool illustrations inside their cards */
+
+.card-artwork {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.card-illustration {
+  display: block;
+  width: 100%;
+   max-width: 210px;
+  height: 165px;
+  object-fit: contain;
+  transition: transform 0.35s ease;
+}
+.access-progress {
+  margin: 22px 0;
+}
+
+.access-progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: #626b91;
+}
+
+.access-progress-track {
+  height: 8px;
+  background: #ece9f8;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.access-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8580ed, #b58bea);
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.access-check-item {
+  cursor: pointer;
+}
+
+.access-check-item input {
+  accent-color: #8174d9;
+  width: 17px;
+  height: 17px;
+}
+
+.access-check-item.is-checked {
+  background: #f1effb;
+  border-radius: 10px;
+}
+/* THREE DOORS — DYNAMIC DASHBOARD POLISH */
+
+.dashboard-progress-fill {
+  height: 100%;
+  border-radius: 20px;
+  background: linear-gradient(
+    90deg,
+    #9580e8,
+    #c4a5f3
+  );
+  transition: width 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.dashboard-preview-card {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.dashboard-preview-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(30, 25, 75, 0.09);
+}
+
+.dashboard-status {
+  transition: color 0.2s ease;
+}
+
+.dashboard-progress-header span {
+  color: #8063D8;
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-progress-fill,
+  .dashboard-preview-card {
+    transition: none;
+  }
+}
+/* =========================================
+   THREE DOORS — FINAL HERO EXPERIENCE
+   ========================================= */
+
+.welcome {
+  padding: 95px 5% 85px;
+  background:
+    radial-gradient(
+      ellipse at 78% 35%,
+      rgba(151, 125, 225, 0.22),
+      transparent 42%
+    ),
+    radial-gradient(
+      ellipse at 12% 85%,
+      rgba(104, 117, 190, 0.16),
+      transparent 38%
+    ),
+    linear-gradient(
+      135deg,
+      #101831 0%,
+      #171e42 55%,
+      #292653 100%
+    );
+}
+
+/* Hero layout */
+
+.hero-layout {
+  max-width: 1380px;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 55px;
+  align-items: center;
+}
+
+/* Small brand label */
+
+.hero-content .logo {
+  display: inline-block;
+  color: #c6b4f5;
+  font-size: 11px;
+  letter-spacing: 3px;
+  margin-bottom: 25px;
+}
+
+/* Main headline */
+
+.hero-content h1 {
+  max-width: 680px;
+  color: #ffffff;
+  font-family: Georgia, serif;
+  font-size: clamp(43px, 5vw, 72px);
+  font-weight: 400;
+  letter-spacing: -2px;
+  line-height: 1.12;
+}
+
+/* Lavender headline emphasis */
+
+.hero-highlight {
+  background: linear-gradient(
+    100deg,
+    #c9b5ff,
+    #e3c8e5,
+    #a9b8f5
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-style: italic;
+}
+
+/* Supporting text */
+
+.hero-content p {
+  max-width: 540px;
+  margin: 25px 0 30px;
+  color: #d5d9ed;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+/* Explore button */
+
+.hero-content .explore-button {
+  padding: 17px 30px;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 13px;
+  background: linear-gradient(
+    110deg,
+    #8068cf,
+    #a58adf
+  );
+  color: white;
+  box-shadow: 0 12px 30px rgba(91, 66, 165, 0.25);
+  transition: all 0.25s ease;
+}
+
+.hero-content .explore-button:hover {
+  background: linear-gradient(
+    110deg,
+    #927cdd,
+    #b49be9
+  );
+  transform: translateY(-3px);
+  box-shadow: 0 16px 35px rgba(120, 95, 195, 0.35);
+}
+
+/* Three brand pillars */
+
+.hero-content .hero-pillars {
+  gap: 12px;
+  margin-top: 38px;
+}
+
+.hero-pillar {
+  min-width: 125px;
+  padding: 12px 15px;
+  border: 1px solid rgba(211, 196, 255, 0.19);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.055);
+  backdrop-filter: blur(12px);
+  transition: all 0.25s ease;
+}
+
+.hero-pillar:hover {
+  background: rgba(183, 160, 255, 0.13);
+  border-color: rgba(211, 196, 255, 0.4);
+  transform: translateY(-3px);
+}
+
+.hero-pillar-icon {
+  background: rgba(177, 153, 241, 0.17);
+  color: #d1c0ff;
+}
+
+/* Doorway artwork */
+
+.hero-artwork {
+  position: relative;
+  min-height: 440px;
+  isolation: isolate;
+}
+
+.hero-artwork::before {
+  content: "";
+  position: absolute;
+  width: 78%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(174, 147, 239, 0.20),
+    rgba(174, 147, 239, 0.04) 55%,
+    transparent 75%
+  );
+  filter: blur(12px);
+  z-index: -1;
+}
+
+.hero-illustration {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 680px;
+  max-height: 500px;
+  object-fit: contain;
+  filter: drop-shadow(
+    0 20px 35px rgba(5, 8, 25, 0.22)
+  );
+  transition: transform 0.5s ease;
+}
+
+.hero-artwork:hover .hero-illustration {
+  transform: translateY(-5px);
+}
+
+/* Decorative sparkles */
+
+.sparkle {
+  z-index: 2;
+  color: #d4c2ff;
+  text-shadow: 0 0 18px rgba(199, 177, 255, 0.45);
+}
+
+/* Responsive adjustments */
+
+@media (max-width: 850px) {
+  .welcome {
+    padding: 75px 24px 70px;
+  }
+
+  .hero-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .hero-content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-content h1,
+  .hero-content p {
+    text-align: center;
+  }
+
+  .hero-artwork {
+    min-height: 280px;
+  }
+
+  .hero-illustration {
+    max-height: 350px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-content h1 {
+    font-size: clamp(39px, 10vw, 55px);
+    letter-spacing: -1.5px;
+  }
+
+  .hero-content .hero-pillars {
+    justify-content: center;
+  }
+
+  .hero-pillar {
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-pillar,
+  .hero-content .explore-button,
+  .hero-illustration {
+    transition: none;
+  }
+
+  .hero-pillar:hover,
+  .hero-illustration:hover {
+    transform: none;
+  }
+}
+
+/* =====================================
+   THREE DOORS — MINT VISIT PACKET CARD
+   ===================================== */
+
+.tool-card:nth-child(4) {
+  background: #EAF5EF;
+  border: 1px solid #D5E9DD;
+  transition: all 0.3s ease;
+}
+
+.tool-card:nth-child(4):hover {
+  background: #E1F0E7;
+  border-color: #BBDAC8;
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(57, 122, 98, 0.10);
+}
+
+.tool-card:nth-child(4) .card-link {
+  color: #397A62;
+}
+/* =====================================
+   THREE DOORS — PREMIUM TOOL CARDS
+   ===================================== */
+
+/* Consistent card appearance */
+.tool-card {
+  min-height: 340px;
+  padding: 28px;
+  border-radius: 22px;
+  border-width: 1px;
+  box-shadow: 0 8px 24px rgba(17, 27, 56, 0.035);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Elegant hover effect */
+.tool-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 18px 38px rgba(17, 27, 56, 0.09);
+}
+
+/* Illustration area */
+.card-artwork {
+  width: 100%;
+  min-height: 145px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+/* Custom illustrations */
+.card-illustration {
+  display: block;
+  width: 100%;
+  max-width: 190px;
+  height: 145px;
+  object-fit: contain;
+  transition: transform 0.35s ease;
+}
+
+.tool-card:hover .card-illustration {
+  transform: scale(1.06);
+}
+
+/* Card titles */
+.tool-card h3 {
+  margin-top: 14px;
+  font-size: 19px;
+  line-height: 1.35;
+}
+
+/* Card descriptions */
+.tool-card p {
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+/* Explore links */
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: gap 0.25s ease;
+}
+
+.tool-card:hover .card-link {
+  gap: 12px;
+}
+
+/* Mint visit packet */
+.tool-card:nth-child(4) {
+  background: #EAF5EF;
+  border-color: #D5E9DD;
+}
+
+.tool-card:nth-child(4):hover {
+  background: #E1F0E7;
+  border-color: #BBDAC8;
+}
+
+.tool-card:nth-child(4) .card-link {
+  color: #397A62;
+}
+
+/* Keyboard accessibility */
+.tool-card:focus-visible {
+  outline: 3px solid #9278D9;
+  outline-offset: 4px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .tool-card {
+    min-height: 310px;
+    padding: 24px;
+  }
+
+  .card-illustration {
+    max-width: 170px;
+    height: 130px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool-card,
+  .card-illustration,
+  .card-link {
+    transition: none;
+  }
+}
+/* Center the fourth tool card */
+@media (min-width: 900px) {
+  .tool-grid .tool-card:nth-child(4) {
+    grid-column: 2;
+  }
+}
+@media (min-width: 900px) {
+  .tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tool-grid .tool-card:nth-child(4) {
+    grid-column: auto;
   }
 }

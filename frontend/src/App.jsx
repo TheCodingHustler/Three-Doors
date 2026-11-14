@@ -36,6 +36,48 @@ function App() {
 },
 
   ];
+   // Read saved information for the dashboard
+  const clinicAddress =
+    localStorage.getItem("threeDoorsClinicAddress") || "";
+
+  const readSavedData = (key) => {
+    try {
+      return JSON.parse(localStorage.getItem(key)) || [];
+    } catch {
+      return [];
+    }
+  };
+
+  const accessItems = readSavedData("threeDoorsAccessChecklist");
+  const journalEntries = readSavedData("threeDoorsJournal");
+  const medicationResults = readSavedData("threeDoorsMedication");
+
+  const accessReviewed = Array.isArray(accessItems)
+    ? accessItems.length
+    : 0;
+
+  const journalCount = Array.isArray(journalEntries)
+    ? journalEntries.length
+    : 0;
+
+  const hasMedicationResults = Boolean(
+    medicationResults?.originalText ||
+    medicationResults?.explanation
+  );
+
+  const accessStarted = Boolean(clinicAddress || accessReviewed > 0);
+  const medicationStarted = hasMedicationResults;
+  const journalStarted = journalCount > 0;
+
+  const completedAreas = [
+    accessStarted,
+    medicationStarted,
+    journalStarted,
+  ].filter(Boolean).length;
+
+  const progressPercent = Math.round(
+    (completedAreas / 3) * 100
+  );
 
   return (
     <div className="app">
@@ -112,13 +154,16 @@ function App() {
 <div className="hero-dashboard">
   <div className="dashboard-topbar">
     <span className="dashboard-brand">✦ THREE DOORS</span>
-    <span className="dashboard-demo">DEMO WORKSPACE</span>
+    <span className="dashboard-demo">MY WORKSPACE</span>
   </div>
 
   <div className="dashboard-heading">
     <span>YOUR APPOINTMENT WORKSPACE</span>
     <h3>Ready for your next visit?</h3>
-    <p>Keep the important details together before your appointment.</p>
+    <p>
+      Everything you need to prepare for your healthcare
+      appointment, thoughtfully organized in one place.
+    </p>
   </div>
 
   <div className="dashboard-appointment">
@@ -127,8 +172,13 @@ function App() {
         APPOINTMENT PREPARATION
       </span>
       <h4>Your visit, organized.</h4>
-      <p>Start with any tool and build your visit packet.</p>
+      <p>
+        {completedAreas === 3
+          ? "All three preparation areas have activity. Your visit packet brings everything together."
+          : `${completedAreas} of 3 preparation areas have been started. Continue whenever you're ready.`}
+      </p>
     </div>
+
     <span className="dashboard-appointment-icon">✦</span>
   </div>
 
@@ -136,41 +186,60 @@ function App() {
     <div className="dashboard-preview-card dashboard-access">
       <span className="dashboard-preview-icon">◎</span>
       <strong>Accessibility</strong>
-      <span className="dashboard-status">Not reviewed</span>
+      <span className="dashboard-status">
+        {accessReviewed === 5
+          ? "Checklist reviewed"
+          : accessReviewed > 0
+          ? `${accessReviewed} of 5 reviewed`
+          : clinicAddress
+          ? "Address saved"
+          : "Not started"}
+      </span>
     </div>
 
     <div className="dashboard-preview-card dashboard-medication">
       <span className="dashboard-preview-icon">✚</span>
       <strong>Medication</strong>
-      <span className="dashboard-status">Not uploaded</span>
+      <span className="dashboard-status">
+        {hasMedicationResults
+          ? "Results saved"
+          : "Awaiting analysis"}
+      </span>
     </div>
 
     <div className="dashboard-preview-card dashboard-journal">
       <span className="dashboard-preview-icon">✎</span>
       <strong>Journal</strong>
-      <span className="dashboard-status">Ready to start</span>
+      <span className="dashboard-status">
+        {journalCount > 0
+          ? `${journalCount} saved entries`
+          : "Ready to start"}
+      </span>
     </div>
   </div>
 
   <div className="dashboard-progress">
     <div className="dashboard-progress-header">
-      <strong>Visit preparation</strong>
-      <span>EXAMPLE WORKSPACE</span>
+      <strong>Your preparation progress</strong>
+      <span>{progressPercent}%</span>
     </div>
 
     <div className="dashboard-progress-track">
-      <div className="dashboard-progress-fill"></div>
+      <div
+        className="dashboard-progress-fill"
+        style={{ width: `${progressPercent}%` }}
+      />
     </div>
 
     <p>
       Your accessibility details, medication information,
-      and journal entries will come together in your visit packet.
+      and journal entries can be organized in your Visit Packet.
     </p>
   </div>
 
   <div className="dashboard-preview-footer">
     <span>✦ YOUR VISIT, SIMPLIFIED</span>
-    <span>THREE DOORS / PREVIEW</span>
+    <span>THREE DOORS / YOUR WORKSPACE</span>
   </div>
 </div>
           </section>
@@ -185,7 +254,6 @@ function App() {
             
         <div className="tool-grid">
   {tools
-    .filter((tool) => tool.id !== "packet")
     .map((tool, index) => (
       <button
         key={tool.id}
@@ -196,9 +264,19 @@ function App() {
           0{index + 1} / 04
         </span>
 
-        <span className="card-icon">
-          {tool.icon}
-        </span>
+        <div className="card-artwork">
+          {tool.id === "access" ? (
+            <img src="/images/accessscan-illustration.png" alt="" className="card-illustration" />
+          ) : tool.id === "medication" ? (
+            <img src="/images/medication-illustration.png" alt="" className="card-illustration" />
+          ) : tool.id === "journal" ? (
+            <img src="/images/journal-illustration.png" alt="" className="card-illustration" />
+          ) : tool.id === "packet" ? (
+            <img src="/images/visit-packet-illustration.png" alt="" className="card-illustration" />
+          ) : (
+            <span className="card-icon">{tool.icon}</span>
+          )}
+        </div>
 
         <h3>{tool.title}</h3>
         <p>{tool.description}</p>

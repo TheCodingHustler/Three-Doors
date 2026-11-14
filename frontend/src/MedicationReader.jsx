@@ -124,7 +124,7 @@ function handleDrop(event) {
               <>
                 <div className="med-upload-icon">↑</div>
                 <h4>Upload your label</h4>
-                <p>Choose a JPG, PNG, or other image.</p>
+                <p>JPG, PNG, or WebP · Maximum 10 MB</p>
               </>
             )}
 

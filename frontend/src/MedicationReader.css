@@ -301,7 +301,7 @@
 /* Two-column workspace */
 .med-grid {
   gap: 24px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .med-panel {
@@ -433,4 +433,78 @@
   .med-header {
     gap: 16px;
   }
+}
+/* THREE DOORS — FINAL MEDICATION READER POLISH */
+
+.med-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.med-panel {
+  transition: box-shadow 0.25s ease;
+}
+
+.med-panel:hover {
+  box-shadow: 0 16px 40px rgba(17, 27, 56, 0.08);
+}
+
+.med-upload-zone {
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.med-upload-button:focus-visible,
+.med-analyze-button:focus-visible {
+  outline: 3px solid #b9a5f5;
+  outline-offset: 4px;
+}
+
+.med-preview {
+  display: block;
+  margin-bottom: 12px;
+  background: #ffffff;
+}
+
+.med-result {
+  padding: 2px 0;
+}
+
+.med-review-note {
+  line-height: 1.8;
+}
+
+.med-bottom-bar {
+  border-top: 1px solid #e8e4f4;
+  margin-top: 35px;
+}
+
+@media (max-width: 600px) {
+  .med-dashboard {
+    padding-top: 18px;
+  }
+
+  .med-header h2 {
+    font-size: 32px;
+  }
+
+  .med-panel {
+    padding: 20px;
+  }
+
+  .med-upload-zone {
+    min-height: 250px;
+    padding: 20px;
+  }
+}
+/* Balance the medication upload panel */
+
+.med-panel:first-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.med-panel:first-child .med-upload-zone {
+  flex: 1;
+  min-height: 330px;
 }

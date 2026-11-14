@@ -438,3 +438,147 @@
     padding: 22px;
   }
 }
+/* THREE DOORS — JOURNAL FINAL POLISH */
+
+.journal-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.journal-eyebrow,
+.journal-step {
+  color: #8063D8;
+}
+
+.journal-status,
+.journal-count {
+  background: #F1EBFF;
+  color: #7555C7;
+  border-color: #E5D9FF;
+}
+
+.journal-panel {
+  transition: box-shadow 0.25s ease;
+}
+
+.journal-panel:hover {
+  box-shadow: 0 16px 40px rgba(17, 27, 56, 0.08);
+}
+
+/* Lavender form accents */
+
+.journal-form input:focus,
+.journal-form select:focus,
+.journal-form textarea:focus {
+  border-color: #9676E9;
+  box-shadow: 0 0 0 4px rgba(128, 99, 216, 0.12);
+}
+
+.journal-save-button {
+  background: #8063D8;
+  transition: all 0.25s ease;
+}
+
+.journal-save-button:hover {
+  background: #6B4CC5;
+}
+
+/* Timeline */
+
+.journal-entry {
+  border-left-color: #A58CEB;
+  transition: transform 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.journal-entry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(17, 27, 56, 0.05);
+}
+
+.journal-entry-date {
+  color: #7555C7;
+}
+
+.journal-severity {
+  background: #F1EBFF;
+  color: #7555C7;
+}
+
+.journal-empty {
+  background: #FAF8FF;
+  border-color: #DCD0F7;
+}
+
+.journal-empty-icon {
+  color: #8063D8;
+}
+
+/* Accessibility */
+
+.journal-form input:focus-visible,
+.journal-form select:focus-visible,
+.journal-form textarea:focus-visible,
+.journal-save-button:focus-visible,
+.journal-delete:focus-visible {
+  outline: 3px solid #B9A5F5;
+  outline-offset: 3px;
+}
+
+/* Footer */
+
+.journal-footer {
+  border-top: 1px solid #E8E4F4;
+  padding-top: 24px;
+}
+
+/* Reduced motion support */
+
+@media (prefers-reduced-motion: reduce) {
+  .journal-panel,
+  .journal-entry,
+  .journal-save-button {
+    transition: none;
+  }
+
+  .journal-entry:hover,
+  .journal-save-button:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .journal-dashboard {
+    padding-top: 18px;
+  }
+
+  .journal-header h2 {
+    font-size: 32px;
+  }
+
+  .journal-panel {
+    padding: 20px;
+  }
+
+  .journal-entry-top {
+    align-items: flex-start;
+  }
+}
+/* Balance the journal panels */
+
+.journal-grid {
+  align-items: stretch;
+}
+
+.journal-panel:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+}
+
+.journal-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 240px;
+}

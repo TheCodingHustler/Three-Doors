@@ -573,3 +573,133 @@
     break-inside: avoid;
   }
 }
+/* THREE DOORS — FINAL VISIT PACKET POLISH */
+
+.packet-dashboard {
+  max-width: 1150px;
+}
+
+/* Lavender identity */
+
+.packet-eyebrow {
+  color: #8063D8;
+}
+
+.packet-print-button,
+.packet-question-form button {
+  background: #8063D8;
+  transition: all 0.25s ease;
+}
+
+.packet-print-button:hover,
+.packet-question-form button:hover {
+  background: #6B4CC5;
+}
+
+/* Document styling */
+
+.packet-document {
+  border-color: #E5DDF5;
+  box-shadow: 0 16px 45px rgba(45, 35, 85, 0.06);
+}
+
+.packet-document-header {
+  border-bottom-color: #A58CEB;
+}
+
+.packet-brand,
+.packet-label {
+  color: #8063D8;
+}
+
+/* Section numbers */
+
+.packet-section-number {
+  background: #F1EBFF;
+  color: #7555C7;
+}
+
+/* Journal entries */
+
+.packet-journal-entry {
+  background: #FAF8FF;
+  border-left-color: #A58CEB;
+}
+
+.packet-journal-entry > strong {
+  color: #7555C7;
+}
+
+/* Appointment questions */
+
+.packet-question-form input:focus-visible {
+  outline: 3px solid #B9A5F5;
+  outline-offset: 2px;
+}
+
+.packet-question-list li {
+  background: #FAF8FF;
+  border-left-color: #A58CEB;
+}
+
+.packet-delete-question:focus-visible,
+.packet-print-button:focus-visible,
+.packet-question-form button:focus-visible {
+  outline: 3px solid #B9A5F5;
+  outline-offset: 3px;
+}
+
+/* Disclaimer */
+
+.packet-disclaimer {
+  background: #FFFAF0;
+  border-left-color: #D9B96E;
+  color: #796743;
+}
+
+/* Document footer */
+
+.packet-document-footer {
+  border-top-color: #E8E4F4;
+}
+
+/* Responsive improvements */
+
+@media (max-width: 600px) {
+  .packet-dashboard {
+    padding: 18px 14px 50px;
+  }
+
+  .packet-header h2 {
+    font-size: 32px;
+  }
+
+  .packet-document {
+    padding: 24px 18px;
+  }
+
+  .packet-question-list li {
+    align-items: flex-start;
+  }
+}
+
+/* Printing */
+
+@media print {
+  .packet-document {
+    background: white;
+    color: #111B38;
+    box-shadow: none;
+    border: none;
+  }
+
+  .packet-section,
+  .packet-journal-entry {
+    break-inside: avoid;
+  }
+
+  .packet-disclaimer {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
