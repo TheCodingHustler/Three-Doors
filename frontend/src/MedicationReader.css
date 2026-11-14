@@ -1,0 +1,259 @@
+
+.med-dashboard {
+  padding: 30px 0 60px;
+  color: #183d43;
+}
+
+.med-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 35px;
+}
+
+.med-eyebrow,
+.med-step {
+  color: #237b75;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.med-header h2 {
+  font-size: clamp(30px, 4vw, 43px);
+  letter-spacing: -1.5px;
+  margin: 14px 0;
+}
+
+.med-header p,
+.med-panel-heading p {
+  color: #718587;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.med-status {
+  background: #e5f4ed;
+  color: #237b75;
+  border-radius: 100px;
+  padding: 11px 17px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.med-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.med-panel {
+  background: #ffffff;
+  border: 1px solid #e1ece7;
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 8px 30px #183d4308;
+}
+
+.med-panel-heading h3 {
+  font-size: 23px;
+  margin: 12px 0 8px;
+}
+
+.med-panel-heading p {
+  margin-bottom: 26px;
+}
+
+.med-upload-zone {
+  border: 2px dashed #c5dcd3;
+  border-radius: 18px;
+  background: #f8fbf9;
+  min-height: 300px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.med-upload-icon {
+  width: 62px;
+  height: 62px;
+  background: #e5f4ed;
+  color: #237b75;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-size: 32px;
+}
+
+.med-upload-zone h4 {
+  margin: 18px 0 5px;
+  font-size: 17px;
+}
+
+.med-upload-zone p {
+  color: #8ba09d;
+  font-size: 13px;
+}
+
+.med-upload-button {
+  margin-top: 18px;
+  background: #237b75;
+  color: white;
+  border: none;
+  border-radius: 100px;
+  padding: 14px 25px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.med-upload-button:hover {
+  background: #183d43;
+  transform: translateY(-2px);
+}
+
+.med-preview {
+  width: 100%;
+  max-height: 210px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.med-file-name {
+  color: #237b75;
+  font-size: 12px;
+  margin-top: 16px;
+  overflow-wrap: anywhere;
+}
+
+.med-result {
+  margin-top: 22px;
+}
+
+.med-result-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.med-tag {
+  background: #e5f4ed;
+  color: #237b75;
+  padding: 5px 9px;
+  border-radius: 6px;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.med-result-content {
+  background: #f5f9f7;
+  border: 1px solid #e8f0ec;
+  border-radius: 13px;
+  padding: 20px;
+  min-height: 105px;
+  color: #8ba09d;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.med-review-note {
+  background: #fdf9ef;
+  border: 1px solid #f2e8c8;
+  border-radius: 12px;
+  padding: 17px;
+  color: #766b49;
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 25px;
+}
+
+.med-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 30px;
+  color: #8ba09d;
+  font-size: 11px;
+}
+
+@media (max-width: 760px) {
+  .med-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .med-header {
+    flex-direction: column;
+  }
+
+  .med-panel {
+    padding: 22px;
+  }
+
+  .med-bottom-bar {
+    flex-direction: column;
+  }
+}
+
+/* Drag-and-drop interaction */
+
+.med-upload-zone {
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.med-upload-zone.dragging {
+  background: #e5f4ed;
+  border-color: #237b75;
+  transform: scale(1.01);
+}
+
+.med-upload-zone.dragging .med-upload-icon {
+  background: #237b75;
+  color: white;
+  transform: translateY(-4px);
+}
+
+.med-upload-icon {
+  transition: all 0.25s ease;
+}
+
+
+/* Analyze Label button */
+
+.med-analyze-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  width: 100%;
+  margin-top: 18px;
+  padding: 16px 24px;
+
+  background: #173f43;
+  color: white;
+  border: none;
+  border-radius: 14px;
+
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.med-analyze-button span:last-child {
+  margin-left: auto;
+}

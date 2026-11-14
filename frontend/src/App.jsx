@@ -1,5 +1,5 @@
-
 import { useState } from "react";
+import MedicationReader from "./MedicationReader";
 import "./App.css";
 
 function App() {
@@ -99,20 +99,29 @@ function App() {
             ← Back to Home
           </button>
 
-          <div className="logo">THREE DOORS / YOUR TOOLS</div>
+          
+        {selectedTool.id !== "medication" && (
+          <>
+            <div className="logo">THREE DOORS / YOUR TOOLS</div>
+            <h1>{selectedTool.title}</h1>
+            <p>{selectedTool.description}</p>
+          </>
+        )} 
 
-          <h1>{selectedTool.title}</h1>
-          <p>{selectedTool.description}</p>
+          
+{selectedTool.id === "medication" ? (
+  <MedicationReader />
+) : (
+        <div className="coming-soon">
+          <span className="card-icon">{selectedTool.icon}</span>
+          <h2>Your workspace is ready.</h2>
+          <p>Your team's feature will be connected here.</p>
+        </div>
+      )}
 
-          <div className="coming-soon">
-            <span className="card-icon">{selectedTool.icon}</span>
-            <h2>Your workspace is ready.</h2>
-            <p>
-              Your team's feature will be connected here.
-            </p>
-          </div>
         </main>
       )}
+
 
       <footer className="site-footer">
         Designed to make healthcare feel more human.
