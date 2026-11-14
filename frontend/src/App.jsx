@@ -307,8 +307,53 @@ function App() {
                   <span className="packet-feature-link">
                     Build Visit Packet →
                   </span>
-                </button>
+                 </button>
           </section>
+
+          {/* Patient journey — editorial section */}
+          <section className="journey-section">
+            <div className="journey-heading">
+              <span className="journey-eyebrow">
+                ✦ THE THREE DOORS EXPERIENCE
+              </span>
+
+              <h2>
+                A little more clarity.
+                <br />
+                <em>A lot more confidence.</em>
+              </h2>
+
+              <p>
+                From preparing for your appointment to bringing
+                everything together, we're here to make the
+                process feel simpler.
+              </p>
+            </div>
+
+            <div className="journey-steps">
+              <div className="journey-step">
+                <span className="journey-number">01</span>
+                <span className="journey-symbol">✳</span>
+                <h3>Prepare</h3>
+                <p>Explore accessibility and get ready for your visit.</p>
+              </div>
+
+              <div className="journey-step">
+                <span className="journey-number">02</span>
+                <span className="journey-symbol">✦</span>
+                <h3>Understand</h3>
+                <p>Make sense of medication labels and track how you feel.</p>
+              </div>
+
+              <div className="journey-step">
+                <span className="journey-number">03</span>
+                <span className="journey-symbol">♡</span>
+                <h3>Organize</h3>
+                <p>Bring your information together in one visit packet.</p>
+              </div>
+            </div>
+          </section>
+
         </main>
       ) : (
         <main className="tool-page">

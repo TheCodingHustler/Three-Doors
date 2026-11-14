@@ -268,11 +268,18 @@
 }
 
 /* Tools section */
+/* Tools section — soft lavender transition */
 .tools-section {
   max-width: 1200px;
   margin: 0 auto;
   padding: 88px 24px 100px;
-  background: #fafbff;
+  background: linear-gradient(
+    180deg,
+    #f0edff 0%,
+    #f7f6ff 18%,
+    #fafbff 45%,
+    #fafbff 100%
+  );
   scroll-margin-top: 30px;
 }
 .section-heading { margin-bottom: 40px; text-align: center; }
@@ -1301,5 +1308,244 @@
 
   .tool-grid .tool-card:nth-child(4) {
     grid-column: auto;
+  }
+}
+/* Smooth hover animations for tool cards */
+
+.tool-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+@media (hover: hover) {
+  .tool-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(30, 35, 80, 0.14);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool-card {
+    transition: none;
+  }
+}
+/* Workspace footer spacing */
+
+.dashboard-preview-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dashboard-preview-footer span {
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .dashboard-preview-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+/* Gentle illustration movement on hover */
+
+@media (hover: hover) {
+  .tool-card:hover .card-illustration {
+    transform: translateY(-8px) scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-illustration {
+    transition: none;
+  }
+}
+/* Soft lavender glow behind hero illustration */
+
+.hero-artwork {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-artwork::before {
+  content: "";
+  position: absolute;
+  width: 85%;
+  height: 80%;
+  top: 10%;
+  left: 7.5%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(181, 145, 255, 0.20) 0%,
+    rgba(151, 117, 230, 0.09) 45%,
+    transparent 75%
+  );
+  filter: blur(35px);
+  z-index: -1;
+  pointer-events: none;
+}
+/* Gentle hover effect for workspace preview cards */
+
+.dashboard-preview-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+@media (hover: hover) {
+  .dashboard-preview-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(36, 40, 90, 0.10);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-preview-card {
+    transition: none;
+  }
+}
+/* Refined navigation bar */
+
+.navbar {
+  box-shadow: 0 4px 20px rgba(24, 32, 75, 0.05);
+}
+/* THREE DOORS — EDITORIAL PATIENT JOURNEY */
+
+.journey-section {
+  position: relative;
+  overflow: hidden;
+  padding: 100px 7%;
+  background: #f5f2ff;
+}
+
+.journey-heading {
+  max-width: 720px;
+  margin: 0 auto 65px;
+  text-align: center;
+}
+
+.journey-eyebrow {
+  color: #7661b5;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.journey-heading h2 {
+  margin: 22px 0;
+  color: #19203f;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: clamp(36px, 5vw, 58px);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.journey-heading h2 em {
+  color: #9273d0;
+  font-weight: 400;
+}
+
+.journey-heading p {
+  max-width: 520px;
+  margin: 0 auto;
+  color: #66708b;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* Three connected steps */
+
+.journey-steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.journey-steps::before {
+  content: "";
+  position: absolute;
+  top: 60px;
+  left: 12%;
+  right: 12%;
+  border-top: 2px dashed #cbb9f1;
+}
+
+.journey-step {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  padding: 35px 30px;
+  background: #fff;
+  border: 1px solid #e8dff9;
+  border-radius: 22px;
+  box-shadow: 0 12px 35px rgba(72, 51, 120, 0.05);
+}
+
+.journey-number {
+  display: block;
+  color: #e2d7f8;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 76px;
+  line-height: 1;
+}
+
+.journey-symbol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 43px;
+  height: 43px;
+  margin: 18px 0 12px;
+  border-radius: 50%;
+  background: #f0eaff;
+  color: #9472d4;
+  font-size: 23px;
+}
+
+.journey-step h3 {
+  margin: 5px 0 10px;
+  color: #19203f;
+  font-size: 21px;
+  font-weight: 750;
+}
+
+.journey-step p {
+  margin: 0;
+  color: #69738b;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+/* Mobile layout */
+
+@media (max-width: 768px) {
+  .journey-section {
+    padding: 70px 22px;
+  }
+
+  .journey-heading {
+    margin-bottom: 38px;
+  }
+
+  .journey-steps {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .journey-steps::before {
+    display: none;
+  }
+
+  .journey-step {
+    padding: 28px;
+  }
+
+  .journey-number {
+    font-size: 60px;
   }
 }
