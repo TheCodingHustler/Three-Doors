@@ -1456,6 +1456,7 @@ button.tool-card:hover {
   .report-intro {
     flex-direction: column;
   }
+}
 
 .card-link {
   font-size: 13px;
@@ -4132,5 +4133,200 @@ button.tool-card:hover {
   .scrapbook-divider span {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* Access Scan workspace uses the same cornflower-and-sage palette as its home card. */
+.app-access {
+  background: #faf6ed;
+}
+
+.app-access .site-footer {
+  background: #253653;
+  color: #e4eff6;
+}
+
+.tool-page.access-workspace-shell {
+  max-width: 1200px;
+  padding: 38px 28px 72px;
+}
+
+.access-workspace-shell .back-button,
+.access-workspace-shell .viewer-heading a {
+  color: #426d96;
+}
+
+.access-workspace-shell .back-button:hover,
+.access-workspace-shell .viewer-heading a:hover {
+  color: #253653;
+}
+
+.access-workspace-shell .workspace-heading .eyebrow,
+.access-workspace-shell .med-step,
+.access-workspace-shell .eyebrow {
+  color: #426d96;
+}
+
+.access-workspace-shell .workspace-heading {
+  min-height: 250px;
+  margin-bottom: 32px;
+  padding: 40px;
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at 14% 18%, rgba(81, 101, 232, .35), transparent 43%),
+    radial-gradient(ellipse at 84% 64%, rgba(167, 139, 250, .25), transparent 43%),
+    linear-gradient(135deg, #0b1228 0%, #111b38 55%, #20275a 100%);
+}
+
+.access-workspace-shell .workspace-heading .eyebrow {
+  color: #b5bfff;
+}
+
+.access-workspace-shell .workspace-heading h1,
+.access-workspace-shell .med-panel-heading h2,
+.access-workspace-shell .empty-report h2,
+.access-workspace-shell .report-intro h2,
+.access-workspace-shell .viewer-heading h3,
+.access-workspace-shell .walkthrough-heading h3,
+.access-workspace-shell .observation h3 {
+  color: #253653;
+}
+
+.access-workspace-shell .workspace-heading h1 {
+  color: #fff;
+  font-size: 48px;
+  font-weight: 400;
+}
+
+.access-workspace-shell .workspace-heading p,
+.access-workspace-shell .med-panel-heading p,
+.access-workspace-shell .empty-report > p {
+  color: #697386;
+}
+
+.access-workspace-shell .workspace-heading p {
+  color: #d1d9ef;
+  font-size: 15px;
+}
+
+.access-workspace-shell .workspace-seal {
+  border-color: rgba(255, 255, 255, .28);
+  background: rgba(255, 255, 255, .07);
+  color: #f5f6ff;
+}
+
+.access-workspace-shell .med-panel {
+  border-color: #d7e2e8;
+  border-radius: 12px;
+  box-shadow: 5px 6px 0 #dce7ec;
+}
+
+.access-workspace-shell .field-label,
+.access-workspace-shell .profile-fieldset legend {
+  color: #253653;
+}
+
+.access-workspace-shell .text-input {
+  border-color: #b5cedd;
+  background: #fff;
+  color: #253653;
+}
+
+.access-workspace-shell .text-input:focus {
+  border-color: #739acb;
+  outline-color: #739acb;
+}
+
+.access-workspace-shell .profile-option {
+  border-color: #d7e2e8;
+  color: #566480;
+}
+
+.access-workspace-shell .profile-option.selected {
+  border-color: #739acb;
+  background: #e4eff6;
+  color: #253653;
+}
+
+.access-workspace-shell .profile-option input {
+  accent-color: #426d96;
+}
+
+.access-workspace-shell .profile-icon,
+.access-workspace-shell .status-text,
+.access-workspace-shell .walkthrough-findings small {
+  color: #426d96;
+}
+
+.access-workspace-shell .action-primary,
+.access-workspace-shell .action-secondary {
+  border-color: #426d96;
+}
+
+.access-workspace-shell .action-primary {
+  background: #426d96;
+}
+
+.access-workspace-shell .action-primary:hover:not(:disabled) {
+  background: #253653;
+  border-color: #253653;
+}
+
+.access-workspace-shell .action-secondary {
+  color: #426d96;
+}
+
+.access-workspace-shell .action-secondary:hover:not(:disabled) {
+  background: #e4eff6;
+}
+
+.access-workspace-shell .empty-mark {
+  background: #c1d9e8;
+  color: #426d96;
+}
+
+.access-workspace-shell .status-pill {
+  background: #e4eff6;
+  color: #426d96;
+}
+
+.access-workspace-shell .floor-plan {
+  border-color: #d7e2e8;
+  background: #f4f8fa;
+}
+
+.access-workspace-shell .plan-wall {
+  stroke: #9cafa9;
+}
+
+.access-workspace-shell .plan-route,
+.access-workspace-shell .plan-dot {
+  stroke: #fff;
+}
+
+.access-workspace-shell .plan-route {
+  stroke: #426d96;
+}
+
+.access-workspace-shell .plan-dot {
+  fill: #739acb;
+}
+
+.access-workspace-shell :focus-visible {
+  outline-color: #739acb;
+}
+
+@media (max-width: 700px) {
+  .tool-page.access-workspace-shell {
+    padding: 28px 20px 60px;
+  }
+
+  .access-workspace-shell .workspace-heading h1 {
+    font-size: 36px;
+  }
+
+  .access-workspace-shell .workspace-heading {
+    min-height: 0;
+    padding: 28px 24px;
   }
 }

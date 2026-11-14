@@ -193,7 +193,7 @@ function Report({ report, profile, onReset }) {
   );
 }
 
-function AccessScan({ onBack }) {
+function AccessScan() {
   const [buildings, setBuildings] = useState([]);
   const [buildingQuery, setBuildingQuery] = useState("");
   const [selectedBuilding, setSelectedBuilding] = useState("");
@@ -288,10 +288,7 @@ function AccessScan({ onBack }) {
   }
 
   return (
-    <main className="tool-page">
-          <button className="back-button" onClick={onBack} type="button">
-        <span aria-hidden="true">←</span> Back to tools
-      </button>
+    <div className="access-workspace">
       <div className="workspace-heading">
         <div>
           <div className="eyebrow">THREE DOORS / ACCESS SCAN</div>
@@ -378,7 +375,7 @@ function AccessScan({ onBack }) {
           )}
         </section>
       </div>
-    </main>
+    </div>
   );
 }
 
@@ -458,7 +455,7 @@ function App() {
   );
 
   return (
-    <div className="app">
+    <div className={`app${selectedTool?.id === "access" ? " app-access" : ""}`}>
       <header className="navbar">
         <button
           className="brand"
@@ -746,7 +743,7 @@ function App() {
 
         </main>
       ) : (
-        <main className="tool-page">
+        <main className={`tool-page${selectedTool.id === "access" ? " access-workspace-shell" : ""}`}>
           <button
             className="back-button"
             onClick={() => setSelectedTool(null)}
@@ -766,7 +763,7 @@ function App() {
         {selectedTool.id === "medication" ? (
           <MedicationReader />
         ) : selectedTool.id === "access" ? (
-          <AccessScan onBack={() => setSelectedTool(null)} />
+          <AccessScan />
         ) : selectedTool.id === "journal" ? (
           <SymptomJournal />
         ) : selectedTool.id === "packet" ? (
