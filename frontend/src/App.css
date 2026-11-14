@@ -163,13 +163,6 @@
   text-align: left;
 }
 
-  /* Soft layered shadows */
-  box-shadow:
-    0 30px 75px rgba(0, 0, 0, 0.18),
-    0 8px 24px rgba(125, 100, 190, 0.10);
-
-  color: #111b38;
-  text-align: left;
 .dashboard-topbar,
 .dashboard-preview-footer {
   display: flex;
@@ -267,95 +260,279 @@
   letter-spacing: .08em;
 }
 
-/* Tools section */
-/* Tools section — soft lavender transition */
+/* TOOLS SECTION — illustrated scrapbook aesthetic */
+
 .tools-section {
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 88px 24px 100px;
-  background: linear-gradient(
-    180deg,
-    #f0edff 0%,
-    #f7f6ff 18%,
-    #fafbff 45%,
-    #fafbff 100%
-  );
+  padding: 88px 24px 110px;
+  background: #faf6ed;
   scroll-margin-top: 30px;
 }
-.section-heading { margin-bottom: 40px; text-align: center; }
-.section-heading .logo { color: #5165e8; }
+
+.section-heading {
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.section-heading .logo {
+  color: #a77c9d;
+  letter-spacing: 0.16em;
+}
+
 .section-heading h2 {
   margin: 14px 0;
-  color: #111b38;
+  color: #253653;
   font-family: var(--font-heading, 'Manrope', sans-serif);
   font-size: clamp(31px, 4vw, 45px);
   font-weight: 800;
   letter-spacing: -.045em;
   line-height: 1.2;
 }
-.section-heading p { color: #66728b; font-size: 15px; line-height: 1.7; }
+
+.section-heading p {
+  color: #697386;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* Editorial two-column tool layout */
+
 .tool-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+  align-items: stretch;
 }
+
 .tool-card {
+  min-height: 390px;
+  padding: 32px;
+}
+
+/* Give each tool its own visual composition */
+
+.tool-card:nth-child(1) {
+  transform: rotate(-0.5deg);
+}
+
+.tool-card:nth-child(2) {
+  transform: rotate(0.5deg);
+}
+
+.tool-card:nth-child(3) {
+  transform: rotate(0.4deg);
+}
+
+.tool-card:nth-child(4) {
+  transform: rotate(-0.4deg);
+}
+
+@media (max-width: 700px) {
+  .tool-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .tool-card {
+    min-height: 320px;
+  }
+}
+
+.tool-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   min-width: 0;
-  min-height: 310px;
-  padding: 31px;
-  border: 1px solid transparent;
-  border-radius: 17px;
+  min-height: 330px;
+  padding: 30px;
+  border: 1.5px solid #e7dfd2;
+  border-radius: 9px 20px 12px 18px;
   text-align: left;
   font-family: inherit;
   cursor: pointer;
-  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+  overflow: visible;
+
+  box-shadow: 5px 6px 0 var(--card-shadow);
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease;
 }
+
+/* Individual scrapbook tape details */
+
+.tool-card::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  right: 30px;
+  width: 75px;
+  height: 20px;
+  background: var(--tape);
+  opacity: .95;
+  transform: rotate(5deg);
+  clip-path: polygon(0 8%, 96% 0, 100% 88%, 4% 100%);
+  pointer-events: none;
+}
+
 .tool-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 17px 38px rgba(17,27,56,.09);
+  transform: translateY(-6px) rotate(-.4deg);
+  box-shadow: 8px 10px 0 var(--card-shadow);
 }
+
 .card-number {
-  margin-bottom: 23px;
-  color: #737e9a;
+  margin-bottom: 20px;
+  color: #59677b;
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .12em;
+  font-weight: 800;
+  letter-spacing: .14em;
 }
+
 .card-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
+  width: 58px;
+  height: 58px;
+  border-radius: 16px 10px 16px 10px;
   font-size: 27px;
 }
+
+.card-illustration {
+  max-width: 210px;
+  height: 165px;
+  object-fit: contain;
+  transition: transform .25s ease;
+}
+
+.tool-card:hover .card-illustration {
+  transform: rotate(-3deg) scale(1.04);
+}
+
 .tool-card h3 {
-  margin: 21px 0 8px;
-  color: #111b38;
+  margin: 19px 0 8px;
+  color: #253653;
   font-family: var(--font-heading, 'Manrope', sans-serif);
   font-size: 20px;
   font-weight: 800;
   letter-spacing: -.035em;
   line-height: 1.3;
 }
-.tool-card p { margin: 0 0 22px; color: #566480; font-size: 14px; line-height: 1.7; }
-.card-link { margin-top: auto; font-size: 13px; font-weight: 700; }
-.tool-card:nth-child(1) { background: #eff3ff; border-color: #dce5ff; }
-.tool-card:nth-child(1) .card-icon { background: #dce5ff; color: #5165e8; }
-.tool-card:nth-child(1) .card-link { color: #5165e8; }
-.tool-card:nth-child(1):hover { background: #e3eaff; }
-.tool-card:nth-child(2) { background: #f5f0ff; border-color: #e8dcff; }
-.tool-card:nth-child(2) .card-icon { background: #e8dcff; color: #9066e8; }
-.tool-card:nth-child(2) .card-link { color: #9066e8; }
-.tool-card:nth-child(2):hover { background: #ede4ff; }
-.tool-card:nth-child(3) { background: #fff1f0; border-color: #ffe0dc; }
-.tool-card:nth-child(3) .card-icon { background: #ffe0dc; color: #e66c72; }
-.tool-card:nth-child(3) .card-link { color: #d45b64; }
-.tool-card:nth-child(3):hover { background: #ffe7e5; }
+
+.tool-card p {
+  margin: 0 0 22px;
+  color: #566480;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.card-link {
+  margin-top: auto;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* 01 — Access Scan: cornflower blue + sage */
+
+.tool-card:nth-child(1) {
+  --card-shadow: #a9c9dc;
+  --tape: #739acb;
+  background: #e4eff6;
+  border-color: #b5cedd;
+}
+
+.tool-card:nth-child(1) .card-icon {
+  background: #c1d9e8;
+  color: #426d96;
+}
+
+.tool-card:nth-child(1) .card-link {
+  color: #426d96;
+}
+
+/* 02 — Medication Reader: peach + golden yellow */
+
+.tool-card:nth-child(2) {
+  --card-shadow: #e7c49f;
+  --tape: #e8b84f;
+  background: #f9e8d9;
+  border-color: #eacbb4;
+}
+
+.tool-card:nth-child(2) .card-icon {
+  background: #f0c9b7;
+  color: #a65e48;
+}
+
+.tool-card:nth-child(2) .card-link {
+  color: #a65e48;
+}
+
+/* 03 — Symptom Journal: dusty pink + sage */
+
+.tool-card:nth-child(3) {
+  --card-shadow: #d9b5c3;
+  --tape: #85a98a;
+  background: #f3e2e8;
+  border-color: #e3c3d0;
+}
+
+.tool-card:nth-child(3) .card-icon {
+  background: #e8c3d1;
+  color: #a65e79;
+}
+
+.tool-card:nth-child(3) .card-link {
+  color: #a65e79;
+}
+
+/* 04 — Visit Packet: lavender + cornflower */
+
+.tool-card:nth-child(4) {
+  --card-shadow: #c4b6dc;
+  --tape: #aa83c8;
+  background: #eae4f5;
+  border-color: #d0c2e6;
+}
+
+.tool-card:nth-child(4) .card-icon {
+  background: #d5c7e9;
+  color: #7861a0;
+}
+
+.tool-card:nth-child(4) .card-link {
+  color: #7861a0;
+}
+
+/* Responsive layout */
+
+@media (max-width: 850px) {
+  .tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .tool-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .tool-card {
+    min-height: 290px;
+    padding: 25px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool-card,
+  .card-illustration {
+    transition: none;
+  }
+}
 
 /* Visit Packet feature */
 .packet-feature {
@@ -1604,4 +1781,967 @@
 .journey-steps {
   position: relative;
   z-index: 1;
+}
+/* HERO — scrapbook illustration treatment */
+
+/* THREE DOORS — editorial doorway treatment */
+
+.hero-artwork {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+}
+
+/* Layered periwinkle scrapbook paper */
+.hero-artwork::before {
+  content: "";
+  position: absolute;
+  width: 79%;
+  height: 76%;
+  top: 12%;
+  left: 10%;
+
+  background: #596FA8;
+  border: 2px solid #A9B9DF;
+  border-radius: 48% 52% 44% 56% / 52% 43% 57% 48%;
+
+  transform: rotate(-4deg);
+  z-index: 0;
+
+  box-shadow: 7px 9px 0 #8C82BD;
+}
+
+/* Preserve the original doorway */
+.hero-illustration {
+  position: relative;
+  z-index: 1;
+  width: 108%;
+  max-width: 720px;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 12px rgba(8, 12, 35, .18));
+  transition: transform .4s ease;
+}
+
+/* Small handmade editorial annotation */
+.hero-artwork::after {
+  content: "a little more clarity ✳";
+  position: absolute;
+  bottom: 7%;
+  left: 4%;
+
+  color: #B8CDBA;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 16px;
+
+  transform: rotate(-7deg);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Cool-toned decorative accents */
+.hero-artwork .sparkle {
+  z-index: 2;
+  text-shadow: none;
+}
+
+.sparkle-one {
+  color: #C5A9EA;
+}
+
+.sparkle-two {
+  color: #9CB9D9;
+}
+
+.sparkle-three {
+  color: #A8C7B0;
+}
+
+/* Gentle illustration movement */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-illustration {
+    animation: doorway-arrive .9s ease-out both;
+  }
+
+  @keyframes doorway-arrive {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 850px) {
+  .hero-artwork::before {
+    width: 76%;
+    height: 72%;
+    left: 12%;
+  }
+
+  .hero-illustration {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .hero-artwork::after {
+    bottom: 2%;
+    left: 8%;
+  }
+}
+
+/* Hand-drawn floral scrapbook details */
+
+.hero-artwork::after {
+  content: "✿";
+  position: absolute;
+  bottom: 14%;
+  left: 7%;
+  color: #e8b84f;
+  font-size: 38px;
+  transform: rotate(-18deg);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Give existing sparkles more color */
+
+.sparkle-one {
+  color: #d98a70;
+}
+
+.sparkle-two {
+  color: #e8b84f;
+}
+
+.sparkle-three {
+  color: #85a98a;
+}
+/* THREE DOORS — illustrated workspace journal */
+
+.welcome .hero-dashboard {
+  background: #fffaf1;
+  border: 2px solid #e8d9c7;
+  border-radius: 18px 18px 10px 18px;
+
+  box-shadow:
+    7px 8px 0 #d9c5ae,
+    0 18px 45px rgba(37, 54, 83, 0.10);
+
+  padding: 34px;
+}
+
+/* Workspace identity */
+
+.dashboard-brand {
+  color: #496d8c;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+.dashboard-demo {
+  background: #DCEBDD;
+  color: #496D50;
+  border: 1px solid #AFC9AE;
+  border-radius: 5px;
+}
+
+/* Editorial heading */
+
+.dashboard-heading {
+  padding: 8px 0 22px;
+  border-bottom: 1px dashed #d8cbb9;
+}
+
+.dashboard-heading > span {
+  color: #bd785f;
+}
+
+.dashboard-heading h3 {
+  color: #253653;
+}
+
+.dashboard-heading p {
+  color: #697386;
+  line-height: 1.8;
+}
+
+/* Individual journal cards */
+
+.dashboard-preview-card {
+  position: relative;
+  border: 1.5px solid rgba(37, 54, 83, .10);
+  border-radius: 10px 16px 10px 16px;
+  padding: 23px;
+  box-shadow: 3px 4px 0 rgba(37, 54, 83, .08);
+}
+
+.dashboard-access {
+  background: #dceaf2;
+  border-bottom: 4px solid #739acb;
+}
+
+.dashboard-medication {
+  background: #f8e5d8;
+  border-bottom: 4px solid #d98a70;
+}
+
+.dashboard-journal {
+  background: #e6eddf;
+  border-bottom: 4px solid #85a98a;
+}
+
+.dashboard-preview-icon {
+  font-size: 28px;
+}
+
+.dashboard-access .dashboard-preview-icon {
+  color: #496d8c;
+}
+
+.dashboard-medication .dashboard-preview-icon {
+  color: #b36e53;
+}
+
+.dashboard-journal .dashboard-preview-icon {
+  color: #64866a;
+}
+
+.dashboard-preview-label {
+  color: #526176;
+  letter-spacing: .12em;
+}
+
+.dashboard-preview-card strong {
+  color: #253653;
+}
+
+.dashboard-preview-card p {
+  color: #58657b;
+  line-height: 1.75;
+}
+
+.dashboard-preview-link {
+  color: #496d8c;
+  font-weight: 800;
+}
+
+/* Appointment progress — paper checklist */
+
+.dashboard-progress {
+  background: #f7f0e4;
+  border: 1px solid #e6d7bf;
+  border-left: 5px solid #e8b84f;
+  border-radius: 8px 14px 8px 14px;
+  box-shadow: 3px 4px 0 rgba(180, 150, 105, .12);
+}
+
+.dashboard-progress-header strong {
+  color: #253653;
+}
+
+.dashboard-progress-track {
+  height: 10px;
+  background: #e7dfd2;
+  border-radius: 3px;
+}
+
+.dashboard-progress-fill {
+  background: #739acb;
+  border-radius: 3px;
+}
+
+.dashboard-progress p {
+  color: #697386;
+  line-height: 1.7;
+}
+
+/* Workspace footer */
+
+.dashboard-preview-footer {
+  border-top: 1px dashed #d8cbb9;
+  color: #8a7867;
+}
+
+@media (max-width: 600px) {
+  .welcome .hero-dashboard {
+    padding: 22px 17px;
+  }
+}
+/* THREE DOORS — scrapbook card animations */
+
+/* Decorative illustrated stars */
+
+.dashboard-preview-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-preview-card::after {
+  content: "✳";
+  position: absolute;
+  top: 13px;
+  right: 16px;
+  font-size: 25px;
+  opacity: .75;
+  pointer-events: none;
+}
+
+.dashboard-access::after {
+  color: #739acb;
+}
+
+.dashboard-medication::after {
+  color: #d98a70;
+}
+
+.dashboard-journal::after {
+  color: #85a98a;
+}
+
+/* Gentle interaction */
+
+@media (prefers-reduced-motion: no-preference) {
+  .dashboard-preview-card {
+    transition:
+      transform .3s ease,
+      box-shadow .3s ease;
+  }
+
+  .dashboard-preview-card:hover {
+    transform: translateY(-7px) rotate(-1deg);
+    box-shadow: 6px 8px 0 rgba(37, 54, 83, .12);
+  }
+
+  .dashboard-preview-icon {
+    transition: transform .35s ease;
+  }
+
+  .dashboard-preview-card:hover .dashboard-preview-icon {
+    transform: rotate(-12deg) scale(1.16);
+  }
+
+  .dashboard-preview-card::after {
+    transition: transform .4s ease;
+  }
+
+  .dashboard-preview-card:hover::after {
+    transform: rotate(35deg) scale(1.25);
+  }
+}
+/* Illustrated scrapbook section divider */
+
+.scrapbook-divider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+
+  min-height: 100px;
+  background: #faf6ed;
+  overflow: hidden;
+}
+
+.scrapbook-divider::before,
+.scrapbook-divider::after {
+  content: "";
+  width: 18%;
+  height: 2px;
+  background: #c6d5c1;
+  border-radius: 50%;
+}
+
+.divider-flower {
+  color: #d98a70;
+  font-size: 34px;
+  display: inline-block;
+}
+
+.divider-flower-blue {
+  color: #739acb;
+  font-size: 40px;
+}
+
+.divider-flower-yellow {
+  color: #e8b84f;
+}
+
+.divider-star {
+  color: #d98a70;
+  font-size: 19px;
+}
+
+.divider-star-green {
+  color: #85a98a;
+}
+
+/* Gentle entrance animation */
+
+@media (prefers-reduced-motion: no-preference) {
+  .scrapbook-divider span {
+    animation: dividerAppear .8s ease both;
+  }
+
+  .scrapbook-divider span:nth-child(2) {
+    animation-delay: .12s;
+  }
+
+  .scrapbook-divider span:nth-child(3) {
+    animation-delay: .2s;
+  }
+
+  .scrapbook-divider span:nth-child(4) {
+    animation-delay: .28s;
+  }
+
+  .scrapbook-divider span:nth-child(5) {
+    animation-delay: .36s;
+  }
+
+  @keyframes dividerAppear {
+    from {
+      opacity: 0;
+      transform: translateY(9px) rotate(-12deg);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) rotate(0);
+    }
+  }
+}
+/* Full-width sage green Explore Our Tools background */
+
+.tools-section {
+  background: #E2EDDF !important;
+  box-shadow: 0 0 0 100vmax #E2EDDF;
+  clip-path: inset(0 -100vmax);
+}
+/* Three Doors — handmade scrapbook workspace */
+
+.welcome .hero-dashboard {
+  position: relative;
+  isolation: isolate;
+  background: #F5F1FA;
+  border: 1px solid #C9BBDD;
+  border-radius: 5px 17px 8px 13px;
+
+  box-shadow:
+    5px 6px 0 #D8CDE8,
+    10px 12px 0 rgba(83, 69, 120, 0.08);
+}
+
+/* Subtle paper grain */
+.welcome .hero-dashboard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .22;
+  border-radius: inherit;
+
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(105, 88, 140, .035) 4px
+    );
+}
+
+/* Handmade paper divider */
+.welcome .hero-dashboard .dashboard-heading {
+  border-bottom: 1px dashed #B9AACF;
+  padding-bottom: 25px;
+}
+
+/* Paper-like workspace labels */
+.welcome .hero-dashboard .dashboard-demo {
+  background: #DFE9F7;
+  color: #526E9B;
+  border: 1px solid #B7C8E2;
+  border-radius: 3px;
+  transform: rotate(2deg);
+}
+/* THREE DOORS — individual editorial card layouts */
+
+.tool-card {
+  display: grid;
+  grid-template-columns: 1fr 0.9fr;
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-areas:
+    "number number"
+    "title artwork"
+    "description artwork"
+    "link artwork";
+  gap: 12px 18px;
+  min-height: 350px;
+  padding: 28px;
+  border-radius: 5px 24px 8px 20px;
+  box-shadow: 3px 5px 0 var(--card-shadow);
+  transform: none !important;
+  overflow: hidden;
+}
+
+/* Remove the identical tape from every card */
+.tool-card::before {
+  display: none;
+}
+
+.card-number {
+  grid-area: number;
+}
+
+.card-artwork {
+  grid-area: artwork;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.card-illustration {
+  width: 100%;
+  max-width: 230px;
+  height: 215px;
+  object-fit: contain;
+}
+
+.tool-card h3 {
+  grid-area: title;
+  align-self: end;
+  margin: 0;
+}
+
+.tool-card p {
+  grid-area: description;
+  margin: 0;
+}
+
+.tool-card .card-link {
+  grid-area: link;
+  align-self: end;
+}
+
+/* ACCESS — spacious blue composition */
+.tool-card-access {
+  grid-template-areas:
+    "number number"
+    "title artwork"
+    "description artwork"
+    "link artwork";
+  border-radius: 4px 28px 8px 24px;
+}
+
+/* MEDICATION — centered editorial composition */
+.tool-card-medication {
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "number number"
+    "artwork artwork"
+    "title title"
+    "description description"
+    "link link";
+  min-height: 390px;
+  border-radius: 24px 5px 24px 8px;
+}
+
+.tool-card-medication .card-artwork {
+  max-height: 175px;
+}
+
+.tool-card-medication .card-illustration {
+  height: 175px;
+}
+
+/* JOURNAL — illustration on the left */
+.tool-card-journal {
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "number number"
+    "artwork title"
+    "artwork description"
+    "artwork link";
+  border-radius: 24px 8px 5px 26px;
+}
+
+/* VISIT PACKET — paper-like composition */
+.tool-card-packet {
+  grid-template-areas:
+    "number number"
+    "title artwork"
+    "description artwork"
+    "link artwork";
+  border-radius: 8px 24px 5px 22px;
+}
+
+.tool-card-packet .card-illustration {
+  max-width: 250px;
+}
+
+/* Gentle interaction */
+@media (prefers-reduced-motion: no-preference) {
+  .tool-card {
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+
+  .tool-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 5px 9px 0 var(--card-shadow);
+  }
+
+  .card-illustration {
+    transition: transform .3s ease;
+  }
+
+  .tool-card:hover .card-illustration {
+    transform: rotate(-3deg) scale(1.04);
+  }
+}
+
+@media (max-width: 700px) {
+  .tool-card,
+  .tool-card-access,
+  .tool-card-medication,
+  .tool-card-journal,
+  .tool-card-packet {
+    grid-template-columns: 1fr 1fr;
+    min-height: 310px;
+  }
+}
+/* ==========================================
+   THREE DOORS — FINAL EDITORIAL ART DIRECTION
+   ========================================== */
+
+:root {
+  --td-navy: #171d3b;
+  --td-ink: #273657;
+  --td-lavender: #bca4e8;
+  --td-blue: #739acb;
+  --td-sage: #8eaf99;
+  --td-pink: #ce91ae;
+}
+
+/* HOMEPAGE HERO */
+
+.welcome {
+  padding: 95px 6% 85px;
+  background:
+    radial-gradient(ellipse at 78% 48%, rgba(103, 113, 180, .30), transparent 42%),
+    radial-gradient(ellipse at 12% 90%, rgba(126, 93, 174, .14), transparent 40%),
+    linear-gradient(125deg, #111831, #20264b 68%, #302b60);
+}
+
+.hero-layout {
+  max-width: 1400px;
+  grid-template-columns: 1.05fr .95fr;
+  gap: 35px;
+}
+
+.hero-content .logo {
+  color: #c6b4f5;
+  letter-spacing: .24em;
+}
+
+.hero-content h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(48px, 5.5vw, 79px);
+  line-height: 1.08;
+  letter-spacing: -.045em;
+}
+
+.hero-highlight {
+  background: linear-gradient(
+    100deg,
+    #d0b8fa,
+    #e5c5df,
+    #9dbce9
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.hero-content p {
+  max-width: 530px;
+  color: #d4d9eb;
+  line-height: 1.9;
+}
+
+.hero-content .explore-button {
+  background: linear-gradient(120deg, #7964bf, #a68bdc);
+  border-radius: 5px 16px 5px 16px;
+  box-shadow: 4px 5px 0 rgba(177, 155, 224, .25);
+}
+
+.hero-content .hero-pillars {
+  margin-top: 35px;
+}
+
+/* DOORWAY — KEEP AS THE SIGNATURE ARTWORK */
+
+.hero-artwork {
+  min-height: 470px;
+  overflow: visible;
+}
+
+.hero-artwork::before {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.025) 0px,
+      rgba(255,255,255,.025) 1px,
+      transparent 1px,
+      transparent 5px
+    ),
+    #526b9f;
+  border: 1px solid #a9b9df;
+  box-shadow: 7px 9px 0 #8c82bd;
+  border-radius: 48% 52% 44% 56% / 52% 43% 57% 48%;
+}
+
+.hero-illustration {
+  max-width: 730px;
+  max-height: 530px;
+}
+
+/* WORKSPACE — EDITORIAL PAPER */
+
+.welcome .hero-dashboard {
+  position: relative;
+  width: min(100%, 1100px);
+  margin-top: 85px;
+  padding: 42px;
+  border: 1px solid #d8cde8;
+  border-radius: 4px 24px 5px 22px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(90, 75, 120, .018) 0px,
+      rgba(90, 75, 120, .018) 1px,
+      transparent 1px,
+      transparent 5px
+    ),
+    #f7f3fa;
+  box-shadow: 8px 10px 0 rgba(190, 172, 216, .35);
+}
+
+.dashboard-topbar {
+  border-color: #ded7e9;
+}
+
+.dashboard-brand {
+  color: #3b527c;
+  font-family: Georgia, serif;
+}
+
+.dashboard-demo {
+  background: #e1e8f4;
+  color: #526c9a;
+  border: 1px solid #c0d0e4;
+}
+
+.dashboard-heading h3 {
+  font-family: Georgia, serif;
+  font-size: 32px;
+  color: #273657;
+}
+
+.dashboard-appointment {
+  border-radius: 4px 18px 4px 18px;
+  background: #e9e5f5;
+}
+
+.dashboard-access {
+  background: #dce8f3;
+}
+
+.dashboard-medication {
+  background: #e9dff3;
+}
+
+.dashboard-journal {
+  background: #f1dfe9;
+}
+
+.dashboard-progress {
+  background: #e1ebdf;
+  border-color: #c6d8c5;
+  border-radius: 5px 15px 5px 15px;
+}
+
+.dashboard-progress-fill {
+  background: linear-gradient(90deg, #7899c4, #91b59b);
+}
+
+/* SCRAPBOOK SECTION DIVIDER */
+
+.scrapbook-divider {
+  background: #f5f1f8;
+  padding: 30px 20px;
+}
+
+/* TOOLS — EDITORIAL PRESENTATION */
+
+.tools-section {
+  max-width: none;
+  padding: 100px max(6%, calc((100% - 1200px) / 2)) 110px;
+  background:
+    radial-gradient(circle at 5% 10%, rgba(187, 164, 232, .13), transparent 25%),
+    #e5ebdf;
+}
+
+.section-heading {
+  margin-bottom: 65px;
+}
+
+.section-heading .logo {
+  color: #a36e9b;
+}
+
+.section-heading h2 {
+  font-family: Georgia, serif;
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 500;
+  letter-spacing: -.045em;
+  color: #263653;
+}
+
+.section-heading p {
+  color: #61718a;
+}
+
+/* Preserve the individualized card compositions */
+
+.tool-grid {
+  max-width: 1120px;
+  margin: 0 auto;
+  gap: 35px 28px;
+}
+
+.tool-card {
+  min-height: 370px;
+  border-width: 1px;
+  box-shadow: 5px 7px 0 var(--card-shadow);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.tool-card-access {
+  background: #dce9f4;
+}
+
+.tool-card-medication {
+  background: #eee1f5;
+}
+
+.tool-card-journal {
+  background: #f2e0e9;
+}
+
+.tool-card-packet {
+  background: #dfebdf;
+}
+
+.tool-card h3 {
+  font-family: Georgia, serif;
+  font-weight: 600;
+}
+
+.tool-card:hover {
+  transform: translateY(-5px) rotate(0deg) !important;
+}
+
+/* REMOVE THE REPETITIVE EXTRA PACKET PROMOTION */
+
+.packet-feature {
+  display: none;
+}
+
+/* PATIENT JOURNEY — PRESENTATION STYLE */
+
+.journey-section {
+  padding: 110px 7%;
+  background: #f2edf9;
+}
+
+.journey-heading h2 {
+  font-family: Georgia, serif;
+  font-size: clamp(38px, 5vw, 62px);
+  color: #273657;
+  line-height: 1.15;
+}
+
+.journey-heading h2 em {
+  color: #9276c3;
+}
+
+.journey-steps {
+  gap: 25px;
+}
+
+.journey-step {
+  padding: 30px;
+  background: #e4eaf4;
+  border-radius: 4px 20px 5px 18px;
+  box-shadow: 4px 5px 0 #c9bddf;
+}
+
+.journey-step:nth-child(2) {
+  background: #eee0ed;
+  box-shadow: 4px 5px 0 #d6b8d0;
+}
+
+.journey-step:nth-child(3) {
+  background: #e0ebdf;
+  box-shadow: 4px 5px 0 #b8ceb8;
+}
+
+.journey-step h3 {
+  font-family: Georgia, serif;
+  color: #273657;
+}
+
+/* RESPONSIVE PRESENTATION */
+
+@media (max-width: 850px) {
+  .welcome {
+    padding: 65px 22px;
+  }
+
+  .hero-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-artwork {
+    min-height: 320px;
+  }
+
+  .welcome .hero-dashboard {
+    padding: 24px;
+    margin-top: 50px;
+  }
+
+  .tools-section {
+    padding: 75px 20px;
+  }
+
+  .journey-section {
+    padding: 75px 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-illustration {
+    animation: none;
+  }
+
+  .tool-card,
+  .hero-illustration {
+    transition: none;
+  }
 }

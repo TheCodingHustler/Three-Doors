@@ -244,6 +244,14 @@ function App() {
 </div>
           </section>
 
+          <div className="scrapbook-divider" aria-hidden="true">
+            <span className="divider-flower">✿</span>
+            <span className="divider-star">✦</span>
+            <span className="divider-flower divider-flower-blue">❀</span>
+            <span className="divider-star divider-star-green">✧</span>
+            <span className="divider-flower divider-flower-yellow">✿</span>
+          </div>
+
           <section id="tools" className="tools-section">
             <div className="section-heading">
               <div className="logo">EXPLORE OUR TOOLS</div>
@@ -259,7 +267,7 @@ function App() {
     .map((tool, index) => (
       <button
         key={tool.id}
-        className="tool-card"
+        className={`tool-card tool-card-${tool.id}`}
         onClick={() => setSelectedTool(tool)}
       >
         <span className="card-number">
