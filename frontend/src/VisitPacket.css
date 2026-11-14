@@ -728,3 +728,172 @@
   opacity: 0.75;
   z-index: -1;
 }
+/* Visit Packet watercolor illustration */
+
+.packet-header-illustration {
+  width: 240px;
+  height: 180px;
+  max-width: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Keep the header balanced */
+.packet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* Mobile layout */
+@media (max-width: 600px) {
+  .packet-header-illustration {
+    width: 130px;
+    height: 110px;
+  }
+
+  .packet-header {
+    flex-wrap: wrap;
+  }
+}
+
+/* Keep decorative illustration out of printed documents */
+@media print {
+  .packet-header-illustration {
+    display: none !important;
+  }
+}
+/* Colorful editorial accents — Visit Packet */
+
+.packet-dashboard {
+  position: relative;
+  isolation: isolate;
+}
+
+.packet-header {
+  position: relative;
+  padding: 24px 28px;
+  border-radius: 24px;
+  background:
+    radial-gradient(
+      ellipse at 88% 20%,
+      rgba(183, 217, 237, 0.32),
+      transparent 42%
+    ),
+    radial-gradient(
+      ellipse at 12% 90%,
+      rgba(243, 198, 175, 0.24),
+      transparent 45%
+    );
+}
+
+/* Hand-drawn yellow sparkle */
+.packet-header::before {
+  content: "✦";
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  font-size: 26px;
+  color: #e9bd56;
+  transform: rotate(-14deg);
+  pointer-events: none;
+}
+
+/* Soft sage-green accent */
+.packet-header::after {
+  content: "";
+  position: absolute;
+  right: 8%;
+  bottom: 8px;
+  width: 110px;
+  height: 24px;
+  background: rgba(189, 216, 196, 0.42);
+  border-radius: 60% 40% 55% 45%;
+  transform: rotate(-8deg);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Gentle floating motion */
+@media (prefers-reduced-motion: no-preference) {
+  .packet-header-illustration {
+    animation: packetFloat 5s ease-in-out infinite;
+  }
+
+  @keyframes packetFloat {
+    0%, 100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+}
+
+/* Keep the printed packet clean */
+@media print {
+  .packet-header::before,
+  .packet-header::after {
+    display: none !important;
+  }
+
+  .packet-header {
+    background: none !important;
+  }
+}
+/* Scrapbook-style washi tape */
+
+.packet-header {
+  position: relative;
+}
+
+.packet-header::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 42px;
+
+  width: 92px;
+  height: 23px;
+
+  background: #8faf99;
+  opacity: 0.9;
+
+  transform: rotate(-7deg);
+  clip-path: polygon(
+    0 8%, 96% 0,
+    100% 88%, 4% 100%
+  );
+
+  z-index: 2;
+  pointer-events: none;
+}
+/* Scrapbook layered-paper effect */
+
+.packet-header {
+  background: #fffdf8;
+  border: 1px solid #e7dfd2;
+  border-radius: 8px;
+  box-shadow:
+    5px 5px 0 #f0c9b7,
+    10px 10px 0 #b9d5e8;
+  margin-bottom: 30px;
+}
+
+/* Keep the header content above the paper layers */
+.packet-header-content,
+.packet-header-illustration {
+  position: relative;
+  z-index: 1;
+}
+
+/* Smaller paper layers on mobile */
+@media (max-width: 600px) {
+  .packet-header {
+    box-shadow:
+      3px 3px 0 #f0c9b7,
+      6px 6px 0 #b9d5e8;
+  }
+}

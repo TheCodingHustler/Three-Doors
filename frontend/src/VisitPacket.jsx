@@ -38,7 +38,7 @@ function VisitPacket() {
   return (
     <div className="packet-dashboard">
       <header className="packet-header">
-        <div>
+        <div className="packet-header-content">
           <div className="packet-eyebrow">
             THREE DOORS / APPOINTMENT PREPARATION
           </div>
@@ -52,6 +52,11 @@ function VisitPacket() {
             prepare for your next healthcare appointment.
           </p>
         </div>
+        <img
+          src="/images/visit-packet-header.png"
+          alt=""
+          className="packet-header-illustration"
+        />
 
         <button
           className="packet-print-button"

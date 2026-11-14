@@ -1,4 +1,4 @@
-/* THREE DOORS — HOMEPAGE & APP LAYOUT */
+/* THREE DOORS â€” HOMEPAGE & APP LAYOUT */
 
 .app {
   min-height: 100vh;
@@ -260,7 +260,7 @@
   letter-spacing: .08em;
 }
 
-/* TOOLS SECTION — illustrated scrapbook aesthetic */
+/* TOOLS SECTION â€” illustrated scrapbook aesthetic */
 
 .tools-section {
   position: relative;
@@ -435,7 +435,7 @@
   font-weight: 800;
 }
 
-/* 01 — Access Scan: cornflower blue + sage */
+/* 01 â€” Access Scan: cornflower blue + sage */
 
 .tool-card:nth-child(1) {
   --card-shadow: #a9c9dc;
@@ -453,7 +453,7 @@
   color: #426d96;
 }
 
-/* 02 — Medication Reader: peach + golden yellow */
+/* 02 â€” Medication Reader: peach + golden yellow */
 
 .tool-card:nth-child(2) {
   --card-shadow: #e7c49f;
@@ -471,7 +471,7 @@
   color: #a65e48;
 }
 
-/* 03 — Symptom Journal: dusty pink + sage */
+/* 03 â€” Symptom Journal: dusty pink + sage */
 
 .tool-card:nth-child(3) {
   --card-shadow: #d9b5c3;
@@ -489,7 +489,7 @@
   color: #a65e79;
 }
 
-/* 04 — Visit Packet: lavender + cornflower */
+/* 04 â€” Visit Packet: lavender + cornflower */
 
 .tool-card:nth-child(4) {
   --card-shadow: #c4b6dc;
@@ -794,7 +794,7 @@
   }
 }
 
-/* THREE DOORS — EDITORIAL HERO LAYOUT */
+/* THREE DOORS â€” EDITORIAL HERO LAYOUT */
 
 .hero-layout {
   display: grid;
@@ -1057,7 +1057,7 @@
   background: #f1effb;
   border-radius: 10px;
 }
-/* THREE DOORS — DYNAMIC DASHBOARD POLISH */
+/* THREE DOORS â€” DYNAMIC DASHBOARD POLISH */
 
 .dashboard-progress-fill {
   height: 100%;
@@ -1097,7 +1097,7 @@
   }
 }
 /* =========================================
-   THREE DOORS — FINAL HERO EXPERIENCE
+   THREE DOORS â€” FINAL HERO EXPERIENCE
    ========================================= */
 
 .welcome {
@@ -1340,7 +1340,7 @@
 }
 
 /* =====================================
-   THREE DOORS — MINT VISIT PACKET CARD
+   THREE DOORS â€” MINT VISIT PACKET CARD
    ===================================== */
 
 .tool-card:nth-child(4) {
@@ -1360,7 +1360,7 @@
   color: #397A62;
 }
 /* =====================================
-   THREE DOORS — PREMIUM TOOL CARDS
+   THREE DOORS â€” PREMIUM TOOL CARDS
    ===================================== */
 
 /* Consistent card appearance */
@@ -1588,7 +1588,7 @@
 .navbar {
   box-shadow: 0 4px 20px rgba(24, 32, 75, 0.05);
 }
-/* THREE DOORS — EDITORIAL PATIENT JOURNEY */
+/* THREE DOORS â€” EDITORIAL PATIENT JOURNEY */
 
 .journey-section {
   position: relative;
@@ -1782,9 +1782,9 @@
   position: relative;
   z-index: 1;
 }
-/* HERO — scrapbook illustration treatment */
+/* HERO â€” scrapbook illustration treatment */
 
-/* THREE DOORS — editorial doorway treatment */
+/* THREE DOORS â€” editorial doorway treatment */
 
 .hero-artwork {
   position: relative;
@@ -1897,7 +1897,7 @@
 /* Hand-drawn floral scrapbook details */
 
 .hero-artwork::after {
-  content: "✿";
+  content: "\273F";
   position: absolute;
   bottom: 14%;
   left: 7%;
@@ -1921,7 +1921,7 @@
 .sparkle-three {
   color: #85a98a;
 }
-/* THREE DOORS — illustrated workspace journal */
+/* THREE DOORS â€” illustrated workspace journal */
 
 .welcome .hero-dashboard {
   background: #fffaf1;
@@ -2030,7 +2030,7 @@
   font-weight: 800;
 }
 
-/* Appointment progress — paper checklist */
+/* Appointment progress â€” paper checklist */
 
 .dashboard-progress {
   background: #f7f0e4;
@@ -2072,7 +2072,7 @@
     padding: 22px 17px;
   }
 }
-/* THREE DOORS — scrapbook card animations */
+/* THREE DOORS â€” scrapbook card animations */
 
 /* Decorative illustrated stars */
 
@@ -2222,7 +2222,7 @@
   box-shadow: 0 0 0 100vmax #E2EDDF;
   clip-path: inset(0 -100vmax);
 }
-/* Three Doors — handmade scrapbook workspace */
+/* Three Doors â€” handmade scrapbook workspace */
 
 .welcome .hero-dashboard {
   position: relative;
@@ -2269,7 +2269,7 @@
   border-radius: 3px;
   transform: rotate(2deg);
 }
-/* THREE DOORS — individual editorial card layouts */
+/* THREE DOORS â€” individual editorial card layouts */
 
 .tool-card {
   display: grid;
@@ -2329,7 +2329,7 @@
   align-self: end;
 }
 
-/* ACCESS — spacious blue composition */
+/* ACCESS â€” spacious blue composition */
 .tool-card-access {
   grid-template-areas:
     "number number"
@@ -2339,7 +2339,7 @@
   border-radius: 4px 28px 8px 24px;
 }
 
-/* MEDICATION — centered editorial composition */
+/* MEDICATION â€” centered editorial composition */
 .tool-card-medication {
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
@@ -2360,7 +2360,7 @@
   height: 175px;
 }
 
-/* JOURNAL — illustration on the left */
+/* JOURNAL â€” illustration on the left */
 .tool-card-journal {
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
@@ -2371,7 +2371,7 @@
   border-radius: 24px 8px 5px 26px;
 }
 
-/* VISIT PACKET — paper-like composition */
+/* VISIT PACKET â€” paper-like composition */
 .tool-card-packet {
   grid-template-areas:
     "number number"
@@ -2416,7 +2416,7 @@
   }
 }
 /* ==========================================
-   THREE DOORS — FINAL EDITORIAL ART DIRECTION
+   THREE DOORS â€” FINAL EDITORIAL ART DIRECTION
    ========================================== */
 
 :root {
@@ -2483,7 +2483,7 @@
   margin-top: 35px;
 }
 
-/* DOORWAY — KEEP AS THE SIGNATURE ARTWORK */
+/* DOORWAY â€” KEEP AS THE SIGNATURE ARTWORK */
 
 .hero-artwork {
   min-height: 470px;
@@ -2510,7 +2510,7 @@
   max-height: 530px;
 }
 
-/* WORKSPACE — EDITORIAL PAPER */
+/* WORKSPACE â€” EDITORIAL PAPER */
 
 .welcome .hero-dashboard {
   position: relative;
@@ -2586,7 +2586,7 @@
   padding: 30px 20px;
 }
 
-/* TOOLS — EDITORIAL PRESENTATION */
+/* TOOLS â€” EDITORIAL PRESENTATION */
 
 .tools-section {
   max-width: none;
@@ -2662,7 +2662,7 @@
   display: none;
 }
 
-/* PATIENT JOURNEY — PRESENTATION STYLE */
+/* PATIENT JOURNEY â€” PRESENTATION STYLE */
 
 .journey-section {
   padding: 110px 7%;
@@ -2743,5 +2743,358 @@
   .tool-card,
   .hero-illustration {
     transition: none;
+  }
+}
+/* =================================
+   THREE DOORS â€” SCRAPBOOK DETAILS
+   ================================= */
+
+/* Patterned washi tape */
+.tool-card::before {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--tape) 0px,
+    var(--tape) 7px,
+    rgba(255,255,255,.25) 7px,
+    rgba(255,255,255,.25) 10px
+  );
+  opacity: .9;
+}
+
+/* Slightly imperfect paper placement */
+.tool-card:nth-child(1) {
+  transform: rotate(-.5deg);
+}
+
+.tool-card:nth-child(2) {
+  transform: rotate(.6deg);
+}
+
+.tool-card:nth-child(3) {
+  transform: rotate(.4deg);
+}
+
+.tool-card:nth-child(4) {
+  transform: rotate(-.6deg);
+}
+
+/* Small handwritten notes */
+.tool-card:nth-child(3)::after {
+  content: "little reminders";
+  position: absolute;
+  top: 18px;
+  left: 24px;
+  color: #ad7294;
+  font-family: cursive;
+  font-size: 13px;
+  transform: rotate(-5deg);
+}
+
+.tool-card:nth-child(4)::after {
+  content: "take it with you";
+  position: absolute;
+  bottom: 18px;
+  right: 22px;
+  color: #648c78;
+  font-family: cursive;
+  font-size: 13px;
+  transform: rotate(4deg);
+}
+
+/* Paper-like workspace */
+.welcome .hero-dashboard {
+  background-color: #f7f3fa;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 27px,
+      rgba(116, 130, 170, .045) 28px
+    );
+}
+
+/* Handwritten section annotation */
+.section-heading {
+  position: relative;
+}
+
+.section-heading::after {
+  content: "a little preparation goes a long way";
+  display: inline-block;
+  margin-top: 20px;
+  padding: 9px 17px;
+  background: #f3dfe9;
+  color: #a46f91;
+  font-family: cursive;
+  font-size: 15px;
+  transform: rotate(-2deg);
+  box-shadow: 2px 3px 0 rgba(130, 100, 130, .12);
+}
+
+/* Paper-like section separation */
+.scrapbook-divider {
+  position: relative;
+  border-top: 1px dashed #c6b9d9;
+  border-bottom: 1px dashed #c6b9d9;
+}
+
+/* Keep the details subtle on smaller screens */
+@media (max-width: 600px) {
+  .tool-card:nth-child(n) {
+    transform: none;
+  }
+
+  .section-heading::after {
+    font-size: 12px;
+  }
+}
+
+/* ==========================================
+   THREE DOORS â€” FINAL SCRAPBOOK FINISH
+   CSS-only details; no Pinterest artwork used
+   ========================================== */
+
+:root {
+  --td-paper: #f8f4ec;
+  --td-tape-blue: #8eafd0;
+  --td-tape-pink: #d8a6bb;
+  --td-tape-sage: #a5bca0;
+  --td-tape-lilac: #b9a2d6;
+  --td-pencil: #8c789d;
+}
+
+/* Add a quiet paper grain without changing the card palette */
+.tool-card {
+  position: relative;
+  overflow: visible;
+  isolation: isolate;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(70, 66, 82, .018) 0,
+      rgba(70, 66, 82, .018) 1px,
+      transparent 1px,
+      transparent 5px
+    );
+}
+
+/* Re-enable the washi tape that earlier rules hid */
+.tool-card::before {
+  display: block;
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: -9px;
+  right: 28px;
+  width: 76px;
+  height: 21px;
+  border: 1px solid rgba(75, 75, 90, .08);
+  border-radius: 1px;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      var(--card-tape, var(--td-tape-blue)) 0,
+      var(--card-tape, var(--td-tape-blue)) 8px,
+      rgba(255,255,255,.24) 8px,
+      rgba(255,255,255,.24) 11px
+    );
+  opacity: .92;
+  transform: rotate(4deg);
+  clip-path: polygon(0 5%, 97% 0, 100% 92%, 3% 100%);
+  pointer-events: none;
+}
+
+/* Individual tape colors */
+.tool-card-access { --card-tape: var(--td-tape-blue); }
+.tool-card-medication { --card-tape: #e7bd69; }
+.tool-card-journal { --card-tape: var(--td-tape-pink); }
+.tool-card-packet { --card-tape: var(--td-tape-sage); }
+
+/* Keep the illustrations feeling like pasted-in paper pieces */
+.card-artwork {
+  position: relative;
+  isolation: isolate;
+}
+
+.card-artwork::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 78%;
+  height: 76%;
+  border-radius: 48% 52% 43% 57% / 54% 42% 58% 46%;
+  background: rgba(255, 255, 255, .38);
+  transform: rotate(-4deg);
+  pointer-events: none;
+}
+
+.tool-card-medication .card-artwork::before {
+  background: rgba(255, 255, 255, .42);
+  transform: rotate(3deg);
+}
+
+.tool-card-journal .card-artwork::before {
+  background: rgba(255, 255, 255, .34);
+  transform: rotate(-7deg);
+}
+
+.tool-card-packet .card-artwork::before {
+  background: rgba(255, 255, 255, .42);
+  transform: rotate(5deg);
+}
+
+/* Handwritten annotations: small accents, not extra headlines */
+.tool-card-journal::after {
+  content: "little reminders";
+  position: absolute;
+  z-index: 2;
+  top: 16px;
+  right: 20px;
+  color: #a46f91;
+  font-family: "Comic Sans MS", "Segoe Print", cursive;
+  font-size: 12px;
+  letter-spacing: .01em;
+  transform: rotate(4deg);
+  pointer-events: none;
+}
+
+.tool-card-packet::after {
+  content: "keep this close! ";
+  position: absolute;
+  z-index: 2;
+  right: 20px;
+  bottom: 16px;
+  color: #638a74;
+  font-family: "Comic Sans MS", "Segoe Print", cursive;
+  font-size: 12px;
+  transform: rotate(-3deg);
+  pointer-events: none;
+}
+
+/* Make the tool heading read like a presentation title */
+.section-heading {
+  position: relative;
+}
+
+.section-heading::after {
+  content: "a little preparation goes a long way";
+  display: inline-block;
+  margin-top: 19px;
+  padding: 8px 15px 9px;
+  border: 1px solid rgba(164, 111, 145, .16);
+  background: #f5e5eb;
+  color: #986b88;
+  box-shadow: 2px 3px 0 rgba(130, 100, 130, .10);
+  font-family: "Comic Sans MS", "Segoe Print", cursive;
+  font-size: 13px;
+  transform: rotate(-1.8deg);
+}
+
+/* Add a small collage-like detail to the section divider */
+.scrapbook-divider {
+  position: relative;
+  min-height: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(22px, 5vw, 58px);
+  border-top: 1px dashed #c8b9d4;
+  border-bottom: 1px dashed #c8b9d4;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.35), transparent 35%, rgba(255,255,255,.3)),
+    #f5f1f8;
+}
+
+.scrapbook-divider span {
+  display: inline-block;
+  line-height: 1;
+  text-shadow: 1px 2px 0 rgba(95, 82, 120, .08);
+}
+
+.scrapbook-divider .divider-flower {
+  color: #c88eaa;
+  font-size: 25px;
+  transform: rotate(-12deg);
+}
+
+.scrapbook-divider .divider-star {
+  color: #c59b52;
+  font-size: 19px;
+  transform: rotate(9deg);
+}
+
+.scrapbook-divider .divider-flower-blue {
+  color: #789bc2;
+  font-size: 28px;
+  transform: rotate(8deg);
+}
+
+.scrapbook-divider .divider-star-green {
+  color: #8ca88f;
+}
+
+.scrapbook-divider .divider-flower-yellow {
+  color: #d1a85d;
+}
+
+/* A subtle editorial finish for the journey cards */
+.journey-step {
+  position: relative;
+  border-radius: 5px 20px 6px 18px;
+}
+
+.journey-step::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 26px;
+  width: 58px;
+  height: 16px;
+  background: rgba(185, 162, 214, .72);
+  transform: rotate(-4deg);
+  clip-path: polygon(0 5%, 100% 0, 96% 100%, 4% 92%);
+  pointer-events: none;
+}
+
+.journey-step:nth-child(2)::before {
+  background: rgba(216, 166, 187, .75);
+  transform: rotate(3deg);
+}
+
+.journey-step:nth-child(3)::before {
+  background: rgba(165, 188, 160, .8);
+  transform: rotate(-2deg);
+}
+
+/* Keep the collage details tidy on phones */
+@media (max-width: 600px) {
+  .tool-card::before {
+    right: 18px;
+    width: 62px;
+    height: 18px;
+  }
+
+  .tool-card-journal::after,
+  .tool-card-packet::after {
+    font-size: 10px;
+  }
+
+  .section-heading::after {
+    max-width: 90%;
+    font-size: 11px;
+  }
+
+  .scrapbook-divider {
+    min-height: 65px;
+    gap: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool-card,
+  .card-illustration,
+  .scrapbook-divider span {
+    animation: none !important;
+    transition: none !important;
   }
 }

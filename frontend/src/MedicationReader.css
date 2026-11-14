@@ -550,3 +550,55 @@
     height: 110px;
   }
 }
+/* Medication Reader — scrapbook stationery header */
+
+.med-header {
+  position: relative;
+  background: #fffdf8;
+  border: 1px solid #eadbd0;
+  border-radius: 8px;
+  padding: 24px 30px;
+  margin-bottom: 30px;
+
+  box-shadow:
+    5px 5px 0 #f0c9b7,
+    10px 10px 0 #e8c86e;
+}
+
+/* Peach washi tape */
+.med-header::before {
+  content: "";
+  position: absolute;
+  top: -11px;
+  right: 45px;
+
+  width: 92px;
+  height: 23px;
+
+  background: #d98a70;
+  opacity: 0.9;
+  transform: rotate(7deg);
+
+  clip-path: polygon(
+    0 8%, 96% 0,
+    100% 88%, 4% 100%
+  );
+
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Keep the illustration above the paper */
+.med-header-illustration {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 600px) {
+  .med-header {
+    padding: 18px 16px;
+    box-shadow:
+      3px 3px 0 #f0c9b7,
+      6px 6px 0 #e8c86e;
+  }
+}

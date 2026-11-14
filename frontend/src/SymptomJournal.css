@@ -623,3 +623,55 @@
     height: 110px;
   }
 }
+/* Symptom Journal — scrapbook stationery header */
+
+.journal-header {
+  position: relative;
+  background: #fffaf7;
+  border: 1px solid #ead5df;
+  border-radius: 8px;
+  padding: 24px 30px;
+  margin-bottom: 30px;
+
+  box-shadow:
+    5px 5px 0 #e8c3d1,
+    10px 10px 0 #bdd8c4;
+}
+
+/* Dusty-pink washi tape */
+.journal-header::before {
+  content: "";
+  position: absolute;
+  top: -11px;
+  right: 45px;
+
+  width: 92px;
+  height: 23px;
+
+  background: #d78fa4;
+  opacity: 0.95;
+  transform: rotate(7deg);
+
+  clip-path: polygon(
+    0 8%, 96% 0,
+    100% 88%, 4% 100%
+  );
+
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Keep header artwork above the paper */
+.journal-header-illustration {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 600px) {
+  .journal-header {
+    padding: 18px 16px;
+    box-shadow:
+      3px 3px 0 #e8c3d1,
+      6px 6px 0 #bdd8c4;
+  }
+}
