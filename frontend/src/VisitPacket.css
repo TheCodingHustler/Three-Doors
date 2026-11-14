@@ -1,0 +1,899 @@
+
+/* THREE DOORS — VISIT PACKET */
+
+.packet-dashboard {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 35px 20px 70px;
+  color: var(--color-heading);
+}
+
+/* Page heading */
+
+.packet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 35px;
+}
+
+.packet-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--color-primary);
+}
+
+.packet-header h2 {
+  font-size: clamp(30px, 4vw, 42px);
+  margin: 12px 0;
+  letter-spacing: -1px;
+}
+
+.packet-header p {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 520px;
+}
+
+/* Print button */
+
+.packet-print-button {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 15px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.packet-print-button:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-2px);
+}
+
+/* Printable document */
+
+.packet-document {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: 22px;
+  padding: 48px 55px;
+  box-shadow: 0 15px 45px rgba(0, 118, 107, 0.06);
+}
+
+.packet-document-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 22px;
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.packet-brand {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--color-primary);
+}
+
+.packet-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--color-indigo);
+}
+
+.packet-document h1 {
+  font-size: 34px;
+  letter-spacing: -1px;
+  margin: 30px 0 10px;
+  color: var(--color-heading);
+}
+
+.packet-intro {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 30px;
+}
+
+/* Four packet sections */
+
+.packet-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 22px 0;
+  border-top: 1px solid var(--color-border);
+  break-inside: avoid;
+}
+
+.packet-section-number {
+  background: #E4F8F2;
+  color: var(--color-primary);
+  border-radius: 10px;
+  padding: 11px;
+  font-size: 12px;
+  font-weight: 800;
+  min-width: 24px;
+  text-align: center;
+}
+
+.packet-section > div:last-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.packet-section h3 {
+  font-size: 17px;
+  margin: 0 0 8px;
+  color: var(--color-heading);
+}
+
+.packet-section p {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 0 0 12px;
+}
+
+.packet-pending {
+  display: inline-block;
+  background: #EDF6F4;
+  color: var(--color-primary);
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Safety note */
+
+.packet-disclaimer {
+  margin-top: 24px;
+  background: #F5F9F7;
+  border-left: 3px solid var(--color-primary);
+  border-radius: 8px;
+  padding: 16px 20px;
+  color: #526B6D;
+  font-size: 11px;
+  line-height: 1.7;
+  break-inside: avoid;
+}
+
+/* Document footer */
+
+.packet-document-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 30px;
+  padding-top: 18px;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+
+/* Mobile responsiveness */
+
+@media (max-width: 700px) {
+  .packet-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .packet-document {
+    padding: 25px 20px;
+  }
+
+  .packet-document h1 {
+    font-size: 27px;
+  }
+
+  .packet-section {
+    gap: 12px;
+  }
+
+  .packet-document-footer {
+    flex-direction: column;
+  }
+}
+
+/* Print / Save as PDF */
+
+@media print {
+  @page {
+    size: letter;
+    margin: 0.5in;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  .packet-document,
+  .packet-document * {
+    visibility: visible !important;
+  }
+
+  .packet-document {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .packet-document h1 {
+    font-size: 26px;
+    margin-top: 18px;
+  }
+
+  .packet-section {
+    padding: 13px 0;
+  }
+
+  .packet-print-button {
+    display: none !important;
+  }
+}
+
+/* Visit Packet — Journal Timeline */
+
+.packet-journal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.packet-journal-entry {
+  background: #F4F9F7;
+  border-left: 3px solid var(--color-primary);
+  border-radius: 8px;
+  padding: 12px 16px;
+  break-inside: avoid;
+  overflow-wrap: anywhere;
+}
+
+.packet-journal-entry > strong {
+  color: var(--color-primary);
+  font-size: 12px;
+}
+
+.packet-journal-entry p {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--color-heading);
+}
+
+/* Appointment Questions */
+
+.packet-question-form {
+  display: flex;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.packet-question-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid #DCE9E3;
+  border-radius: 10px;
+  background-color: #F4F9F7;
+  color: #193D45;
+  font-size: 14px;
+  outline: none;
+}
+
+.packet-question-form input:focus {
+  border-color: #00766B;
+  box-shadow: 0 0 0 3px rgba(0, 118, 107, 0.12);
+}
+
+.packet-question-form button {
+  background-color: #00766B;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.packet-question-form button:hover {
+  background-color: #005C54;
+}
+
+.packet-question-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+
+.packet-question-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 8px;
+  background-color: #F4F9F7;
+  border-left: 3px solid #00766B;
+  border-radius: 8px;
+  color: #193D45;
+  overflow-wrap: anywhere;
+}
+
+.packet-delete-question {
+  background: transparent;
+  border: 1px solid #DCE9E3;
+  border-radius: 8px;
+  padding: 6px 10px;
+  color: #718587;
+  cursor: pointer;
+}
+
+.packet-delete-question:hover {
+  color: #C43D43;
+  border-color: #C43D43;
+}
+
+@media (max-width: 600px) {
+  .packet-question-form {
+    flex-direction: column;
+  }
+}
+
+@media print {
+  .packet-question-form,
+  .packet-delete-question {
+    display: none !important;
+  }
+
+  .packet-question-list li {
+    break-inside: avoid;
+  }
+}
+
+/* =====================================
+   THREE DOORS — VISIT PACKET REDESIGN
+   ===================================== */
+
+/* Main page */
+.packet-dashboard {
+  color: #111B38;
+  padding-top: 24px;
+  padding-bottom: 80px;
+}
+
+/* Page header */
+.packet-header {
+  margin-bottom: 38px;
+}
+
+.packet-eyebrow {
+  color: #7565CF;
+}
+
+.packet-header h2 {
+  color: #111B38;
+  font-size: clamp(34px, 4vw, 46px);
+  font-weight: 750;
+  letter-spacing: -1.8px;
+  line-height: 1.15;
+}
+
+.packet-header p {
+  color: #66728B;
+}
+
+/* Print / Save PDF */
+.packet-print-button {
+  background: #5165E8;
+  color: #FFFFFF;
+  border-radius: 12px;
+  padding: 16px 24px;
+  box-shadow: 0 8px 22px rgba(81, 101, 232, 0.16);
+}
+
+.packet-print-button:hover {
+  background: #4055D5;
+}
+
+/* Printable paper */
+.packet-document {
+  background: #FFFFFF;
+  border: 1px solid #E4E8F4;
+  border-radius: 18px;
+  padding: 52px 58px;
+  box-shadow: 0 18px 55px rgba(17, 27, 56, 0.07);
+}
+
+/* Document header */
+.packet-document-header {
+  border-bottom: 2px solid #5165E8;
+  padding-bottom: 24px;
+}
+
+.packet-brand {
+  color: #303B72;
+}
+
+.packet-label {
+  color: #8063D8;
+}
+
+.packet-document h1 {
+  color: #111B38;
+  font-size: 34px;
+  letter-spacing: -1.2px;
+}
+
+.packet-intro {
+  color: #66728B;
+}
+
+/* Document sections */
+.packet-section {
+  border-top: 1px solid #E6EAF3;
+  gap: 20px;
+  padding: 25px 0;
+}
+
+.packet-section-number {
+  background: #EEF0FF;
+  color: #5165E8;
+  border-radius: 10px;
+  padding: 11px;
+}
+
+.packet-section h3 {
+  color: #111B38;
+}
+
+.packet-section p {
+  color: #66728B;
+}
+
+/* Pending information */
+.packet-pending {
+  background: #F1EDFF;
+  color: #7555C7;
+  border-radius: 8px;
+}
+
+/* Journal history */
+.packet-journal-entry {
+  background: #F8F9FD;
+  border-left: 3px solid #8063D8;
+  border-radius: 10px;
+}
+
+.packet-journal-entry > strong {
+  color: #7555C7;
+}
+
+.packet-journal-entry p {
+  color: #303B56;
+}
+
+/* Appointment questions */
+.packet-question-form input {
+  background: #F8F9FD;
+  border: 1px solid #DDE3F0;
+  border-radius: 10px;
+  color: #111B38;
+}
+
+.packet-question-form input:focus {
+  border-color: #8063D8;
+  box-shadow: 0 0 0 4px rgba(128, 99, 216, 0.12);
+}
+
+.packet-question-form button {
+  background: #5165E8;
+  border-radius: 10px;
+}
+
+.packet-question-form button:hover {
+  background: #4055D5;
+}
+
+.packet-question-list li {
+  background: #F8F9FD;
+  border-left: 3px solid #8063D8;
+  color: #303B56;
+}
+
+.packet-delete-question {
+  border-color: #DDE3F0;
+  color: #66728B;
+}
+
+/* Safety disclaimer */
+.packet-disclaimer {
+  background: #F8F9FD;
+  border-left: 3px solid #8063D8;
+  color: #66728B;
+}
+
+/* Document footer */
+.packet-document-footer {
+  border-top: 1px solid #E6EAF3;
+  color: #8A93AB;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .packet-document {
+    padding: 26px 22px;
+  }
+}
+
+/* Print-friendly overrides */
+@media print {
+  .packet-document {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .packet-print-button,
+  .packet-question-form,
+  .packet-delete-question {
+    display: none !important;
+  }
+
+  .packet-section {
+    padding: 13px 0;
+  }
+
+  .packet-journal-entry,
+  .packet-question-list li {
+    break-inside: avoid;
+  }
+}
+/* THREE DOORS — FINAL VISIT PACKET POLISH */
+
+.packet-dashboard {
+  max-width: 1150px;
+}
+
+/* Lavender identity */
+
+.packet-eyebrow {
+  color: #8063D8;
+}
+
+.packet-print-button,
+.packet-question-form button {
+  background: #8063D8;
+  transition: all 0.25s ease;
+}
+
+.packet-print-button:hover,
+.packet-question-form button:hover {
+  background: #6B4CC5;
+}
+
+/* Document styling */
+
+.packet-document {
+  border-color: #E5DDF5;
+  box-shadow: 0 16px 45px rgba(45, 35, 85, 0.06);
+}
+
+.packet-document-header {
+  border-bottom-color: #A58CEB;
+}
+
+.packet-brand,
+.packet-label {
+  color: #8063D8;
+}
+
+/* Section numbers */
+
+.packet-section-number {
+  background: #F1EBFF;
+  color: #7555C7;
+}
+
+/* Journal entries */
+
+.packet-journal-entry {
+  background: #FAF8FF;
+  border-left-color: #A58CEB;
+}
+
+.packet-journal-entry > strong {
+  color: #7555C7;
+}
+
+/* Appointment questions */
+
+.packet-question-form input:focus-visible {
+  outline: 3px solid #B9A5F5;
+  outline-offset: 2px;
+}
+
+.packet-question-list li {
+  background: #FAF8FF;
+  border-left-color: #A58CEB;
+}
+
+.packet-delete-question:focus-visible,
+.packet-print-button:focus-visible,
+.packet-question-form button:focus-visible {
+  outline: 3px solid #B9A5F5;
+  outline-offset: 3px;
+}
+
+/* Disclaimer */
+
+.packet-disclaimer {
+  background: #FFFAF0;
+  border-left-color: #D9B96E;
+  color: #796743;
+}
+
+/* Document footer */
+
+.packet-document-footer {
+  border-top-color: #E8E4F4;
+}
+
+/* Responsive improvements */
+
+@media (max-width: 600px) {
+  .packet-dashboard {
+    padding: 18px 14px 50px;
+  }
+
+  .packet-header h2 {
+    font-size: 32px;
+  }
+
+  .packet-document {
+    padding: 24px 18px;
+  }
+
+  .packet-question-list li {
+    align-items: flex-start;
+  }
+}
+
+/* Printing */
+
+@media print {
+  .packet-document {
+    background: white;
+    color: #111B38;
+    box-shadow: none;
+    border: none;
+  }
+
+  .packet-section,
+  .packet-journal-entry {
+    break-inside: avoid;
+  }
+
+  .packet-disclaimer {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
+/* Editorial heading accent for Visit Packet */
+
+.packet-editorial-title {
+  width: fit-content;
+}
+
+.packet-editorial-title span {
+  position: relative;
+  display: inline-block;
+  z-index: 0;
+}
+
+.packet-editorial-title span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 9px;
+  background: #c9b4ff;
+  border-radius: 45% 30% 55% 40%;
+  transform: rotate(-2deg);
+  opacity: 0.75;
+  z-index: -1;
+}
+/* Visit Packet watercolor illustration */
+
+.packet-header-illustration {
+  width: 240px;
+  height: 180px;
+  max-width: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Keep the header balanced */
+.packet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* Mobile layout */
+@media (max-width: 600px) {
+  .packet-header-illustration {
+    width: 130px;
+    height: 110px;
+  }
+
+  .packet-header {
+    flex-wrap: wrap;
+  }
+}
+
+/* Keep decorative illustration out of printed documents */
+@media print {
+  .packet-header-illustration {
+    display: none !important;
+  }
+}
+/* Colorful editorial accents — Visit Packet */
+
+.packet-dashboard {
+  position: relative;
+  isolation: isolate;
+}
+
+.packet-header {
+  position: relative;
+  padding: 24px 28px;
+  border-radius: 24px;
+  background:
+    radial-gradient(
+      ellipse at 88% 20%,
+      rgba(183, 217, 237, 0.32),
+      transparent 42%
+    ),
+    radial-gradient(
+      ellipse at 12% 90%,
+      rgba(243, 198, 175, 0.24),
+      transparent 45%
+    );
+}
+
+/* Hand-drawn yellow sparkle */
+.packet-header::before {
+  content: "✦";
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  font-size: 26px;
+  color: #e9bd56;
+  transform: rotate(-14deg);
+  pointer-events: none;
+}
+
+/* Soft sage-green accent */
+.packet-header::after {
+  content: "";
+  position: absolute;
+  right: 8%;
+  bottom: 8px;
+  width: 110px;
+  height: 24px;
+  background: rgba(189, 216, 196, 0.42);
+  border-radius: 60% 40% 55% 45%;
+  transform: rotate(-8deg);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Gentle floating motion */
+@media (prefers-reduced-motion: no-preference) {
+  .packet-header-illustration {
+    animation: packetFloat 5s ease-in-out infinite;
+  }
+
+  @keyframes packetFloat {
+    0%, 100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+}
+
+/* Keep the printed packet clean */
+@media print {
+  .packet-header::before,
+  .packet-header::after {
+    display: none !important;
+  }
+
+  .packet-header {
+    background: none !important;
+  }
+}
+/* Scrapbook-style washi tape */
+
+.packet-header {
+  position: relative;
+}
+
+.packet-header::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 42px;
+
+  width: 92px;
+  height: 23px;
+
+  background: #8faf99;
+  opacity: 0.9;
+
+  transform: rotate(-7deg);
+  clip-path: polygon(
+    0 8%, 96% 0,
+    100% 88%, 4% 100%
+  );
+
+  z-index: 2;
+  pointer-events: none;
+}
+/* Scrapbook layered-paper effect */
+
+.packet-header {
+  background: #fffdf8;
+  border: 1px solid #e7dfd2;
+  border-radius: 8px;
+  box-shadow:
+    5px 5px 0 #f0c9b7,
+    10px 10px 0 #b9d5e8;
+  margin-bottom: 30px;
+}
+
+/* Keep the header content above the paper layers */
+.packet-header-content,
+.packet-header-illustration {
+  position: relative;
+  z-index: 1;
+}
+
+/* Smaller paper layers on mobile */
+@media (max-width: 600px) {
+  .packet-header {
+    box-shadow:
+      3px 3px 0 #f0c9b7,
+      6px 6px 0 #b9d5e8;
+  }
+}

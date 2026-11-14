@@ -1,0 +1,73 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap');
+
+/* THREE DOORS — GLOBAL DESIGN SYSTEM */
+
+:root {
+  font-family: 'DM Sans', sans-serif;
+
+  --font-heading: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+
+  --color-background: #FAFBFF;
+  --color-surface: #FFFFFF;
+
+  --color-primary: #5165E8;
+  --color-primary-hover: #4055D5;
+
+  --color-heading: #111B38;
+  --color-text-muted: #66728B;
+
+  --color-mint: #65E3DB;
+  --color-sky: #A8B5FF;
+  --color-indigo: #5165E8;
+
+  --color-coral: #D76D73;
+  --color-amber: #D79635;
+
+  --color-border: #E4E8F4;
+}
+
+/* Global reset */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-heading);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Headings */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+
+/* Form elements */
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+/* Keyboard accessibility */
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #8063D8;
+  outline-offset: 4px;
+}

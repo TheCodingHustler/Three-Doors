@@ -1,0 +1,668 @@
+
+.access-dashboard {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 30px 0 50px;
+  color: #173f43;
+}
+
+.access-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 42px;
+}
+
+.access-eyebrow,
+.access-step {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #237b75;
+}
+
+.access-header h2 {
+  font-size: clamp(30px, 4vw, 42px);
+  letter-spacing: -1.5px;
+  margin: 14px 0;
+}
+
+.access-header p,
+.access-panel > p {
+  color: #718587;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.access-status {
+  background: #e4f4ec;
+  color: #237b75;
+  padding: 12px 18px;
+  border-radius: 30px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.access-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.access-panel {
+  background: #ffffff;
+  border: 1px solid #e0ebe6;
+  border-radius: 24px;
+  padding: 28px;
+  min-width: 0;
+  box-shadow: 0 10px 30px rgba(23, 63, 67, 0.025);
+}
+
+.access-panel h3 {
+  font-size: 23px;
+  margin: 12px 0;
+  letter-spacing: -0.6px;
+}
+
+.access-upload-zone {
+  margin-top: 24px;
+  padding: 28px 18px;
+  min-height: 260px;
+  border: 2px dashed #c5ded5;
+  border-radius: 18px;
+  background: #f8fcfa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.access-upload-icon {
+  font-size: 44px;
+  color: #237b75;
+}
+
+.access-upload-zone h4 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.access-upload-zone p {
+  margin: 0;
+  color: #718587;
+  font-size: 12px;
+}
+
+.access-preview {
+  width: 100%;
+  max-height: 240px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.access-upload-button {
+  background: #237b75;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 13px 24px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.access-upload-button:hover {
+  background: #195d59;
+}
+
+.access-filename {
+  color: #237b75;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  margin-top: 14px;
+}
+
+.access-error {
+  color: #a63838;
+  font-size: 13px;
+}
+
+.access-analyze-button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 16px;
+  background: #173f43;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.access-checklist {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.access-check-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f5f9f7;
+  padding: 16px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+.access-check-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: #e3eee9;
+  color: #237b75;
+  font-weight: 700;
+}
+
+.access-check-status {
+  margin-left: auto;
+  font-size: 11px;
+  color: #718587;
+  white-space: nowrap;
+}
+
+.access-note {
+  margin-top: 24px;
+  padding: 17px;
+  border: 1px solid #f1dfb4;
+  background: #fcf8ee;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: #776239;
+}
+
+.access-footer {
+  margin-top: 32px;
+  font-size: 12px;
+  color: #829995;
+}
+
+@media (max-width: 800px) {
+  .access-header {
+    flex-direction: column;
+  }
+
+  .access-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .access-panel {
+    padding: 22px;
+  }
+}
+
+
+/* Clinic Address Search */
+
+.access-address-section {
+  background-color: #FFFFFF;
+  border: 1px solid #DCE9E3;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.access-address-section label {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #193D45;
+  margin-bottom: 10px;
+}
+
+.access-address-section input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px;
+  border: 1px solid #DCE9E3;
+  border-radius: 10px;
+  font-size: 15px;
+  background-color: #F4F9F7;
+  color: #193D45;
+  outline: none;
+  transition: border-color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.access-address-section input:focus {
+  border-color: #00766B;
+  box-shadow: 0 0 0 3px rgba(0, 118, 107, 0.12);
+}
+
+.access-address-section input::placeholder {
+  color: #718587;
+}
+
+.access-address-section p {
+  margin-top: 10px;
+  margin-bottom: 0;
+  font-size: 13px;
+  color: #718587;
+}
+
+/* =====================================
+   THREE DOORS — ACCESS SCAN REDESIGN
+   ===================================== */
+
+/* Page heading */
+.access-dashboard {
+  color: #111B38;
+}
+
+.access-eyebrow,
+.access-step {
+  color: #5165E8;
+}
+
+.access-header h2 {
+  color: #111B38;
+  font-weight: 750;
+}
+
+.access-header p,
+.access-panel > p {
+  color: #66728B;
+}
+
+/* Status indicator */
+.access-status {
+  background: #EEF0FF;
+  color: #5165E8;
+  border: 1px solid #DDE3FF;
+}
+
+/* Main panels */
+.access-panel {
+  background: #FFFFFF;
+  border: 1px solid #E4E8F4;
+  box-shadow: 0 12px 35px rgba(17, 27, 56, 0.05);
+}
+
+.access-panel h3 {
+  color: #111B38;
+}
+
+/* Clinic address */
+.access-address-section {
+  background: #FFFFFF;
+  border: 1px solid #E4E8F4;
+  border-radius: 20px;
+  box-shadow: 0 8px 28px rgba(17, 27, 56, 0.03);
+}
+
+.access-address-section label {
+  color: #111B38;
+}
+
+.access-address-section input {
+  background: #F8F9FD;
+  border: 1px solid #DDE3F4;
+  color: #111B38;
+}
+
+.access-address-section input:focus {
+  border-color: #5165E8;
+  box-shadow: 0 0 0 4px rgba(81, 101, 232, 0.12);
+}
+
+/* Image upload */
+/* Editorial clinic photo upload area */
+
+.access-upload-zone {
+  background: #f8f6ff;
+  border: 2px dashed #b9a8ed;
+  border-radius: 22px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.access-upload-zone:hover {
+  background: #f1edff;
+  border-color: #9180d4;
+}
+
+.access-upload-icon {
+  color: #5165E8;
+}
+
+.access-upload-button {
+  background: #5165E8;
+  color: #FFFFFF;
+}
+
+.access-upload-button:hover {
+  background: #4055D5;
+}
+
+/* Accessibility checklist */
+.access-check-item {
+  background: #F5F6FC;
+}
+
+.access-check-circle {
+  background: #E6E9FF;
+  color: #5165E8;
+}
+
+.access-check-status {
+  color: #7A839B;
+}
+
+/* Disabled analysis button */
+.access-analyze-button {
+  background: #303B72;
+}
+
+/* Footer and supporting text */
+.access-footer,
+.access-filename {
+  color: #66728B;
+}
+
+/* =====================================
+   ACCESS SCAN — LAYOUT POLISH
+   ===================================== */
+
+.access-dashboard {
+  padding-top: 20px;
+  padding-bottom: 70px;
+}
+
+.access-header {
+  margin-bottom: 34px;
+}
+
+.access-header h2 {
+  font-size: clamp(34px, 4vw, 46px);
+  letter-spacing: -1.8px;
+  line-height: 1.15;
+}
+
+/* Address search */
+.access-address-section {
+  padding: 28px;
+  margin-bottom: 28px;
+}
+
+.access-address-section input {
+  padding: 17px 20px;
+  border-radius: 12px;
+  font-size: 15px;
+}
+
+.access-address-section input::placeholder {
+  color: #8A93AB;
+}
+
+/* Main workspace */
+.access-grid {
+  gap: 24px;
+  align-items: start;
+}
+
+.access-panel {
+  border-radius: 22px;
+  padding: 32px;
+}
+
+.access-panel h3 {
+  font-size: 23px;
+  letter-spacing: -0.7px;
+}
+
+/* Upload workspace */
+.access-upload-zone {
+  min-height: 285px;
+  border-radius: 16px;
+  padding: 32px 20px;
+  transition: border-color 0.2s ease,
+              background-color 0.2s ease;
+}
+
+.access-upload-zone:hover {
+  border-color: #788CF0;
+  background: #F1F3FF;
+}
+
+.access-upload-button {
+  border-radius: 12px;
+  padding: 14px 26px;
+  font-size: 14px;
+  box-shadow: 0 6px 16px rgba(81, 101, 232, 0.14);
+}
+
+/* Review checklist */
+.access-checklist {
+  gap: 10px;
+}
+
+.access-check-item {
+  border: 1px solid #e5def7;
+  border-radius: 14px;
+  padding: 17px 15px;
+  background: #ffffff;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.access-check-item:hover {
+  background: #f8f6ff;
+  border-color: #c5b5ed;
+}
+
+.access-check-circle {
+  width: 30px;
+  height: 30px;
+}
+
+/* Small screens */
+@media (max-width: 800px) {
+  .access-panel {
+    padding: 22px;
+  }
+
+  .access-address-section {
+    padding: 22px;
+  }
+}
+/* Editorial heading accent for Access Scan */
+
+.access-editorial-title {
+  width: fit-content;
+}
+
+.access-editorial-title span {
+  position: relative;
+  display: inline-block;
+  z-index: 0;
+}
+
+.access-editorial-title span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 9px;
+  background: #c9b4ff;
+  border-radius: 45% 30% 55% 40%;
+  transform: rotate(-2deg);
+  opacity: 0.75;
+  z-index: -1;
+}
+/* Access Scan clinic illustration size */
+
+.access-title-row .access-title-illustration {
+   width: 180px;
+  height: 160px;
+  max-width: 180px;
+  object-fit: contain;
+  flex-shrink: 0;
+  transform: rotate(2deg);
+}
+
+@media (max-width: 600px) {
+  .access-title-row .access-title-illustration {
+    width: 65px;
+    height: 65px;
+    max-width: 65px;
+  }
+}
+/* Access Scan editorial illustration layout */
+
+.access-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  width: 100%;
+  max-width: 850px;
+}
+
+.access-title-row .access-title-illustration {
+  width: 260px;
+  height: 220px;
+  max-width: 260px;
+  object-fit: contain;
+  flex-shrink: 0;
+  transform: none;
+}
+
+@media (max-width: 600px) {
+  .access-title-row {
+    gap: 12px;
+  }
+
+  .access-title-row .access-title-illustration {
+    width: 115px;
+    height: 100px;
+    max-width: 115px;
+  }
+}
+/* Larger illustration, positioned farther right */
+
+.access-title-row {
+  width: 100%;
+  max-width: 940px;
+  justify-content: flex-start;
+  gap: 100px;
+}
+
+.access-title-row .access-title-illustration {
+  width: 340px;
+  height: 260px;
+  max-width: 340px;
+  object-fit: contain;
+  flex-shrink: 0;
+  transform: none;
+}
+
+@media (max-width: 600px) {
+  .access-title-row {
+    gap: 12px;
+  }
+
+  .access-title-row .access-title-illustration {
+    width: 115px;
+    height: 100px;
+    max-width: 115px;
+  }
+}
+/* Fine-tune clinic illustration position */
+
+@media (min-width: 601px) {
+  .access-title-row .access-title-illustration {
+    margin-left: 100px;
+  }
+}
+/* Editorial label for Clinic Address */
+
+.access-address-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #5965d8;
+  margin-bottom: 12px;
+}
+/* Access Scan — scrapbook stationery header */
+
+.access-title-row {
+  position: relative;
+  background: #fffdf8;
+  border: 1px solid #d8e4db;
+  border-radius: 8px;
+
+  padding: 24px 30px;
+  margin-bottom: 30px;
+
+  box-shadow:
+    5px 5px 0 #b7d9ed,
+    10px 10px 0 #bdd8c4;
+}
+
+/* Cornflower-blue washi tape */
+.access-title-row::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 42px;
+
+  width: 92px;
+  height: 23px;
+
+  background: #739acb;
+  opacity: 0.9;
+  transform: rotate(-7deg);
+
+  clip-path: polygon(
+    0 8%, 96% 0,
+    100% 88%, 4% 100%
+  );
+
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Keep the illustration and heading above the paper */
+.access-editorial-title,
+.access-title-illustration {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 600px) {
+  .access-title-row {
+    padding: 18px 16px;
+    box-shadow:
+      3px 3px 0 #b7d9ed,
+      6px 6px 0 #bdd8c4;
+  }
+}
+/* Move washi tape away from the heading */
+
+.access-title-row::before {
+  left: auto;
+  right: 45px;
+  top: -11px;
+  transform: rotate(7deg);
+}
