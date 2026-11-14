@@ -84,7 +84,7 @@ function VisitPacket() {
 
           <div>
             <h3>Arrival & Accessibility</h3>
-            
+
             {clinicAddress ? (
               <>
                 <p>
@@ -118,7 +118,7 @@ function VisitPacket() {
           </div>
         </div>
 
-        
+
 <div className="packet-section">
   <div className="packet-section-number">03</div>
 
@@ -170,7 +170,7 @@ function VisitPacket() {
 
           <div>
             <h3>Questions for My Appointment</h3>
-            
+
 <div className="packet-question-form">
   <input
     type="text"
