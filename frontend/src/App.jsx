@@ -7,15 +7,6 @@ const profiles = [
   { id: "short-walk", icon: "⌁", title: "Short walking distance" },
 ];
 
-function readAsBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result).split(",")[1]);
-    reader.onerror = () => reject(new Error("The image could not be read."));
-    reader.readAsDataURL(file);
-  });
-}
-
 function ToolCard({ icon, number, title, description, active, onClick }) {
   return (
     <button
@@ -139,6 +130,27 @@ function Report({ report, profile, onReset }) {
         <button className="text-action" onClick={onReset} type="button">Start over</button>
       </section>
 
+      {report.matterport?.viewerUrl && (
+        <section className="matterport-viewer" aria-label="Interactive Matterport walkthrough">
+          <div className="viewer-heading">
+            <div>
+              <div className="eyebrow">MATTERPORT WALKTHROUGH</div>
+              <h3>Explore the captured space</h3>
+            </div>
+            <a href={report.matterport.viewerUrl} target="_blank" rel="noreferrer">Open full tour <span aria-hidden="true">↗</span></a>
+          </div>
+          <div className="viewer-frame">
+            <iframe
+              src={report.matterport.viewerUrl}
+              title={`Matterport walkthrough: ${report.building}`}
+              allow="fullscreen; xr-spatial-tracking"
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
+        </section>
+      )}
+
       {report.geometry?.scans?.length > 0 && (
         <>
           <FloorPlan geometry={report.geometry} candidate={report.candidate} />
@@ -159,18 +171,67 @@ function Report({ report, profile, onReset }) {
         </ul>
       )}
 
-      {report.images?.length > 0 && (
-        <section className="provider-imagery">
-          <div className="eyebrow">PROVIDER IMAGERY</div>
-          <div className="imagery-grid">
-            {report.images.map((image) => (
-              <figure key={image.id}>
-                <img src={`data:${image.mimeType};base64,${image.data}`} alt={image.title} />
-                <figcaption>{image.title}</figcaption>
-              </figure>
-            ))}
+      {report.matterport && (
+        <section className="room-measurements" aria-label="Matterport room measurements">
+          <div className="eyebrow">MATTERPORT ROOM MEASUREMENTS · METRIC</div>
+          {report.geometry?.rooms?.length ? (
+            <div className="measurements-scroll">
+              <table>
+                <thead>
+                  <tr><th scope="col">Room</th><th scope="col">Area m²</th><th scope="col">Width m</th><th scope="col">Depth m</th><th scope="col">Height m</th></tr>
+                </thead>
+                <tbody>
+                  {report.geometry.rooms.map((room, index) => (
+                    <tr key={room.evidence_id}>
+                      <th scope="row">{room.label} {index + 1}</th>
+                      <td>{room.area_m2?.toFixed(2) || "Not measured"}</td>
+                      <td>{room.width_m?.toFixed(2) || "Not measured"}</td>
+                      <td>{room.depth_m?.toFixed(2) || "Not measured"}</td>
+                      <td>{room.height_m?.toFixed(2) || "Not measured"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : <p className="geometry-status">No room dimensions are available for this model.</p>}
+          <p className="measurement-caveat">Room dimensions do not establish doorway clear width, threshold height, ramp slope, or turning clearance.</p>
+        </section>
+      )}
+
+      {report.ai && (
+        <section className="walkthrough-review" aria-label="Gemini walkthrough review">
+          <div className="walkthrough-heading">
+            <div>
+              <div className="eyebrow">TARGETED WALKTHROUGH REVIEW</div>
+              <h3>Gemini · {report.ai.status}</h3>
+            </div>
+            <span className="walkthrough-count">{report.ai.observations?.length || 0} findings</span>
           </div>
-          {report.ai?.status && <p className="geometry-status">Gemini · {report.ai.status}</p>}
+          {report.ai.summary && <p className="walkthrough-summary">{report.ai.summary}</p>}
+          {report.ai.measurementReview && (
+            <div className="measurement-review">
+              <div className="eyebrow">ROOM-MEASUREMENT REVIEW</div>
+              <p>{report.ai.measurementReview}</p>
+            </div>
+          )}
+          {report.ai.observations?.length > 0 && (
+            <ul className="walkthrough-findings">
+              {report.ai.observations.map((item, index) => (
+                <li key={`${item.evidence}-${item.title}-${index}`}>
+                  <strong>{item.title}</strong>
+                  <span>{item.detail}</span>
+                  <small>Evidence: {item.evidence}</small>
+                </li>
+              ))}
+            </ul>
+          )}
+          {report.ai.confirmations?.length > 0 && (
+            <div className="walkthrough-questions">
+              <strong>Questions for the venue</strong>
+              <ul>{report.ai.confirmations.map((item, index) => <li key={`${item}-${index}`}>{item}</li>)}</ul>
+            </div>
+          )}
+          {report.ai.limitations && <p className="walkthrough-limitations">Limitations: {report.ai.limitations}</p>}
         </section>
       )}
 
@@ -186,7 +247,7 @@ function Report({ report, profile, onReset }) {
 
       <section className="confirm-panel">
         <div className="eyebrow">CONFIRM BEFORE THE VISIT</div>
-        <ul>{report.confirmations.map((item) => <li key={item}>{item}</li>)}</ul>
+        <ul>{report.confirmations.map((item, index) => <li key={`${item}-${index}`}>{item}</li>)}</ul>
       </section>
 
       <p className="review-caveat">
@@ -203,9 +264,6 @@ function AccessScan({ onBack }) {
   const [selectedBuilding, setSelectedBuilding] = useState("");
   const [catalogStatus, setCatalogStatus] = useState("Loading local building list…");
   const [profile, setProfile] = useState("step-free");
-  const [file, setFile] = useState(null);
-  const [preview, setPreview] = useState("");
-  const [dragging, setDragging] = useState(false);
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState("");
   const [report, setReport] = useState(null);
@@ -239,25 +297,6 @@ function AccessScan({ onBack }) {
       clearTimeout(timer);
     };
   }, [buildingQuery]);
-
-  useEffect(() => () => {
-    if (preview) URL.revokeObjectURL(preview);
-  }, [preview]);
-
-  function chooseFile(nextFile) {
-    if (!nextFile) return;
-    if (!["image/jpeg", "image/png", "image/webp"].includes(nextFile.type)) {
-      setStatus("Choose a JPG, PNG, or WebP image.");
-      return;
-    }
-    if (nextFile.size > 8 * 1024 * 1024) {
-      setStatus("Choose an image smaller than 8 MB.");
-      return;
-    }
-    setFile(nextFile);
-    setPreview(URL.createObjectURL(nextFile));
-    setStatus("");
-  }
 
   async function showDemo() {
     setBusy(true);
@@ -299,36 +338,6 @@ function AccessScan({ onBack }) {
       setStatus("Location report ready. Review provider status and confirm details with the venue.");
     } catch (error) {
       setStatus(error.message || "The location report could not be created.");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function reviewPhoto() {
-    if (!file) {
-      setStatus("Add a clear photo to request a Gemini review, or try the guided demo.");
-      return;
-    }
-    setBusy(true);
-    setStatus("Reviewing visible details with Gemini…");
-    setReport(null);
-    try {
-      const response = await fetch("/api/audit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          building: building ? `${building.name} · ${building.address}, ${building.city}` : "",
-          profile,
-          mimeType: file.type,
-          imageData: await readAsBase64(file),
-        }),
-      });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "Gemini could not review this image.");
-      setReport({ ...result, building: building ? `${building.name} · ${building.address}, ${building.city}` : "", profile, demo: false });
-      setStatus("Gemini review complete. Check each observation against the original image.");
-    } catch (error) {
-      setStatus(error.message || "The photo could not be reviewed.");
     } finally {
       setBusy(false);
     }
@@ -413,36 +422,6 @@ function AccessScan({ onBack }) {
           </div>
           <p className="status-text" role="status" aria-live="polite">{status}</p>
 
-          <details className="optional-evidence">
-            <summary>Optional: review a photo with Gemini</summary>
-            <p>Use a photo of an entrance, doorway, corridor, or drop-off. It supplements the selected building record.</p>
-            <input
-              className="visually-hidden"
-              id="audit-image"
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              onChange={(event) => chooseFile(event.target.files?.[0])}
-            />
-            <label
-              className={`upload-zone${dragging ? " dragging" : ""}${preview ? " has-preview" : ""}`}
-              htmlFor="audit-image"
-              onDragEnter={(event) => { event.preventDefault(); setDragging(true); }}
-              onDragOver={(event) => event.preventDefault()}
-              onDragLeave={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setDragging(false); }}
-              onDrop={(event) => { event.preventDefault(); setDragging(false); chooseFile(event.dataTransfer.files?.[0]); }}
-            >
-              {preview ? <img src={preview} alt="Selected access photo preview" className="photo-preview" /> : <>
-                <span className="upload-symbol" aria-hidden="true">↑</span>
-                <strong>Choose or drop a photo</strong>
-                <span>JPG, PNG, WebP · up to 8 MB</span>
-              </>}
-              {file && <span className="selected-file">{file.name}</span>}
-            </label>
-            <button className="action-secondary" onClick={reviewPhoto} disabled={busy || !file} type="button">
-              Review photo with Gemini
-            </button>
-            <p className="privacy-note">The image is sent to Google Gemini and is not stored by this app. Review Google&apos;s data terms before sharing sensitive images.</p>
-          </details>
         </section>
 
         <section className="med-panel results-panel" aria-label="Access review result">

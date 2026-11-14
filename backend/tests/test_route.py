@@ -23,6 +23,21 @@ class RouteTests(unittest.TestCase):
         self.assertEqual(geometry["scans"], [])
         self.assertIn("unavailable", geometry["status"])
 
+    def test_floor_geometry_includes_metric_room_measurements(self):
+        model = {
+            "floors": [{"id": "floor-1", "label": "Ground"}],
+            "rooms": [{
+                "id": "room-1",
+                "floor": {"id": "floor-1"},
+                "classifications": [{"label": "Corridor"}],
+                "dimensions": {"areaFloor": 6.42, "width": 1.2, "depth": 5.35, "height": 2.7},
+            }],
+        }
+        geometry = route.floor_geometry(model)
+        self.assertEqual(geometry["rooms"][0]["label"], "Corridor")
+        self.assertEqual(geometry["rooms"][0]["width_m"], 1.2)
+        self.assertEqual(geometry["rooms"][0]["area_m2"], 6.42)
+
 
 if __name__ == "__main__":
     unittest.main()

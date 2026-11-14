@@ -8,7 +8,7 @@ from http.server import ThreadingHTTPServer
 from threading import Thread
 from unittest.mock import patch
 
-from backend.server import Handler, GeminiServiceError, decode_image, location_report, parse_gemini_response, validate_submission
+from backend.server import Handler, GeminiServiceError, decode_image, gemini_request, gemini_review, location_report, parse_gemini_response, validate_submission
 
 
 class ImageValidationTests(unittest.TestCase):
@@ -49,6 +49,13 @@ class GeminiResponseTests(unittest.TestCase):
         with self.assertRaises(GeminiServiceError):
             parse_gemini_response(body)
 
+    def test_temporary_gemini_outage_has_retry_guidance(self):
+        error = urllib.error.HTTPError("https://example.test", 503, "Unavailable", {}, None)
+        with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
+            with patch("backend.server.urlopen", side_effect=error):
+                with self.assertRaisesRegex(GeminiServiceError, "high demand.*Try again shortly"):
+                    gemini_request({})
+
     def test_location_report_does_not_require_photo(self):
         record = {
             "id": "abc12345678", "name": "West Clinic", "address": "1 Main St", "city": "Los Angeles",
@@ -61,6 +68,48 @@ class GeminiResponseTests(unittest.TestCase):
         self.assertEqual(report["sources"]["CoStar"], "CoStar commercial-property export")
         route_evidence = next(item for item in report["observations"] if item["title"] == "Indoor scan evidence")
         self.assertIn("No route can be estimated", route_evidence["detail"])
+
+    def test_walkthrough_review_targets_selected_profile_and_matterport_evidence(self):
+        images = {
+            "interior-1": ("Matterport scan Lobby", b"jpeg", "image/jpeg", "scan-1"),
+            "aerial": ("Vexcel overhead imagery", b"jpeg", "image/jpeg", None),
+        }
+        response = {
+            "source": "Gemini photo review",
+            "summary": "A sampled viewpoint shows a possible barrier.",
+            "measurementReview": "Room-1 is 1.1 m wide; that is not doorway clearance.",
+            "observations": [
+                {"title": "Threshold", "detail": "A raised threshold is visible.", "evidence": "interior-1"},
+                {"title": "Narrow room", "detail": "Room width warrants an on-site check.", "evidence": "room-1"},
+                {"title": "Unsupported", "detail": "No evidence for this finding.", "evidence": "aerial"},
+            ],
+            "confirmations": ["Ask staff whether an alternate entrance is available."],
+            "limitations": "A still view cannot establish route continuity.",
+        }
+        geometry = {"rooms": [{"evidence_id": "room-1", "label": "Corridor", "width_m": 1.1, "area_m2": 8.5}]}
+        with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
+            with patch("backend.server.gemini_request", return_value=response) as gemini:
+                result = gemini_review({"name": "West Clinic"}, "step-free", images, geometry, None)
+        payload = gemini.call_args.args[0]
+        text_parts = [part["text"] for part in payload["contents"][0]["parts"] if "text" in part]
+        prompt = " ".join(text_parts)
+        self.assertIn("step-free access", prompt)
+        self.assertIn('"width_m": 1.1', prompt)
+        self.assertIn("not doorway clear widths", prompt)
+        self.assertIn("explicitly assess these measurements", prompt)
+        self.assertEqual(len([part for part in payload["contents"][0]["parts"] if "inline_data" in part]), 1)
+        self.assertEqual([item["evidence"] for item in result["observations"]], ["interior-1", "room-1"])
+        self.assertIn("1.1 m wide", result["measurementReview"])
+        self.assertIn("Live", result["status"])
+
+    def test_location_report_returns_matterport_viewer_without_images(self):
+        record = {"id": "abc12345678", "name": "West Clinic", "address": "1 Main St", "city": "Los Angeles"}
+        with patch("backend.server.providers.matterport", return_value=(None, {}, "Credentials missing")):
+            with patch("backend.server.providers.vexcel", return_value=({}, "Credentials missing")):
+                report = location_report({"building": record["id"], "profile": "step-free"}, {record["id"]: record})
+        self.assertEqual(report["matterport"]["modelId"], record["id"])
+        self.assertIn(record["id"], report["matterport"]["viewerUrl"])
+        self.assertNotIn("images", report)
 
 
 class ProxyHttpTests(unittest.TestCase):

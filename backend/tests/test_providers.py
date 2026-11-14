@@ -37,6 +37,7 @@ class ProviderTests(unittest.TestCase):
                     "skybox": {"children": ["https://cdn.example/face"] * 6},
                 }]}
             else:
+                self.assertIn("dimensions(units: metric)", query["query"])
                 model = {"floors": [{"id": "floor-1"}], "panoLocations": [{"id": "scan-1"}]}
             return Response(json.dumps({"data": {"model": model}}).encode())
 
@@ -45,8 +46,9 @@ class ProviderTests(unittest.TestCase):
                 with patch.object(providers, "urlopen", return_value=Response(JPEG)):
                     model, images, status = providers.matterport("x37LjPx62VA")
         self.assertEqual(model["floors"][0]["id"], "floor-1")
-        self.assertEqual(images["interior-1"][3], "scan-1")
-        self.assertEqual(images["interior-1"][2], "image/jpeg")
+        self.assertEqual(images["interior-1-face-1"][3], "scan-1")
+        self.assertEqual(images["interior-1-face-1"][2], "image/jpeg")
+        self.assertEqual(len(images), 6)
         self.assertEqual(status, "Geometry and scan imagery loaded")
 
     def test_vexcel_uses_configured_key_and_bounded_area(self):

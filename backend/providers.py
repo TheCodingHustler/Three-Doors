@@ -10,9 +10,11 @@ from urllib.request import HTTPRedirectHandler, Request, build_opener, urlopen
 MATTERPORT_API = "https://api.matterport.com/api/models/graph"
 VEXCEL_API = "https://api.vexcelgroup.com/v2/ortho/extract"
 MAX_IMAGE_BYTES = 12_000_000
+MAX_WALKTHROUGH_BYTES = 10_000_000
 ROOMS_QUERY = """query Rooms($id: ID!) { model(id: $id) {
-  floors { id label vertices { id position { x y } } edges { id type vertices { id } } }
-  rooms { id floor { id } classifications { label confidence } }
+    floors { id label vertices { id position { x y } } edges { id type thickness vertices { id } } }
+    rooms { id floor { id } classifications { label confidence } boundary { edges { id } }
+        dimensions(units: metric) { areaFloor width depth height } }
   panoLocations { id label position { x y z } }
 } }"""
 PANOS_QUERY = """query Panos($id: ID!) { model(id: $id) {
@@ -39,11 +41,11 @@ def image_type(data):
     return None
 
 
-def read_image(request, *, timeout=15, allow_redirects=False):
+def read_image(request, *, timeout=15, allow_redirects=False, max_bytes=MAX_IMAGE_BYTES):
     opener = urlopen if allow_redirects else open_without_redirect
     with opener(request, timeout=timeout) as response:
-        data = response.read(MAX_IMAGE_BYTES + 1)
-    if not data or len(data) > MAX_IMAGE_BYTES:
+        data = response.read(max_bytes + 1)
+    if not data or len(data) > max_bytes:
         raise ValueError("Provider image is empty or too large.")
     mime_type = image_type(data)
     if not mime_type:
@@ -83,23 +85,37 @@ def matterport(model_id):
             item for item in locations
             if len(((item.get("skybox") or {}).get("children") or [])) >= 5
         ]
-        sampled = [available[0], available[len(available) // 2]] if len(available) > 1 else available
-        for item in sampled:
-            url = item["skybox"]["children"][2]
-            parsed = urlsplit(url) if isinstance(url, str) else None
-            if not parsed or parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password:
-                continue
-            try:
-                data, mime_type = read_image(Request(url), allow_redirects=True)
-            except (HTTPError, URLError, OSError, ValueError):
-                continue
-            evidence_id = "interior-" + str(len(images) + 1)
-            images[evidence_id] = (
-                "Matterport scan " + str(item.get("label", "unnamed")) + " · one cube face",
-                data,
-                mime_type,
-                item.get("id"),
-            )
+        if len(available) <= 3:
+            sampled = available
+        else:
+            sampled = [available[round(index * (len(available) - 1) / 2)] for index in range(3)]
+        total_bytes = 0
+        face_order = [1, 2, 3, 4, 5, 0]
+        for face_index in face_order:
+            for scan_index, item in enumerate(sampled, start=1):
+                children = (item.get("skybox") or {}).get("children") or []
+                if face_index >= len(children) or total_bytes >= MAX_WALKTHROUGH_BYTES:
+                    continue
+                url = children[face_index]
+                parsed = urlsplit(url) if isinstance(url, str) else None
+                if not parsed or parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password:
+                    continue
+                remaining = MAX_WALKTHROUGH_BYTES - total_bytes
+                try:
+                    data, mime_type = read_image(
+                        Request(url), allow_redirects=True,
+                        max_bytes=min(MAX_IMAGE_BYTES, remaining),
+                    )
+                except (HTTPError, URLError, OSError, ValueError):
+                    continue
+                total_bytes += len(data)
+                evidence_id = "interior-" + str(scan_index) + "-face-" + str(face_index)
+                images[evidence_id] = (
+                    "Matterport scan " + str(item.get("label", "unnamed")) + " · skybox face " + str(face_index),
+                    data,
+                    mime_type,
+                    item.get("id"),
+                )
     except (HTTPError, URLError, OSError, ValueError, KeyError, TypeError, json.JSONDecodeError):
         pass
     status = "Geometry and scan imagery loaded" if images else "Geometry loaded · scan imagery unavailable"
