@@ -52,47 +52,63 @@ function App() {
       {selectedTool === null ? (
         <main>
           <section className="welcome">
-            <div className="logo">A BETTER WAY TO PREPARE</div>
+  <div className="hero-layout">
 
-            <h1>
-            Healthcare should
-            <br />
-            <span className="hero-highlight">
-              open doors.
-            </span>
-            <br />
-            Not close them.
-          </h1>
+    <div className="hero-content">
+      <div className="logo">A BETTER WAY TO PREPARE</div>
 
-          <p>
-            Meet your smarter appointment companion.
-            Check accessibility, understand medication
-            labels, and organize your symptoms — all
-            in one calming space designed around you.
-          </p>
+      <h1>
+        Healthcare should
+        <br />
+        <span className="hero-highlight">
+          open doors.
+        </span>
+        <br />
+        Not close them.
+      </h1>
 
-            <a className="explore-button" href="#tools">
-  Explore Three Doors →
-</a>
+      <p>
+        Meet your smarter appointment companion.
+        Check accessibility, understand medication
+        labels, and organize your symptoms — all
+        in one calming space designed around you.
+      </p>
 
-<div className="hero-pillars">
-  <div className="hero-pillar">
-    <span className="hero-pillar-icon">◎</span>
-    <span>Access</span>
-  </div>
+      <a className="explore-button" href="#tools">
+        Explore Three Doors →
+      </a>
 
-  <div className="hero-pillar">
-    <span className="hero-pillar-icon">✚</span>
-    <span>Clarity</span>
-  </div>
+      <div className="hero-pillars">
+        <div className="hero-pillar">
+          <span className="hero-pillar-icon">◎</span>
+          <span>Access</span>
+        </div>
 
-  <div className="hero-pillar">
-    <span className="hero-pillar-icon">✎</span>
-    <span>Advocacy</span>
-  </div>
+        <div className="hero-pillar">
+          <span className="hero-pillar-icon">✚</span>
+          <span>Clarity</span>
+        </div>
+
+        <div className="hero-pillar">
+          <span className="hero-pillar-icon">✎</span>
+          <span>Advocacy</span>
+        </div>
+      </div>
+    </div>
+
+    <div className="hero-artwork">
+  <img
+    src="/images/three-doors-illustration.png"
+    alt="Hand-drawn illustration of an open doorway with healthcare doodles"
+    className="hero-illustration"
+  />
+
+  <span className="sparkle sparkle-one" aria-hidden="true">✦</span>
+  <span className="sparkle sparkle-two" aria-hidden="true">✧</span>
+  <span className="sparkle sparkle-three" aria-hidden="true">✦</span>
 </div>
 
-
+  </div>
 <div className="hero-dashboard">
   <div className="dashboard-topbar">
     <span className="dashboard-brand">✦ THREE DOORS</span>

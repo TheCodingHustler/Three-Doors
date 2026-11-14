@@ -63,17 +63,19 @@
   max-width: 1000px;
   margin: 0;
   color: #fff;
-  font-family: var(--font-heading, 'Manrope', sans-serif);
+  font-family: var(--font-heading, Georgia, serif);
   font-size: clamp(43px, 6.1vw, 82px);
-  font-weight: 800;
-  letter-spacing: -.055em;
-  line-height: 1.12;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.16;
 }
+
 .hero-highlight {
   background: linear-gradient(95deg, #79ddd9, #99afff 52%, #c6a5ff);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  font-style: italic;
 }
 .welcome > p {
   max-width: 610px;
@@ -585,5 +587,148 @@
 
   .dashboard-progress-header {
     flex-wrap: wrap;
+  }
+}
+
+/* THREE DOORS — EDITORIAL HERO LAYOUT */
+
+.hero-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 48px;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  min-width: 0;
+}
+
+.hero-content h1 {
+  font-size: clamp(42px, 4.5vw, 72px);
+  line-height: 1.12;
+  text-align: left;
+}
+
+.hero-content p {
+  text-align: left;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.hero-content .explore-button {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.hero-content .hero-pillars {
+  justify-content: flex-start;
+}
+
+.hero-artwork {
+  width: 100%;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Keep the layout readable on smaller screens */
+
+@media (max-width: 850px) {
+  .hero-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .hero-content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-content h1,
+  .hero-content p {
+    text-align: center;
+  }
+
+  .hero-content .hero-pillars {
+    justify-content: center;
+  }
+
+  .hero-artwork {
+    min-height: 250px;
+  }
+}
+/* Hero description text */
+
+.hero-content p {
+  color: #DCE2F2;
+}
+.hero-illustration {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Hand-drawn animated sparkles */
+
+.hero-artwork {
+  position: relative;
+}
+
+.sparkle {
+  position: absolute;
+  color: #D9B8FF;
+  font-size: 30px;
+  pointer-events: none;
+  animation: sparkle-twinkle 3s ease-in-out infinite;
+}
+
+.sparkle-one {
+  top: 12%;
+  left: 15%;
+  font-size: 28px;
+}
+
+.sparkle-two {
+  top: 20%;
+  right: 8%;
+  color: #FFF0C9;
+  font-size: 38px;
+  animation-delay: 1s;
+}
+
+.sparkle-three {
+  bottom: 15%;
+  right: 15%;
+  font-size: 22px;
+  animation-delay: 2s;
+}
+
+@keyframes sparkle-twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8) rotate(-10deg);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(10deg);
+  }
+}
+
+/* Keep animations accessible */
+@media (prefers-reduced-motion: reduce) {
+  .sparkle {
+    animation: none;
+    opacity: 0.8;
   }
 }
