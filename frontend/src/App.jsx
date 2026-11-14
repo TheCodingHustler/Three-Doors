@@ -247,7 +247,9 @@ function App() {
           <section id="tools" className="tools-section">
             <div className="section-heading">
               <div className="logo">EXPLORE OUR TOOLS</div>
-              <h2>Three doors. One better visit.</h2>
+              <h2 className="tools-editorial-title">
+                Three doors. <span>One better visit.</span>
+              </h2>
               <p>Choose a tool to begin preparing.</p>
             </div>
 

@@ -61,13 +61,21 @@ function SymptomJournal() {
             THREE DOORS / PERSONAL HEALTH JOURNAL
           </div>
 
-          <h2>Symptom & Food Journal</h2>
+          <h2 className="journal-editorial-title">
+              Symptom & Food <span>Journal</span>
+            </h2>
 
           <p>
             Keep track of what you experience and what you eat,
             so you can discuss patterns with your healthcare team.
           </p>
-        </div>
+         </div>
+
+        <img
+          src="/images/journal-header.png?v=2"
+          alt=""
+          className="journal-header-illustration"
+        />
 
         <span className="journal-status">
           ● Ready to record

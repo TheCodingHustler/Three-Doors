@@ -582,3 +582,44 @@
   justify-content: center;
   min-height: 240px;
 }
+/* Editorial heading accent for Symptom Journal */
+
+.journal-editorial-title {
+  width: fit-content;
+}
+
+.journal-editorial-title span {
+  position: relative;
+  display: inline-block;
+  z-index: 0;
+}
+
+.journal-editorial-title span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 9px;
+  background: #c9b4ff;
+  border-radius: 45% 30% 55% 40%;
+  transform: rotate(-2deg);
+  opacity: 0.75;
+  z-index: -1;
+}
+/* Journal header illustration */
+
+.journal-header-illustration {
+  width: 240px;
+  height: 180px;
+  max-width: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .journal-header-illustration {
+    width: 130px;
+    height: 110px;
+  }
+}

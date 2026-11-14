@@ -68,12 +68,20 @@ function handleDrop(event) {
           <span className="med-eyebrow">
             THREE DOORS / MEDICATION WORKSPACE
           </span>
-          <h2>Medication Label Reader</h2>
+          <h2 className="medication-editorial-title">
+            Medication Label <span>Reader</span>
+          </h2>
           <p>
             A clearer way to review your medication
             information before your next appointment.
           </p>
-        </div>
+         </div>
+
+        <img
+          src="/images/medication-header.png?v=2"
+          alt=""
+          className="med-header-illustration"
+        />
 
         <span className="med-status">● Ready to upload</span>
       </div>

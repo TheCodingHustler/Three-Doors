@@ -327,9 +327,18 @@
 }
 
 /* Image upload */
+/* Editorial clinic photo upload area */
+
 .access-upload-zone {
-  background: #F8F9FF;
-  border: 2px dashed #B9C5F5;
+  background: #f8f6ff;
+  border: 2px dashed #b9a8ed;
+  border-radius: 22px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.access-upload-zone:hover {
+  background: #f1edff;
+  border-color: #9180d4;
 }
 
 .access-upload-icon {
@@ -448,9 +457,16 @@
 }
 
 .access-check-item {
-  border: 1px solid #EBEDF7;
-  border-radius: 12px;
+  border: 1px solid #e5def7;
+  border-radius: 14px;
   padding: 17px 15px;
+  background: #ffffff;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.access-check-item:hover {
+  background: #f8f6ff;
+  border-color: #c5b5ed;
 }
 
 .access-check-circle {
@@ -467,4 +483,124 @@
   .access-address-section {
     padding: 22px;
   }
+}
+/* Editorial heading accent for Access Scan */
+
+.access-editorial-title {
+  width: fit-content;
+}
+
+.access-editorial-title span {
+  position: relative;
+  display: inline-block;
+  z-index: 0;
+}
+
+.access-editorial-title span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 9px;
+  background: #c9b4ff;
+  border-radius: 45% 30% 55% 40%;
+  transform: rotate(-2deg);
+  opacity: 0.75;
+  z-index: -1;
+}
+/* Access Scan clinic illustration size */
+
+.access-title-row .access-title-illustration {
+   width: 180px;
+  height: 160px;
+  max-width: 180px;
+  object-fit: contain;
+  flex-shrink: 0;
+  transform: rotate(2deg);
+}
+
+@media (max-width: 600px) {
+  .access-title-row .access-title-illustration {
+    width: 65px;
+    height: 65px;
+    max-width: 65px;
+  }
+}
+/* Access Scan editorial illustration layout */
+
+.access-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  width: 100%;
+  max-width: 850px;
+}
+
+.access-title-row .access-title-illustration {
+  width: 260px;
+  height: 220px;
+  max-width: 260px;
+  object-fit: contain;
+  flex-shrink: 0;
+  transform: none;
+}
+
+@media (max-width: 600px) {
+  .access-title-row {
+    gap: 12px;
+  }
+
+  .access-title-row .access-title-illustration {
+    width: 115px;
+    height: 100px;
+    max-width: 115px;
+  }
+}
+/* Larger illustration, positioned farther right */
+
+.access-title-row {
+  width: 100%;
+  max-width: 940px;
+  justify-content: flex-start;
+  gap: 100px;
+}
+
+.access-title-row .access-title-illustration {
+  width: 340px;
+  height: 260px;
+  max-width: 340px;
+  object-fit: contain;
+  flex-shrink: 0;
+  transform: none;
+}
+
+@media (max-width: 600px) {
+  .access-title-row {
+    gap: 12px;
+  }
+
+  .access-title-row .access-title-illustration {
+    width: 115px;
+    height: 100px;
+    max-width: 115px;
+  }
+}
+/* Fine-tune clinic illustration position */
+
+@media (min-width: 601px) {
+  .access-title-row .access-title-illustration {
+    margin-left: 100px;
+  }
+}
+/* Editorial label for Clinic Address */
+
+.access-address-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #5965d8;
+  margin-bottom: 12px;
 }

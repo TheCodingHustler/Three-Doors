@@ -508,3 +508,45 @@
   flex: 1;
   min-height: 330px;
 }
+/* Editorial heading accent for Medication Reader */
+
+.medication-editorial-title {
+  width: fit-content;
+}
+
+.medication-editorial-title span {
+  position: relative;
+  display: inline-block;
+  z-index: 0;
+}
+
+.medication-editorial-title span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 9px;
+  background: #c9b4ff;
+  border-radius: 45% 30% 55% 40%;
+  transform: rotate(-2deg);
+  opacity: 0.75;
+  z-index: -1;
+}
+/* Medication Reader header illustration */
+
+.med-header-illustration {
+  width: 240px;
+  height: 180px;
+  max-width: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Smaller illustration on mobile */
+@media (max-width: 600px) {
+  .med-header-illustration {
+    width: 130px;
+    height: 110px;
+  }
+}

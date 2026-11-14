@@ -81,9 +81,22 @@ function AccessScan() {
             THREE DOORS / ACCESSIBILITY WORKSPACE
           </div>
 
-          <h2>Access Scan</h2>
+          <div className="access-title-row">
+              <h2 className="access-editorial-title">
+                Access <span>Scan</span>
+              </h2>
+
+              <img
+                src="/images/access-clinic.png?v=2"
+                alt=""
+                className="access-title-illustration"
+              />
+            </div>
 
             <div className="access-address-section">
+               <div className="access-address-eyebrow">
+                  YOUR DESTINATION
+                </div>
             <label htmlFor="clinic-address">Clinic Address</label>
 
             <input

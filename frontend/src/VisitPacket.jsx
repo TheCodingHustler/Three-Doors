@@ -43,7 +43,9 @@ function VisitPacket() {
             THREE DOORS / APPOINTMENT PREPARATION
           </div>
 
-          <h2>Your Visit Packet</h2>
+          <h2 className="packet-editorial-title">
+            Your Visit <span>Packet</span>
+          </h2>
 
           <p>
             A clear, organized summary to help you

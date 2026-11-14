@@ -703,3 +703,28 @@
     -webkit-print-color-adjust: exact;
   }
 }
+/* Editorial heading accent for Visit Packet */
+
+.packet-editorial-title {
+  width: fit-content;
+}
+
+.packet-editorial-title span {
+  position: relative;
+  display: inline-block;
+  z-index: 0;
+}
+
+.packet-editorial-title span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 9px;
+  background: #c9b4ff;
+  border-radius: 45% 30% 55% 40%;
+  transform: rotate(-2deg);
+  opacity: 0.75;
+  z-index: -1;
+}

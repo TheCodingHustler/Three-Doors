@@ -1549,3 +1549,59 @@
     font-size: 60px;
   }
 }
+/* Editorial heading with artistic underline */
+
+.tools-editorial-title span {
+  position: relative;
+  display: inline-block;
+  z-index: 0;
+}
+
+.tools-editorial-title span::after {
+  content: "";
+  position: absolute;
+  left: 2%;
+  bottom: -7px;
+  width: 96%;
+  height: 10px;
+  background: #c9b4ff;
+  border-radius: 50% 30% 60% 40%;
+  transform: rotate(-1.5deg);
+  opacity: 0.75;
+  z-index: -1;
+}
+/* Artistic paper-cutout background details */
+
+.journey-section::before {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  top: -85px;
+  left: -95px;
+  border-radius: 38% 62% 65% 35%;
+  background: #e4d8ff;
+  transform: rotate(-25deg);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.journey-section::after {
+  content: "";
+  position: absolute;
+  width: 170px;
+  height: 170px;
+  right: -65px;
+  bottom: -70px;
+  border-radius: 65% 35% 42% 58%;
+  background: #f7dce9;
+  transform: rotate(20deg);
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.journey-heading,
+.journey-steps {
+  position: relative;
+  z-index: 1;
+}
