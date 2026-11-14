@@ -1,0 +1,4332 @@
+.app {
+  min-height: 100vh;
+  background: #f5faf8;
+}
+
+.navbar {
+  min-height: 72px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 7%;
+  background: #fff;
+  border-bottom: 1px solid #e2ece8;
+}
+
+.brand {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #247e79;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.brand span {
+  margin-right: 7px;
+  color: #173b43;
+}
+
+.nav-label,
+.eyebrow,
+.med-step {
+  color: #247e79;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.nav-label {
+  color: #91a6a5;
+}
+
+.welcome {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  padding: 76px max(7%, 24px);
+  background: #edf6f1;
+  border-bottom: 1px solid #dfebe5;
+}
+
+.welcome-copy {
+  max-width: 680px;
+}
+
+.welcome .eyebrow {
+  margin-bottom: 26px;
+}
+
+.welcome h1 {
+  max-width: 650px;
+  margin: 0;
+  color: #173b43;
+  font-size: 60px;
+  font-weight: 600;
+  line-height: 1.08;
+}
+
+.welcome p {
+  max-width: 520px;
+  margin: 24px 0 30px;
+  color: #718587;
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.primary-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 22px;
+  background: #247e79;
+  border-radius: 100px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.primary-link:hover {
+  background: #173b43;
+  transform: translateY(-2px);
+}
+
+.welcome-mark {
+  width: 210px;
+  height: 210px;
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-content: center;
+  gap: 8px;
+  padding: 24px;
+  border: 1px solid #c5dcd3;
+  border-radius: 50%;
+  color: #247e79;
+  transform: rotate(-8deg);
+}
+
+.welcome-mark span {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.welcome-mark span:last-child {
+  grid-column: 1 / -1;
+  justify-self: center;
+}
+
+.tools-section {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 72px 28px 96px;
+}
+
+.section-heading {
+  margin-bottom: 36px;
+  text-align: center;
+}
+
+.section-heading .eyebrow {
+  margin-bottom: 14px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  color: #173b43;
+  font-size: 34px;
+  font-weight: 600;
+}
+
+.section-heading p {
+  margin: 12px 0 0;
+  color: #718587;
+  font-size: 15px;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.tool-card {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 28px;
+  border: 1px solid #e2ece8;
+  border-radius: 18px;
+  background: #fff;
+  text-align: left;
+}
+
+button.tool-card {
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+button.tool-card:hover {
+  transform: translateY(-4px);
+  border-color: #b2d5ca;
+  box-shadow: 0 14px 32px #173b4312;
+}
+
+.tool-card-disabled {
+  color: #637a78;
+}
+
+.card-number {
+  margin-bottom: 24px;
+  color: #91a6a5;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.card-icon {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: #eaf5f0;
+  color: #247e79;
+  font-size: 24px;
+}
+
+.tool-card h3 {
+  margin: 20px 0 8px;
+  color: #173b43;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.tool-card p {
+  margin: 0;
+  color: #718587;
+  font-size: 13px;
+}
+
+/* THREE DOORS â€” HOMEPAGE & APP LAYOUT */
+
+.app {
+  min-height: 100vh;
+  background: var(--color-background);
+  color: var(--color-heading);
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+}
+
+/* Navigation */
+.navbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 7%;
+  background: #fff;
+  border-bottom: 1px solid #e8eaf5;
+}
+.brand {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #111b38;
+  font-family: var(--font-heading, 'Manrope', sans-serif);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  cursor: pointer;
+}
+.brand:hover { color: #5165e8; }
+.nav-label {
+  color: #5965a6;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .17em;
+}
+
+/* Hero */
+.welcome {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 94px 24px 100px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 14% 18%, rgba(81,101,232,.35), transparent 43%),
+    radial-gradient(ellipse at 84% 64%, rgba(167,139,250,.25), transparent 43%),
+    linear-gradient(135deg, #0b1228 0%, #111b38 55%, #20275a 100%);
+}
+.logo {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .22em;
+}
+.welcome .logo { margin-bottom: 26px; color: #b5bfff; }
+.welcome h1 {
+  max-width: 1000px;
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-heading, Georgia, serif);
+  font-size: clamp(43px, 6.1vw, 82px);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.16;
+}
+
+.hero-highlight {
+  background: linear-gradient(95deg, #79ddd9, #99afff 52%, #c6a5ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-style: italic;
+}
+.welcome > p {
+  max-width: 610px;
+  margin: 27px 0 32px;
+  color: #d1d9ef;
+  font-size: 17px;
+  line-height: 1.8;
+}
+.explore-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 30px;
+  border-radius: 12px;
+  background: #6673ed;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 12px 30px rgba(24,26,85,.22);
+  transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.explore-button:hover {
+  background: #7c84fa;
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px rgba(24,26,85,.28);
+}
+
+/* Three hero principles */
+.hero-pillars {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 48px;
+}
+.hero-pillar {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 145px;
+  padding: 12px 17px;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 12px;
+  background: rgba(255,255,255,.07);
+  color: #f5f6ff;
+  font-size: 13px;
+  font-weight: 600;
+  backdrop-filter: blur(12px);
+}
+.hero-pillar-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: rgba(167,139,250,.17);
+  color: #c2caff;
+  font-size: 20px;
+}
+
+/* Product interface preview */
+
+.hero-dashboard {
+  width: min(100%, 1050px);
+  margin: 66px auto 0;
+  padding: 32px;
+
+  border: 1px solid rgba(220, 210, 255, 0.8);
+  border-radius: 28px;
+
+  background: linear-gradient(
+    145deg,
+    #ffffff 0%,
+    #faf8ff 65%,
+    #f4f0ff 100%
+  );
+
+  box-shadow:
+    0 30px 75px rgba(0, 0, 0, 0.18),
+    0 8px 24px rgba(125, 100, 190, 0.10);
+
+  color: #111b38;
+  text-align: left;
+}
+
+.dashboard-topbar,
+.dashboard-preview-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.dashboard-topbar {
+  padding-bottom: 18px;
+  border-bottom: 1px solid #e6eaf5;
+}
+.dashboard-brand {
+  color: #303b72;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .1em;
+}
+.dashboard-demo {
+  padding: 7px 11px;
+  border-radius: 7px;
+  background: #efecff;
+  color: #7569bc;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+.dashboard-heading { margin: 28px 0 25px; }
+.dashboard-heading > span {
+  color: #6b65c5;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+.dashboard-heading h3 {
+  margin: 10px 0 8px;
+  color: #111b38;
+  font-family: var(--font-heading, 'Manrope', sans-serif);
+  font-size: clamp(23px, 3vw, 32px);
+  letter-spacing: -.04em;
+}
+.dashboard-heading p {
+  margin: 0;
+  color: #66728b;
+  font-size: 14px;
+}
+.dashboard-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.dashboard-preview-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+  padding: 23px;
+  border-radius: 12px;
+}
+.dashboard-access { background: #edf2ff; }
+.dashboard-medication { background: #f2edff; }
+.dashboard-journal { background: #fff0ef; }
+.dashboard-preview-icon { color: #5965c9; font-size: 25px; }
+.dashboard-preview-label {
+  color: #6c70a0;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+.dashboard-preview-card strong {
+  color: #111b38;
+  font-family: var(--font-heading, 'Manrope', sans-serif);
+  font-size: 17px;
+  line-height: 1.35;
+}
+.dashboard-preview-card p {
+  margin: 0;
+  color: #58657b;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.dashboard-preview-link {
+  margin-top: auto;
+  color: #5965c9;
+  font-size: 12px;
+  font-weight: 700;
+}
+.dashboard-preview-footer {
+  margin-top: 22px;
+  padding-top: 17px;
+  border-top: 1px solid #e6eaf5;
+  color: #8992a9;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+/* TOOLS SECTION â€” illustrated scrapbook aesthetic */
+
+.tools-section {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 88px 24px 110px;
+  background: #faf6ed;
+  scroll-margin-top: 30px;
+}
+
+.section-heading {
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.section-heading .logo {
+  color: #a77c9d;
+  letter-spacing: 0.16em;
+}
+
+.section-heading h2 {
+  margin: 14px 0;
+  color: #253653;
+  font-family: var(--font-heading, 'Manrope', sans-serif);
+  font-size: clamp(31px, 4vw, 45px);
+  font-weight: 800;
+  letter-spacing: -.045em;
+  line-height: 1.2;
+}
+
+.section-heading p {
+  color: #697386;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* Editorial two-column tool layout */
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+  align-items: stretch;
+}
+
+.tool-card {
+  min-height: 390px;
+  padding: 32px;
+}
+
+/* Give each tool its own visual composition */
+
+.tool-card:nth-child(1) {
+  transform: rotate(-0.5deg);
+}
+
+.tool-card:nth-child(2) {
+  transform: rotate(0.5deg);
+}
+
+.tool-card:nth-child(3) {
+  transform: rotate(0.4deg);
+}
+
+.tool-card:nth-child(4) {
+  transform: rotate(-0.4deg);
+}
+
+@media (max-width: 700px) {
+  .tool-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .tool-card {
+    min-height: 320px;
+  }
+}
+
+.tool-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  min-height: 330px;
+  padding: 30px;
+  border: 1.5px solid #e7dfd2;
+  border-radius: 9px 20px 12px 18px;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+  overflow: visible;
+
+  box-shadow: 5px 6px 0 var(--card-shadow);
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease;
+}
+
+/* Individual scrapbook tape details */
+
+.tool-card::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  right: 30px;
+  width: 75px;
+  height: 20px;
+  background: var(--tape);
+  opacity: .95;
+  transform: rotate(5deg);
+  clip-path: polygon(0 8%, 96% 0, 100% 88%, 4% 100%);
+  pointer-events: none;
+}
+
+.tool-card:hover {
+  transform: translateY(-6px) rotate(-.4deg);
+  box-shadow: 8px 10px 0 var(--card-shadow);
+}
+
+.card-number {
+  margin-bottom: 20px;
+  color: #59677b;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .14em;
+}
+
+.card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 16px 10px 16px 10px;
+  font-size: 27px;
+}
+
+.card-illustration {
+  max-width: 210px;
+  height: 165px;
+  object-fit: contain;
+  transition: transform .25s ease;
+}
+
+.tool-card:hover .card-illustration {
+  transform: rotate(-3deg) scale(1.04);
+}
+
+.tool-card h3 {
+  margin: 19px 0 8px;
+  color: #253653;
+  font-family: var(--font-heading, 'Manrope', sans-serif);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -.035em;
+  line-height: 1.3;
+}
+
+.tool-card p {
+  margin: 0 0 22px;
+  color: #566480;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.card-link {
+  margin-top: auto;
+  padding-top: 20px;
+  color: #247e79;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tool-page {
+  max-width: 1240px;
+  min-height: 76vh;
+  margin: 0 auto;
+  padding: 36px 28px 70px;
+}
+
+.back-button,
+.text-action {
+  padding: 7px 0;
+  border: 0;
+  background: none;
+  color: #247e79;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.back-button {
+  margin-bottom: 28px;
+}
+
+.back-button span {
+  margin-right: 6px;
+}
+
+.workspace-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.workspace-heading .eyebrow {
+  margin-bottom: 12px;
+}
+
+.workspace-heading h1 {
+  margin: 0;
+  color: #173b43;
+  font-size: 38px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.workspace-heading p {
+  max-width: 620px;
+  margin: 10px 0 0;
+  color: #718587;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.workspace-seal {
+  width: 84px;
+  height: 84px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #bfd9ce;
+  border-radius: 50%;
+  color: #247e79;
+}
+
+.workspace-seal span:first-child {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.workspace-seal span:last-child {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.audit-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: start;
+  gap: 20px;
+}
+
+.med-panel {
+  min-width: 0;
+  padding: 28px;
+  border: 1px solid #e1ece7;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 8px 30px #183d4308;
+}
+
+.audit-form-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.med-panel-heading h2,
+.empty-report h2 {
+  margin: 10px 0 7px;
+  color: #173b43;
+  font-size: 21px;
+  font-weight: 600;
+}
+
+.med-panel-heading p,
+.empty-report > p {
+  margin: 0;
+  color: #718587;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.field-label,
+.profile-fieldset legend {
+  color: #173b43;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.field-label span {
+  margin-left: 6px;
+  color: #91a6a5;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.text-input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #c7d9d1;
+  border-radius: 8px;
+  background: #fbfdfc;
+  color: #173b43;
+  font-size: 14px;
+}
+
+.text-input::placeholder {
+  color: #91a6a5;
+}
+
+.catalog-status {
+  margin: -8px 0 2px;
+  color: #718587;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.profile-fieldset {
+  min-width: 0;
+  margin: 4px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.profile-fieldset legend {
+  margin-bottom: 10px;
+}
+
+.profile-options {
+  display: grid;
+  gap: 8px;
+}
+
+.profile-option {
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 11px;
+  border: 1px solid #e2ece8;
+  border-radius: 9px;
+  color: #496368;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.profile-option.selected {
+  border-color: #85b7a3;
+  background: #f1f8f4;
+  color: #173b43;
+}
+
+.profile-option input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #247e79;
+}
+
+.profile-icon {
+  width: 22px;
+  color: #247e79;
+  font-size: 16px;
+  text-align: center;
+}
+
+.audit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.action-primary,
+.action-secondary {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 17px;
+  border: 1px solid #247e79;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.action-primary {
+  background: #247e79;
+  color: #fff;
+}
+
+.action-primary:hover:not(:disabled) {
+  background: #173b43;
+  border-color: #173b43;
+}
+
+.action-secondary {
+  background: #fff;
+  color: #247e79;
+}
+
+.action-secondary:hover:not(:disabled) {
+  background: #f1f8f4;
+}
+
+.action-primary:disabled,
+.action-secondary:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.status-text {
+  min-height: 20px;
+  margin: 0;
+  color: #247e79;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.sources {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sources li {
+  display: grid;
+  grid-template-columns: minmax(85px, 0.35fr) minmax(0, 1fr);
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid #e2ece8;
+  border-radius: 8px;
+  background: #f8fbf9;
+  color: #718587;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.sources strong {
+  color: #173b43;
+}
+
+.results-panel {
+  min-height: 620px;
+}
+
+.empty-report {
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  text-align: center;
+}
+
+.empty-mark {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 22px;
+  border-radius: 20px;
+  background: #eaf5f0;
+  color: #247e79;
+  font-size: 27px;
+}
+
+.empty-report .med-step {
+  margin-bottom: 3px;
+}
+
+.empty-report h2 {
+  margin: 9px 0;
+}
+
+.empty-report > p {
+  max-width: 370px;
+}
+
+.empty-rule {
+  width: 120px;
+  display: flex;
+  justify-content: space-between;
+  margin: 28px 0;
+}
+
+.empty-rule span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #b9d8ca;
+}
+
+.empty-report .empty-footnote {
+  max-width: 330px;
+  color: #91a6a5;
+  font-size: 11px;
+}
+
+.report-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.report-intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.report-intro > div {
+  min-width: 0;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 100%;
+  padding: 7px 10px;
+  border-radius: 100px;
+  background: #e5f4ed;
+  color: #237b75;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.report-intro h2 {
+  margin: 13px 0 4px;
+  color: #173b43;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.report-intro p {
+  margin: 0;
+  color: #718587;
+  font-size: 12px;
+}
+
+.matterport-viewer,
+.room-measurements {
+  display: grid;
+  gap: 12px;
+}
+
+.viewer-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.viewer-heading h3 {
+  margin: 6px 0 0;
+  color: #173b43;
+  font-size: 14px;
+}
+
+.viewer-heading a {
+  flex: 0 0 auto;
+  color: #247e79;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.viewer-heading a:hover {
+  text-decoration: underline;
+}
+
+.viewer-frame {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  min-height: 300px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #17201f;
+}
+
+.viewer-frame iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.measurements-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  border-top: 1px solid #e2ece8;
+}
+
+.room-measurements table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  color: #718587;
+  font-size: 11px;
+}
+
+.room-measurements th,
+.room-measurements td {
+  padding: 9px 8px;
+  border-bottom: 1px solid #e7efeb;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.room-measurements thead th {
+  color: #496368;
+  font-size: 10px;
+}
+
+.room-measurements tbody th {
+  color: #173b43;
+  font-weight: 600;
+}
+
+.measurement-caveat {
+  margin: 0;
+  color: #8a7952;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.floor-plan {
+  width: 100%;
+  display: block;
+  padding: 10px;
+  border: 1px solid #e2ece8;
+  border-radius: 12px;
+  background: #f8fbf9;
+}
+
+.floor-plan text {
+  fill: #718587;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.plan-wall {
+  fill: none;
+  stroke: #a7beb4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 5px;
+}
+
+.plan-route {
+  fill: none;
+  stroke: #247e79;
+  stroke-dasharray: 8 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 5px;
+}
+
+.plan-dot {
+  fill: #247e79;
+  stroke: #fff;
+  stroke-width: 3px;
+}
+
+.plan-endpoint {
+  fill: #a17b39;
+}
+
+.report-summary {
+  padding: 17px;
+  border-left: 3px solid #247e79;
+  background: #f5faf8;
+}
+
+.report-summary p {
+  margin: 8px 0 0;
+  color: #496368;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.walkthrough-review {
+  padding: 16px 0;
+  border-top: 1px solid #e2ece8;
+  border-bottom: 1px solid #e2ece8;
+}
+
+.walkthrough-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.walkthrough-heading h3 {
+  margin: 6px 0 0;
+  color: #173b43;
+  font-size: 14px;
+}
+
+.walkthrough-count {
+  flex: 0 0 auto;
+  color: #718587;
+  font-size: 11px;
+}
+
+.walkthrough-summary,
+.measurement-review p,
+.walkthrough-limitations {
+  color: #496368;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.measurement-review {
+  padding: 11px 0;
+  border-top: 1px solid #edf2ef;
+  border-bottom: 1px solid #edf2ef;
+}
+
+.measurement-review p {
+  margin: 6px 0 0;
+}
+
+.walkthrough-findings {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.walkthrough-findings li {
+  display: grid;
+  gap: 4px;
+  padding: 11px 0;
+  border-top: 1px solid #edf2ef;
+}
+
+.walkthrough-findings strong,
+.walkthrough-questions > strong {
+  color: #173b43;
+  font-size: 12px;
+}
+
+.walkthrough-findings span,
+.walkthrough-questions li {
+  color: #718587;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.walkthrough-findings small {
+  color: #247e79;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+
+.walkthrough-questions ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
+
+.walkthrough-limitations {
+  margin-bottom: 0;
+  color: #8a7952;
+}
+
+.observation-list > .eyebrow,
+.confirm-panel > .eyebrow {
+  display: block;
+  margin-bottom: 9px;
+}
+
+.observation {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 10px;
+  padding: 13px 0;
+  border-top: 1px solid #e7efeb;
+}
+
+.observation-index {
+  color: #91a6a5;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.observation h3 {
+  margin: 0 0 4px;
+  color: #173b43;
+  font-size: 13px;
+}
+
+.observation p {
+  margin: 0;
+  color: #718587;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.confirm-panel {
+  padding: 17px;
+  border: 1px solid #f0e5c7;
+  border-radius: 12px;
+  background: #fdf9ef;
+}
+
+.confirm-panel .eyebrow {
+  color: #766b49;
+}
+
+.confirm-panel ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #766b49;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.confirm-panel li + li {
+  margin-top: 7px;
+}
+
+.review-caveat {
+  margin: 0;
+  color: #8a7952;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.site-footer {
+  padding: 30px 20px;
+  background: #173b43;
+  color: #c2d6d3;
+  font-size: 12px;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .welcome h1 {
+    font-size: 50px;
+  }
+
+  .welcome-mark {
+    width: 170px;
+    height: 170px;
+  }
+
+  .welcome-mark span {
+    width: 54px;
+    height: 54px;
+  }
+
+  .audit-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .results-panel {
+    min-height: 0;
+  }
+
+  .empty-report {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 700px) {
+  .navbar {
+    min-height: 64px;
+    padding: 16px 20px;
+  }
+
+  .nav-label {
+    display: none;
+  }
+
+  .welcome {
+    min-height: 0;
+    padding: 70px 24px;
+  }
+
+  .welcome h1 {
+    font-size: 42px;
+  }
+
+  .welcome-mark {
+    display: none;
+  }
+
+  .tools-section {
+    padding: 56px 20px 70px;
+  }
+
+  .section-heading h2 {
+    font-size: 28px;
+  }
+
+  .tool-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tool-card {
+    min-height: 260px;
+  }
+
+  .tool-page {
+    padding: 26px 18px 52px;
+  }
+
+  .workspace-heading h1 {
+    font-size: 31px;
+  }
+
+  .workspace-seal {
+    width: 68px;
+    height: 68px;
+  }
+
+  .med-panel {
+    padding: 20px;
+  }
+
+  .viewer-heading {
+    align-items: flex-start;
+  }
+
+  .viewer-frame {
+    aspect-ratio: 4 / 3;
+    min-height: 280px;
+  }
+}
+
+@media (max-width: 420px) {
+  .welcome h1 {
+    font-size: 36px;
+  }
+
+  .workspace-seal {
+    display: none;
+  }
+
+  .audit-actions > button {
+    flex: 1 1 100%;
+  }
+
+  .report-intro {
+    flex-direction: column;
+  }
+}
+
+.card-link {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* 01 â€” Access Scan: cornflower blue + sage */
+
+.tool-card:nth-child(1) {
+  --card-shadow: #a9c9dc;
+  --tape: #739acb;
+  background: #e4eff6;
+  border-color: #b5cedd;
+}
+
+.tool-card:nth-child(1) .card-icon {
+  background: #c1d9e8;
+  color: #426d96;
+}
+
+.tool-card:nth-child(1) .card-link {
+  color: #426d96;
+}
+
+/* 02 â€” Medication Reader: peach + golden yellow */
+
+.tool-card:nth-child(2) {
+  --card-shadow: #e7c49f;
+  --tape: #e8b84f;
+  background: #f9e8d9;
+  border-color: #eacbb4;
+}
+
+.tool-card:nth-child(2) .card-icon {
+  background: #f0c9b7;
+  color: #a65e48;
+}
+
+.tool-card:nth-child(2) .card-link {
+  color: #a65e48;
+}
+
+/* 03 â€” Symptom Journal: dusty pink + sage */
+
+.tool-card:nth-child(3) {
+  --card-shadow: #d9b5c3;
+  --tape: #85a98a;
+  background: #f3e2e8;
+  border-color: #e3c3d0;
+}
+
+.tool-card:nth-child(3) .card-icon {
+  background: #e8c3d1;
+  color: #a65e79;
+}
+
+.tool-card:nth-child(3) .card-link {
+  color: #a65e79;
+}
+
+/* 04 â€” Visit Packet: lavender + cornflower */
+
+.tool-card:nth-child(4) {
+  --card-shadow: #c4b6dc;
+  --tape: #aa83c8;
+  background: #eae4f5;
+  border-color: #d0c2e6;
+}
+
+.tool-card:nth-child(4) .card-icon {
+  background: #d5c7e9;
+  color: #7861a0;
+}
+
+.tool-card:nth-child(4) .card-link {
+  color: #7861a0;
+}
+
+/* Responsive layout */
+
+@media (max-width: 850px) {
+  .tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .tool-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .tool-card {
+    min-height: 290px;
+    padding: 25px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .tool-card,
+  .card-illustration {
+    transition: none;
+  }
+}
+
+/* Visit Packet feature */
+.packet-feature {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  width: 100%;
+  margin-top: 24px;
+  padding: 36px 40px;
+  border: 1px solid rgba(167,139,250,.22);
+  border-radius: 18px;
+  background: linear-gradient(115deg, #111b38, #30336f 60%, #6651b4);
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 16px 35px rgba(48,51,111,.14);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.packet-feature:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 23px 45px rgba(48,51,111,.2);
+}
+.packet-feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 65px;
+  height: 65px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.11);
+  color: #c5b5ff;
+  font-size: 30px;
+}
+.packet-feature-content { display: flex; flex: 1; flex-direction: column; gap: 9px; min-width: 0; }
+.packet-feature-label { color: #c5b5ff; font-size: 10px; font-weight: 800; letter-spacing: .16em; }
+.packet-feature-content strong {
+  color: #fff;
+  font-family: var(--font-heading, 'Manrope', sans-serif);
+  font-size: clamp(21px, 2.7vw, 29px);
+  letter-spacing: -.035em;
+  line-height: 1.3;
+}
+.packet-feature-content > span:last-child { color: #e0e4fa; font-size: 13px; line-height: 1.7; }
+.packet-feature-link { color: #d1c4ff; font-size: 13px; font-weight: 800; white-space: nowrap; }
+
+/* Tool page shell */
+.tool-page { max-width: 1100px; min-height: 70vh; margin: 0 auto; padding: 42px 24px 75px; }
+.tool-page > h1 { color: #111b38; font-size: clamp(32px, 4vw, 46px); }
+.tool-page > p { color: #66728b; }
+.back-button {
+  margin-bottom: 24px;
+  padding: 8px 0;
+  border: 0;
+  background: transparent;
+  color: #5165e8;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.back-button:hover { color: #303ba9; }
+.coming-soon {
+  margin-top: 40px;
+  padding: 50px 30px;
+  border: 1px solid #e4e8f4;
+  border-radius: 18px;
+  background: #fff;
+  text-align: center;
+}
+.coming-soon p { color: #66728b; }
+.site-footer {
+  padding: 31px 20px;
+  background: #111b38;
+  color: #aeb9d8;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: .02em;
+}
+
+/* Accessible focus */
+.brand:focus-visible,
+.explore-button:focus-visible,
+.tool-card:focus-visible,
+.packet-feature:focus-visible,
+.back-button:focus-visible {
+  outline: 3px solid #a78bfa;
+  outline-offset: 4px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .tool-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .packet-feature { flex-wrap: wrap; }
+  .packet-feature-link { width: 100%; }
+}
+@media (max-width: 760px) {
+  .navbar { padding: 19px 22px; }
+  .nav-label { display: none; }
+  .welcome { padding: 76px 20px 76px; }
+  .welcome h1 { font-size: clamp(39px, 9vw, 62px); letter-spacing: -.05em; }
+  .welcome > p { font-size: 15px; }
+  .hero-dashboard { margin-top: 48px; padding: 20px; }
+  .dashboard-preview-grid { grid-template-columns: 1fr; }
+  .dashboard-preview-footer { flex-direction: column; align-items: flex-start; }
+  .tools-section { padding: 65px 20px 75px; }
+  .tool-page { padding: 28px 20px 60px; }
+}
+@media (max-width: 600px) {
+  .tool-grid { grid-template-columns: 1fr; }
+  .tool-card { min-height: 270px; }
+  .hero-pillars { gap: 9px; margin-top: 36px; }
+  .hero-pillar { min-width: 0; padding: 9px 12px; }
+  .packet-feature { gap: 16px; padding: 26px 23px; }
+  .packet-feature-icon { width: 52px; height: 52px; }
+  .section-heading h2 { font-size: 31px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .explore-button, .tool-card, .packet-feature { transition: none; }
+  .explore-button:hover, .tool-card:hover, .packet-feature:hover { transform: none; }
+}
+
+/* =====================================
+   APPOINTMENT WORKSPACE PREVIEW
+   ===================================== */
+
+/* Appointment overview panel */
+.dashboard-appointment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 26px 30px;
+  margin-bottom: 20px;
+  background: #F4F6FC;
+  border: 1px solid #E5E9F5;
+  border-radius: 16px;
+}
+
+.dashboard-appointment-label {
+  display: block;
+  color: #6B65C5;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.dashboard-appointment h4 {
+  margin: 10px 0 6px;
+  color: #111B38;
+  font-size: 22px;
+  letter-spacing: -0.7px;
+}
+
+.dashboard-appointment p {
+  margin: 0;
+  color: #66728B;
+  font-size: 13px;
+}
+
+.dashboard-appointment-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  background: #E8E5FF;
+  border-radius: 14px;
+  color: #8063D8;
+  font-size: 26px;
+}
+
+/* Smaller dashboard status cards */
+.dashboard-preview-card {
+  gap: 10px;
+  padding: 22px;
+}
+
+.dashboard-preview-card strong {
+  font-size: 16px;
+}
+
+.dashboard-status {
+  font-size: 12px;
+  color: #66728B;
+}
+
+/* Visit preparation progress */
+.dashboard-progress {
+  margin-top: 20px;
+  padding: 24px 26px;
+  background: #FFFFFF;
+  border: 1px solid #E6EAF3;
+  border-radius: 16px;
+}
+
+.dashboard-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.dashboard-progress-header strong {
+  color: #111B38;
+  font-size: 14px;
+}
+
+.dashboard-progress-header span {
+  color: #8A93AB;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.dashboard-progress-track {
+  height: 7px;
+  background: #E9ECF7;
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.dashboard-progress-fill {
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(90deg, #5165E8, #A78BFA);
+  border-radius: 100px;
+}
+
+.dashboard-progress p {
+  margin: 14px 0 0;
+  color: #66728B;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .dashboard-appointment {
+    padding: 20px;
+  }
+
+  .dashboard-appointment h4 {
+    font-size: 19px;
+  }
+
+  .dashboard-appointment-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .dashboard-progress {
+    padding: 20px;
+  }
+
+  .dashboard-progress-header {
+    flex-wrap: wrap;
+  }
+}
+
+/* THREE DOORS â€” EDITORIAL HERO LAYOUT */
+
+.hero-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 48px;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  min-width: 0;
+}
+
+.hero-content h1 {
+  font-size: clamp(42px, 4.5vw, 72px);
+  line-height: 1.12;
+  text-align: left;
+}
+
+.hero-content p {
+  text-align: left;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.hero-content .explore-button {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.hero-content .hero-pillars {
+  justify-content: flex-start;
+}
+
+.hero-artwork {
+  width: 100%;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Keep the layout readable on smaller screens */
+
+@media (max-width: 850px) {
+  .hero-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .hero-content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-content h1,
+  .hero-content p {
+    text-align: center;
+  }
+
+  .hero-content .hero-pillars {
+    justify-content: center;
+  }
+
+  .hero-artwork {
+    min-height: 250px;
+  }
+}
+/* Hero description text */
+
+.hero-content p {
+  color: #DCE2F2;
+}
+.hero-illustration {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Hand-drawn animated sparkles */
+
+.hero-artwork {
+  position: relative;
+}
+
+.sparkle {
+  position: absolute;
+  color: #D9B8FF;
+  font-size: 30px;
+  pointer-events: none;
+  animation: sparkle-twinkle 3s ease-in-out infinite;
+}
+
+.sparkle-one {
+  top: 12%;
+  left: 15%;
+  font-size: 28px;
+}
+
+.sparkle-two {
+  top: 20%;
+  right: 8%;
+  color: #FFF0C9;
+  font-size: 38px;
+  animation-delay: 1s;
+}
+
+.sparkle-three {
+  bottom: 15%;
+  right: 15%;
+  font-size: 22px;
+  animation-delay: 2s;
+}
+
+@keyframes sparkle-twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8) rotate(-10deg);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(10deg);
+  }
+}
+
+/* Keep animations accessible */
+@media (prefers-reduced-motion: reduce) {
+  .sparkle {
+    animation: none;
+    opacity: 0.8;
+  }
+}
+.welcome .hero-dashboard {
+  width: min(100%, 1050px);
+  margin-top: 66px;
+  padding: 32px;
+  border: 1px solid #e5def8;
+  border-radius: 28px;
+
+  background: linear-gradient(
+    145deg,
+    #ffffff 0%,
+    #faf8ff 65%,
+    #f4f0ff 100%
+  );
+
+  box-shadow:
+    0 30px 75px rgba(0, 0, 0, 0.18),
+    0 8px 24px rgba(125, 100, 190, 0.10);
+
+  color: #111b38;
+  text-align: left;
+}
+
+/* Dashboard header alignment */
+
+.dashboard-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.dashboard-demo {
+  margin-left: auto;
+  white-space: nowrap;
+}
+/* Dashboard card micro-animations */
+
+@media (prefers-reduced-motion: no-preference) {
+  .dashboard-preview-card {
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  .dashboard-preview-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(93, 76, 157, 0.13);
+    border-color: rgba(155, 130, 230, 0.35);
+  }
+
+  .dashboard-preview-card:hover .dashboard-preview-icon {
+    transform: scale(1.15) rotate(-8deg);
+  }
+
+  .dashboard-preview-icon {
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+}
+/* Keep custom tool illustrations inside their cards */
+
+.card-artwork {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.card-illustration {
+  display: block;
+  width: 100%;
+   max-width: 210px;
+  height: 165px;
+  object-fit: contain;
+  transition: transform 0.35s ease;
+}
+.access-progress {
+  margin: 22px 0;
+}
+
+.access-progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: #626b91;
+}
+
+.access-progress-track {
+  height: 8px;
+  background: #ece9f8;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.access-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8580ed, #b58bea);
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.access-check-item {
+  cursor: pointer;
+}
+
+.access-check-item input {
+  accent-color: #8174d9;
+  width: 17px;
+  height: 17px;
+}
+
+.access-check-item.is-checked {
+  background: #f1effb;
+  border-radius: 10px;
+}
+/* THREE DOORS â€” DYNAMIC DASHBOARD POLISH */
+
+.dashboard-progress-fill {
+  height: 100%;
+  border-radius: 20px;
+  background: linear-gradient(
+    90deg,
+    #9580e8,
+    #c4a5f3
+  );
+  transition: width 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.dashboard-preview-card {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.dashboard-preview-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(30, 25, 75, 0.09);
+}
+
+.dashboard-status {
+  transition: color 0.2s ease;
+}
+
+.dashboard-progress-header span {
+  color: #8063D8;
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-progress-fill,
+  .dashboard-preview-card {
+    transition: none;
+  }
+}
+/* =========================================
+   THREE DOORS â€” FINAL HERO EXPERIENCE
+   ========================================= */
+
+.welcome {
+  padding: 95px 5% 85px;
+  background:
+    radial-gradient(
+      ellipse at 78% 35%,
+      rgba(151, 125, 225, 0.22),
+      transparent 42%
+    ),
+    radial-gradient(
+      ellipse at 12% 85%,
+      rgba(104, 117, 190, 0.16),
+      transparent 38%
+    ),
+    linear-gradient(
+      135deg,
+      #101831 0%,
+      #171e42 55%,
+      #292653 100%
+    );
+}
+
+/* Hero layout */
+
+.hero-layout {
+  max-width: 1380px;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 55px;
+  align-items: center;
+}
+
+/* Small brand label */
+
+.hero-content .logo {
+  display: inline-block;
+  color: #c6b4f5;
+  font-size: 11px;
+  letter-spacing: 3px;
+  margin-bottom: 25px;
+}
+
+/* Main headline */
+
+.hero-content h1 {
+  max-width: 680px;
+  color: #ffffff;
+  font-family: Georgia, serif;
+  font-size: clamp(43px, 5vw, 72px);
+  font-weight: 400;
+  letter-spacing: -2px;
+  line-height: 1.12;
+}
+
+/* Lavender headline emphasis */
+
+.hero-highlight {
+  background: linear-gradient(
+    100deg,
+    #c9b5ff,
+    #e3c8e5,
+    #a9b8f5
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-style: italic;
+}
+
+/* Supporting text */
+
+.hero-content p {
+  max-width: 540px;
+  margin: 25px 0 30px;
+  color: #d5d9ed;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+/* Explore button */
+
+.hero-content .explore-button {
+  padding: 17px 30px;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 13px;
+  background: linear-gradient(
+    110deg,
+    #8068cf,
+    #a58adf
+  );
+  color: white;
+  box-shadow: 0 12px 30px rgba(91, 66, 165, 0.25);
+  transition: all 0.25s ease;
+}
+
+.hero-content .explore-button:hover {
+  background: linear-gradient(
+    110deg,
+    #927cdd,
+    #b49be9
+  );
+  transform: translateY(-3px);
+  box-shadow: 0 16px 35px rgba(120, 95, 195, 0.35);
+}
+
+/* Three brand pillars */
+
+.hero-content .hero-pillars {
+  gap: 12px;
+  margin-top: 38px;
+}
+
+.hero-pillar {
+  min-width: 125px;
+  padding: 12px 15px;
+  border: 1px solid rgba(211, 196, 255, 0.19);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.055);
+  backdrop-filter: blur(12px);
+  transition: all 0.25s ease;
+}
+
+.hero-pillar:hover {
+  background: rgba(183, 160, 255, 0.13);
+  border-color: rgba(211, 196, 255, 0.4);
+  transform: translateY(-3px);
+}
+
+.hero-pillar-icon {
+  background: rgba(177, 153, 241, 0.17);
+  color: #d1c0ff;
+}
+
+/* Doorway artwork */
+
+.hero-artwork {
+  position: relative;
+  min-height: 440px;
+  isolation: isolate;
+}
+
+.hero-artwork::before {
+  content: "";
+  position: absolute;
+  width: 78%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(174, 147, 239, 0.20),
+    rgba(174, 147, 239, 0.04) 55%,
+    transparent 75%
+  );
+  filter: blur(12px);
+  z-index: -1;
+}
+
+.hero-illustration {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 680px;
+  max-height: 500px;
+  object-fit: contain;
+  filter: drop-shadow(
+    0 20px 35px rgba(5, 8, 25, 0.22)
+  );
+  transition: transform 0.5s ease;
+}
+
+.hero-artwork:hover .hero-illustration {
+  transform: translateY(-5px);
+}
+
+/* Decorative sparkles */
+
+.sparkle {
+  z-index: 2;
+  color: #d4c2ff;
+  text-shadow: 0 0 18px rgba(199, 177, 255, 0.45);
+}
+
+/* Responsive adjustments */
+
+@media (max-width: 850px) {
+  .welcome {
+    padding: 75px 24px 70px;
+  }
+
+  .hero-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .hero-content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-content h1,
+  .hero-content p {
+    text-align: center;
+  }
+
+  .hero-artwork {
+    min-height: 280px;
+  }
+
+  .hero-illustration {
+    max-height: 350px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-content h1 {
+    font-size: clamp(39px, 10vw, 55px);
+    letter-spacing: -1.5px;
+  }
+
+  .hero-content .hero-pillars {
+    justify-content: center;
+  }
+
+  .hero-pillar {
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-pillar,
+  .hero-content .explore-button,
+  .hero-illustration {
+    transition: none;
+  }
+
+  .hero-pillar:hover,
+  .hero-illustration:hover {
+    transform: none;
+  }
+}
+
+/* =====================================
+   THREE DOORS â€” MINT VISIT PACKET CARD
+   ===================================== */
+
+.tool-card:nth-child(4) {
+  background: #EAF5EF;
+  border: 1px solid #D5E9DD;
+  transition: all 0.3s ease;
+}
+
+.tool-card:nth-child(4):hover {
+  background: #E1F0E7;
+  border-color: #BBDAC8;
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(57, 122, 98, 0.10);
+}
+
+.tool-card:nth-child(4) .card-link {
+  color: #397A62;
+}
+/* =====================================
+   THREE DOORS â€” PREMIUM TOOL CARDS
+   ===================================== */
+
+/* Consistent card appearance */
+.tool-card {
+  min-height: 340px;
+  padding: 28px;
+  border-radius: 22px;
+  border-width: 1px;
+  box-shadow: 0 8px 24px rgba(17, 27, 56, 0.035);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Elegant hover effect */
+.tool-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 18px 38px rgba(17, 27, 56, 0.09);
+}
+
+/* Illustration area */
+.card-artwork {
+  width: 100%;
+  min-height: 145px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+/* Custom illustrations */
+.card-illustration {
+  display: block;
+  width: 100%;
+  max-width: 190px;
+  height: 145px;
+  object-fit: contain;
+  transition: transform 0.35s ease;
+}
+
+.tool-card:hover .card-illustration {
+  transform: scale(1.06);
+}
+
+/* Card titles */
+.tool-card h3 {
+  margin-top: 14px;
+  font-size: 19px;
+  line-height: 1.35;
+}
+
+/* Card descriptions */
+.tool-card p {
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+/* Explore links */
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: gap 0.25s ease;
+}
+
+.tool-card:hover .card-link {
+  gap: 12px;
+}
+
+/* Mint visit packet */
+.tool-card:nth-child(4) {
+  background: #EAF5EF;
+  border-color: #D5E9DD;
+}
+
+.tool-card:nth-child(4):hover {
+  background: #E1F0E7;
+  border-color: #BBDAC8;
+}
+
+.tool-card:nth-child(4) .card-link {
+  color: #397A62;
+}
+
+/* Keyboard accessibility */
+.tool-card:focus-visible {
+  outline: 3px solid #9278D9;
+  outline-offset: 4px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .tool-card {
+    min-height: 310px;
+    padding: 24px;
+  }
+
+  .card-illustration {
+    max-width: 170px;
+    height: 130px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool-card,
+  .card-illustration,
+  .card-link {
+    transition: none;
+  }
+}
+/* Center the fourth tool card */
+@media (min-width: 900px) {
+  .tool-grid .tool-card:nth-child(4) {
+    grid-column: 2;
+  }
+}
+@media (min-width: 900px) {
+  .tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tool-grid .tool-card:nth-child(4) {
+    grid-column: auto;
+  }
+}
+/* Smooth hover animations for tool cards */
+
+.tool-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+@media (hover: hover) {
+  .tool-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(30, 35, 80, 0.14);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool-card {
+    transition: none;
+  }
+}
+/* Workspace footer spacing */
+
+.dashboard-preview-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dashboard-preview-footer span {
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .dashboard-preview-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+/* Gentle illustration movement on hover */
+
+@media (hover: hover) {
+  .tool-card:hover .card-illustration {
+    transform: translateY(-8px) scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-illustration {
+    transition: none;
+  }
+}
+/* Soft lavender glow behind hero illustration */
+
+.hero-artwork {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-artwork::before {
+  content: "";
+  position: absolute;
+  width: 85%;
+  height: 80%;
+  top: 10%;
+  left: 7.5%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(181, 145, 255, 0.20) 0%,
+    rgba(151, 117, 230, 0.09) 45%,
+    transparent 75%
+  );
+  filter: blur(35px);
+  z-index: -1;
+  pointer-events: none;
+}
+/* Gentle hover effect for workspace preview cards */
+
+.dashboard-preview-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+@media (hover: hover) {
+  .dashboard-preview-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(36, 40, 90, 0.10);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-preview-card {
+    transition: none;
+  }
+}
+/* Refined navigation bar */
+
+.navbar {
+  box-shadow: 0 4px 20px rgba(24, 32, 75, 0.05);
+}
+/* THREE DOORS â€” EDITORIAL PATIENT JOURNEY */
+
+.journey-section {
+  position: relative;
+  overflow: hidden;
+  padding: 100px 7%;
+  background: #f5f2ff;
+}
+
+.journey-heading {
+  max-width: 720px;
+  margin: 0 auto 65px;
+  text-align: center;
+}
+
+.journey-eyebrow {
+  color: #7661b5;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.journey-heading h2 {
+  margin: 22px 0;
+  color: #19203f;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: clamp(36px, 5vw, 58px);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.journey-heading h2 em {
+  color: #9273d0;
+  font-weight: 400;
+}
+
+.journey-heading p {
+  max-width: 520px;
+  margin: 0 auto;
+  color: #66708b;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* Three connected steps */
+
+.journey-steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.journey-steps::before {
+  content: "";
+  position: absolute;
+  top: 60px;
+  left: 12%;
+  right: 12%;
+  border-top: 2px dashed #cbb9f1;
+}
+
+.journey-step {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  padding: 35px 30px;
+  background: #fff;
+  border: 1px solid #e8dff9;
+  border-radius: 22px;
+  box-shadow: 0 12px 35px rgba(72, 51, 120, 0.05);
+}
+
+.journey-number {
+  display: block;
+  color: #e2d7f8;
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 76px;
+  line-height: 1;
+}
+
+.journey-symbol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 43px;
+  height: 43px;
+  margin: 18px 0 12px;
+  border-radius: 50%;
+  background: #f0eaff;
+  color: #9472d4;
+  font-size: 23px;
+}
+
+.journey-step h3 {
+  margin: 5px 0 10px;
+  color: #19203f;
+  font-size: 21px;
+  font-weight: 750;
+}
+
+.journey-step p {
+  margin: 0;
+  color: #69738b;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+/* Mobile layout */
+
+@media (max-width: 768px) {
+  .journey-section {
+    padding: 70px 22px;
+  }
+
+  .journey-heading {
+    margin-bottom: 38px;
+  }
+
+  .journey-steps {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .journey-steps::before {
+    display: none;
+  }
+
+  .journey-step {
+    padding: 28px;
+  }
+
+  .journey-number {
+    font-size: 60px;
+  }
+}
+/* Editorial heading with artistic underline */
+
+.tools-editorial-title span {
+  position: relative;
+  display: inline-block;
+  z-index: 0;
+}
+
+.tools-editorial-title span::after {
+  content: "";
+  position: absolute;
+  left: 2%;
+  bottom: -7px;
+  width: 96%;
+  height: 10px;
+  background: #c9b4ff;
+  border-radius: 50% 30% 60% 40%;
+  transform: rotate(-1.5deg);
+  opacity: 0.75;
+  z-index: -1;
+}
+/* Artistic paper-cutout background details */
+
+.journey-section::before {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  top: -85px;
+  left: -95px;
+  border-radius: 38% 62% 65% 35%;
+  background: #e4d8ff;
+  transform: rotate(-25deg);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.journey-section::after {
+  content: "";
+  position: absolute;
+  width: 170px;
+  height: 170px;
+  right: -65px;
+  bottom: -70px;
+  border-radius: 65% 35% 42% 58%;
+  background: #f7dce9;
+  transform: rotate(20deg);
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.journey-heading,
+.journey-steps {
+  position: relative;
+  z-index: 1;
+}
+/* HERO â€” scrapbook illustration treatment */
+
+/* THREE DOORS â€” editorial doorway treatment */
+
+.hero-artwork {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+}
+
+/* Layered periwinkle scrapbook paper */
+.hero-artwork::before {
+  content: "";
+  position: absolute;
+  width: 79%;
+  height: 76%;
+  top: 12%;
+  left: 10%;
+
+  background: #596FA8;
+  border: 2px solid #A9B9DF;
+  border-radius: 48% 52% 44% 56% / 52% 43% 57% 48%;
+
+  transform: rotate(-4deg);
+  z-index: 0;
+
+  box-shadow: 7px 9px 0 #8C82BD;
+}
+
+/* Preserve the original doorway */
+.hero-illustration {
+  position: relative;
+  z-index: 1;
+  width: 108%;
+  max-width: 720px;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 12px rgba(8, 12, 35, .18));
+  transition: transform .4s ease;
+}
+
+/* Small handmade editorial annotation */
+.hero-artwork::after {
+  content: "a little more clarity ✳";
+  position: absolute;
+  bottom: 7%;
+  left: 4%;
+
+  color: #B8CDBA;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 16px;
+
+  transform: rotate(-7deg);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Cool-toned decorative accents */
+.hero-artwork .sparkle {
+  z-index: 2;
+  text-shadow: none;
+}
+
+.sparkle-one {
+  color: #C5A9EA;
+}
+
+.sparkle-two {
+  color: #9CB9D9;
+}
+
+.sparkle-three {
+  color: #A8C7B0;
+}
+
+/* Gentle illustration movement */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-illustration {
+    animation: doorway-arrive .9s ease-out both;
+  }
+
+  @keyframes doorway-arrive {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 850px) {
+  .hero-artwork::before {
+    width: 76%;
+    height: 72%;
+    left: 12%;
+  }
+
+  .hero-illustration {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .hero-artwork::after {
+    bottom: 2%;
+    left: 8%;
+  }
+}
+
+/* Hand-drawn floral scrapbook details */
+
+.hero-artwork::after {
+  content: "\273F";
+  position: absolute;
+  bottom: 14%;
+  left: 7%;
+  color: #e8b84f;
+  font-size: 38px;
+  transform: rotate(-18deg);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Give existing sparkles more color */
+
+.sparkle-one {
+  color: #d98a70;
+}
+
+.sparkle-two {
+  color: #e8b84f;
+}
+
+.sparkle-three {
+  color: #85a98a;
+}
+/* THREE DOORS â€” illustrated workspace journal */
+
+.welcome .hero-dashboard {
+  background: #fffaf1;
+  border: 2px solid #e8d9c7;
+  border-radius: 18px 18px 10px 18px;
+
+  box-shadow:
+    7px 8px 0 #d9c5ae,
+    0 18px 45px rgba(37, 54, 83, 0.10);
+
+  padding: 34px;
+}
+
+/* Workspace identity */
+
+.dashboard-brand {
+  color: #496d8c;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+.dashboard-demo {
+  background: #DCEBDD;
+  color: #496D50;
+  border: 1px solid #AFC9AE;
+  border-radius: 5px;
+}
+
+/* Editorial heading */
+
+.dashboard-heading {
+  padding: 8px 0 22px;
+  border-bottom: 1px dashed #d8cbb9;
+}
+
+.dashboard-heading > span {
+  color: #bd785f;
+}
+
+.dashboard-heading h3 {
+  color: #253653;
+}
+
+.dashboard-heading p {
+  color: #697386;
+  line-height: 1.8;
+}
+
+/* Individual journal cards */
+
+.dashboard-preview-card {
+  position: relative;
+  border: 1.5px solid rgba(37, 54, 83, .10);
+  border-radius: 10px 16px 10px 16px;
+  padding: 23px;
+  box-shadow: 3px 4px 0 rgba(37, 54, 83, .08);
+}
+
+.dashboard-access {
+  background: #dceaf2;
+  border-bottom: 4px solid #739acb;
+}
+
+.dashboard-medication {
+  background: #f8e5d8;
+  border-bottom: 4px solid #d98a70;
+}
+
+.dashboard-journal {
+  background: #e6eddf;
+  border-bottom: 4px solid #85a98a;
+}
+
+.dashboard-preview-icon {
+  font-size: 28px;
+}
+
+.dashboard-access .dashboard-preview-icon {
+  color: #496d8c;
+}
+
+.dashboard-medication .dashboard-preview-icon {
+  color: #b36e53;
+}
+
+.dashboard-journal .dashboard-preview-icon {
+  color: #64866a;
+}
+
+.dashboard-preview-label {
+  color: #526176;
+  letter-spacing: .12em;
+}
+
+.dashboard-preview-card strong {
+  color: #253653;
+}
+
+.dashboard-preview-card p {
+  color: #58657b;
+  line-height: 1.75;
+}
+
+.dashboard-preview-link {
+  color: #496d8c;
+  font-weight: 800;
+}
+
+/* Appointment progress â€” paper checklist */
+
+.dashboard-progress {
+  background: #f7f0e4;
+  border: 1px solid #e6d7bf;
+  border-left: 5px solid #e8b84f;
+  border-radius: 8px 14px 8px 14px;
+  box-shadow: 3px 4px 0 rgba(180, 150, 105, .12);
+}
+
+.dashboard-progress-header strong {
+  color: #253653;
+}
+
+.dashboard-progress-track {
+  height: 10px;
+  background: #e7dfd2;
+  border-radius: 3px;
+}
+
+.dashboard-progress-fill {
+  background: #739acb;
+  border-radius: 3px;
+}
+
+.dashboard-progress p {
+  color: #697386;
+  line-height: 1.7;
+}
+
+/* Workspace footer */
+
+.dashboard-preview-footer {
+  border-top: 1px dashed #d8cbb9;
+  color: #8a7867;
+}
+
+@media (max-width: 600px) {
+  .welcome .hero-dashboard {
+    padding: 22px 17px;
+  }
+}
+/* THREE DOORS â€” scrapbook card animations */
+
+/* Decorative illustrated stars */
+
+.dashboard-preview-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-preview-card::after {
+  content: "✳";
+  position: absolute;
+  top: 13px;
+  right: 16px;
+  font-size: 25px;
+  opacity: .75;
+  pointer-events: none;
+}
+
+.dashboard-access::after {
+  color: #739acb;
+}
+
+.dashboard-medication::after {
+  color: #d98a70;
+}
+
+.dashboard-journal::after {
+  color: #85a98a;
+}
+
+/* Gentle interaction */
+
+@media (prefers-reduced-motion: no-preference) {
+  .dashboard-preview-card {
+    transition:
+      transform .3s ease,
+      box-shadow .3s ease;
+  }
+
+  .dashboard-preview-card:hover {
+    transform: translateY(-7px) rotate(-1deg);
+    box-shadow: 6px 8px 0 rgba(37, 54, 83, .12);
+  }
+
+  .dashboard-preview-icon {
+    transition: transform .35s ease;
+  }
+
+  .dashboard-preview-card:hover .dashboard-preview-icon {
+    transform: rotate(-12deg) scale(1.16);
+  }
+
+  .dashboard-preview-card::after {
+    transition: transform .4s ease;
+  }
+
+  .dashboard-preview-card:hover::after {
+    transform: rotate(35deg) scale(1.25);
+  }
+}
+/* Illustrated scrapbook section divider */
+
+.scrapbook-divider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+
+  min-height: 100px;
+  background: #faf6ed;
+  overflow: hidden;
+}
+
+.scrapbook-divider::before,
+.scrapbook-divider::after {
+  content: "";
+  width: 18%;
+  height: 2px;
+  background: #c6d5c1;
+  border-radius: 50%;
+}
+
+.divider-flower {
+  color: #d98a70;
+  font-size: 34px;
+  display: inline-block;
+}
+
+.divider-flower-blue {
+  color: #739acb;
+  font-size: 40px;
+}
+
+.divider-flower-yellow {
+  color: #e8b84f;
+}
+
+.divider-star {
+  color: #d98a70;
+  font-size: 19px;
+}
+
+.divider-star-green {
+  color: #85a98a;
+}
+
+/* Gentle entrance animation */
+
+@media (prefers-reduced-motion: no-preference) {
+  .scrapbook-divider span {
+    animation: dividerAppear .8s ease both;
+  }
+
+  .scrapbook-divider span:nth-child(2) {
+    animation-delay: .12s;
+  }
+
+  .scrapbook-divider span:nth-child(3) {
+    animation-delay: .2s;
+  }
+
+  .scrapbook-divider span:nth-child(4) {
+    animation-delay: .28s;
+  }
+
+  .scrapbook-divider span:nth-child(5) {
+    animation-delay: .36s;
+  }
+
+  @keyframes dividerAppear {
+    from {
+      opacity: 0;
+      transform: translateY(9px) rotate(-12deg);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) rotate(0);
+    }
+  }
+}
+/* Full-width sage green Explore Our Tools background */
+
+.tools-section {
+  background: #E2EDDF !important;
+  box-shadow: 0 0 0 100vmax #E2EDDF;
+  clip-path: inset(0 -100vmax);
+}
+/* Three Doors â€” handmade scrapbook workspace */
+
+.welcome .hero-dashboard {
+  position: relative;
+  isolation: isolate;
+  background: #F5F1FA;
+  border: 1px solid #C9BBDD;
+  border-radius: 5px 17px 8px 13px;
+
+  box-shadow:
+    5px 6px 0 #D8CDE8,
+    10px 12px 0 rgba(83, 69, 120, 0.08);
+}
+
+/* Subtle paper grain */
+.welcome .hero-dashboard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .22;
+  border-radius: inherit;
+
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(105, 88, 140, .035) 4px
+    );
+}
+
+/* Handmade paper divider */
+.welcome .hero-dashboard .dashboard-heading {
+  border-bottom: 1px dashed #B9AACF;
+  padding-bottom: 25px;
+}
+
+/* Paper-like workspace labels */
+.welcome .hero-dashboard .dashboard-demo {
+  background: #DFE9F7;
+  color: #526E9B;
+  border: 1px solid #B7C8E2;
+  border-radius: 3px;
+  transform: rotate(2deg);
+}
+/* THREE DOORS â€” individual editorial card layouts */
+
+.tool-card {
+  display: grid;
+  grid-template-columns: 1fr 0.9fr;
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-areas:
+    "number number"
+    "title artwork"
+    "description artwork"
+    "link artwork";
+  gap: 12px 18px;
+  min-height: 350px;
+  padding: 28px;
+  border-radius: 5px 24px 8px 20px;
+  box-shadow: 3px 5px 0 var(--card-shadow);
+  transform: none !important;
+  overflow: hidden;
+}
+
+/* Remove the identical tape from every card */
+.tool-card::before {
+  display: none;
+}
+
+.card-number {
+  grid-area: number;
+}
+
+.card-artwork {
+  grid-area: artwork;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.card-illustration {
+  width: 100%;
+  max-width: 230px;
+  height: 215px;
+  object-fit: contain;
+}
+
+.tool-card h3 {
+  grid-area: title;
+  align-self: end;
+  margin: 0;
+}
+
+.tool-card p {
+  grid-area: description;
+  margin: 0;
+}
+
+.tool-card .card-link {
+  grid-area: link;
+  align-self: end;
+}
+
+/* ACCESS â€” spacious blue composition */
+.tool-card-access {
+  grid-template-areas:
+    "number number"
+    "title artwork"
+    "description artwork"
+    "link artwork";
+  border-radius: 4px 28px 8px 24px;
+}
+
+/* MEDICATION â€” centered editorial composition */
+.tool-card-medication {
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "number number"
+    "artwork artwork"
+    "title title"
+    "description description"
+    "link link";
+  min-height: 390px;
+  border-radius: 24px 5px 24px 8px;
+}
+
+.tool-card-medication .card-artwork {
+  max-height: 175px;
+}
+
+.tool-card-medication .card-illustration {
+  height: 175px;
+}
+
+/* JOURNAL â€” illustration on the left */
+.tool-card-journal {
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "number number"
+    "artwork title"
+    "artwork description"
+    "artwork link";
+  border-radius: 24px 8px 5px 26px;
+}
+
+/* VISIT PACKET â€” paper-like composition */
+.tool-card-packet {
+  grid-template-areas:
+    "number number"
+    "title artwork"
+    "description artwork"
+    "link artwork";
+  border-radius: 8px 24px 5px 22px;
+}
+
+.tool-card-packet .card-illustration {
+  max-width: 250px;
+}
+
+/* Gentle interaction */
+@media (prefers-reduced-motion: no-preference) {
+  .tool-card {
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+
+  .tool-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 5px 9px 0 var(--card-shadow);
+  }
+
+  .card-illustration {
+    transition: transform .3s ease;
+  }
+
+  .tool-card:hover .card-illustration {
+    transform: rotate(-3deg) scale(1.04);
+  }
+}
+
+@media (max-width: 700px) {
+  .tool-card,
+  .tool-card-access,
+  .tool-card-medication,
+  .tool-card-journal,
+  .tool-card-packet {
+    grid-template-columns: 1fr 1fr;
+    min-height: 310px;
+  }
+}
+/* ==========================================
+   THREE DOORS â€” FINAL EDITORIAL ART DIRECTION
+   ========================================== */
+
+:root {
+  --td-navy: #171d3b;
+  --td-ink: #273657;
+  --td-lavender: #bca4e8;
+  --td-blue: #739acb;
+  --td-sage: #8eaf99;
+  --td-pink: #ce91ae;
+}
+
+/* HOMEPAGE HERO */
+
+.welcome {
+  padding: 95px 6% 85px;
+  background:
+    radial-gradient(ellipse at 78% 48%, rgba(103, 113, 180, .30), transparent 42%),
+    radial-gradient(ellipse at 12% 90%, rgba(126, 93, 174, .14), transparent 40%),
+    linear-gradient(125deg, #111831, #20264b 68%, #302b60);
+}
+
+.hero-layout {
+  max-width: 1400px;
+  grid-template-columns: 1.05fr .95fr;
+  gap: 35px;
+}
+
+.hero-content .logo {
+  color: #c6b4f5;
+  letter-spacing: .24em;
+}
+
+.hero-content h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(48px, 5.5vw, 79px);
+  line-height: 1.08;
+  letter-spacing: -.045em;
+}
+
+.hero-highlight {
+  background: linear-gradient(
+    100deg,
+    #d0b8fa,
+    #e5c5df,
+    #9dbce9
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.hero-content p {
+  max-width: 530px;
+  color: #d4d9eb;
+  line-height: 1.9;
+}
+
+.hero-content .explore-button {
+  background: linear-gradient(120deg, #7964bf, #a68bdc);
+  border-radius: 5px 16px 5px 16px;
+  box-shadow: 4px 5px 0 rgba(177, 155, 224, .25);
+}
+
+.hero-content .hero-pillars {
+  margin-top: 35px;
+}
+
+/* DOORWAY â€” KEEP AS THE SIGNATURE ARTWORK */
+
+.hero-artwork {
+  min-height: 470px;
+  overflow: visible;
+}
+
+.hero-artwork::before {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.025) 0px,
+      rgba(255,255,255,.025) 1px,
+      transparent 1px,
+      transparent 5px
+    ),
+    #526b9f;
+  border: 1px solid #a9b9df;
+  box-shadow: 7px 9px 0 #8c82bd;
+  border-radius: 48% 52% 44% 56% / 52% 43% 57% 48%;
+}
+
+.hero-illustration {
+  max-width: 730px;
+  max-height: 530px;
+}
+
+/* WORKSPACE â€” EDITORIAL PAPER */
+
+.welcome .hero-dashboard {
+  position: relative;
+  width: min(100%, 1100px);
+  margin-top: 85px;
+  padding: 42px;
+  border: 1px solid #d8cde8;
+  border-radius: 4px 24px 5px 22px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(90, 75, 120, .018) 0px,
+      rgba(90, 75, 120, .018) 1px,
+      transparent 1px,
+      transparent 5px
+    ),
+    #f7f3fa;
+  box-shadow: 8px 10px 0 rgba(190, 172, 216, .35);
+}
+
+.dashboard-topbar {
+  border-color: #ded7e9;
+}
+
+.dashboard-brand {
+  color: #3b527c;
+  font-family: Georgia, serif;
+}
+
+.dashboard-demo {
+  background: #e1e8f4;
+  color: #526c9a;
+  border: 1px solid #c0d0e4;
+}
+
+.dashboard-heading h3 {
+  font-family: Georgia, serif;
+  font-size: 32px;
+  color: #273657;
+}
+
+.dashboard-appointment {
+  border-radius: 4px 18px 4px 18px;
+  background: #e9e5f5;
+}
+
+.dashboard-access {
+  background: #dce8f3;
+}
+
+.dashboard-medication {
+  background: #e9dff3;
+}
+
+.dashboard-journal {
+  background: #f1dfe9;
+}
+
+.dashboard-progress {
+  background: #e1ebdf;
+  border-color: #c6d8c5;
+  border-radius: 5px 15px 5px 15px;
+}
+
+.dashboard-progress-fill {
+  background: linear-gradient(90deg, #7899c4, #91b59b);
+}
+
+/* SCRAPBOOK SECTION DIVIDER */
+
+.scrapbook-divider {
+  background: #f5f1f8;
+  padding: 30px 20px;
+}
+
+/* TOOLS â€” EDITORIAL PRESENTATION */
+
+.tools-section {
+  max-width: none;
+  padding: 100px max(6%, calc((100% - 1200px) / 2)) 110px;
+  background:
+    radial-gradient(circle at 5% 10%, rgba(187, 164, 232, .13), transparent 25%),
+    #e5ebdf;
+}
+
+.section-heading {
+  margin-bottom: 65px;
+}
+
+.section-heading .logo {
+  color: #a36e9b;
+}
+
+.section-heading h2 {
+  font-family: Georgia, serif;
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 500;
+  letter-spacing: -.045em;
+  color: #263653;
+}
+
+.section-heading p {
+  color: #61718a;
+}
+
+/* Preserve the individualized card compositions */
+
+.tool-grid {
+  max-width: 1120px;
+  margin: 0 auto;
+  gap: 35px 28px;
+}
+
+.tool-card {
+  min-height: 370px;
+  border-width: 1px;
+  box-shadow: 5px 7px 0 var(--card-shadow);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.tool-card-access {
+  background: #dce9f4;
+}
+
+.tool-card-medication {
+  background: #eee1f5;
+}
+
+.tool-card-journal {
+  background: #f2e0e9;
+}
+
+.tool-card-packet {
+  background: #dfebdf;
+}
+
+.tool-card h3 {
+  font-family: Georgia, serif;
+  font-weight: 600;
+}
+
+.tool-card:hover {
+  transform: translateY(-5px) rotate(0deg) !important;
+}
+
+/* REMOVE THE REPETITIVE EXTRA PACKET PROMOTION */
+
+.packet-feature {
+  display: none;
+}
+
+/* PATIENT JOURNEY â€” PRESENTATION STYLE */
+
+.journey-section {
+  padding: 110px 7%;
+  background: #f2edf9;
+}
+
+.journey-heading h2 {
+  font-family: Georgia, serif;
+  font-size: clamp(38px, 5vw, 62px);
+  color: #273657;
+  line-height: 1.15;
+}
+
+.journey-heading h2 em {
+  color: #9276c3;
+}
+
+.journey-steps {
+  gap: 25px;
+}
+
+.journey-step {
+  padding: 30px;
+  background: #e4eaf4;
+  border-radius: 4px 20px 5px 18px;
+  box-shadow: 4px 5px 0 #c9bddf;
+}
+
+.journey-step:nth-child(2) {
+  background: #eee0ed;
+  box-shadow: 4px 5px 0 #d6b8d0;
+}
+
+.journey-step:nth-child(3) {
+  background: #e0ebdf;
+  box-shadow: 4px 5px 0 #b8ceb8;
+}
+
+.journey-step h3 {
+  font-family: Georgia, serif;
+  color: #273657;
+}
+
+/* RESPONSIVE PRESENTATION */
+
+@media (max-width: 850px) {
+  .welcome {
+    padding: 65px 22px;
+  }
+
+  .hero-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-artwork {
+    min-height: 320px;
+  }
+
+  .welcome .hero-dashboard {
+    padding: 24px;
+    margin-top: 50px;
+  }
+
+  .tools-section {
+    padding: 75px 20px;
+  }
+
+  .journey-section {
+    padding: 75px 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-illustration {
+    animation: none;
+  }
+
+  .tool-card,
+  .hero-illustration {
+    transition: none;
+  }
+}
+/* =================================
+   THREE DOORS â€” SCRAPBOOK DETAILS
+   ================================= */
+
+/* Patterned washi tape */
+.tool-card::before {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--tape) 0px,
+    var(--tape) 7px,
+    rgba(255,255,255,.25) 7px,
+    rgba(255,255,255,.25) 10px
+  );
+  opacity: .9;
+}
+
+/* Slightly imperfect paper placement */
+.tool-card:nth-child(1) {
+  transform: rotate(-.5deg);
+}
+
+.tool-card:nth-child(2) {
+  transform: rotate(.6deg);
+}
+
+.tool-card:nth-child(3) {
+  transform: rotate(.4deg);
+}
+
+.tool-card:nth-child(4) {
+  transform: rotate(-.6deg);
+}
+
+/* Small handwritten notes */
+.tool-card:nth-child(3)::after {
+  content: "little reminders";
+  position: absolute;
+  top: 18px;
+  left: 24px;
+  color: #ad7294;
+  font-family: cursive;
+  font-size: 13px;
+  transform: rotate(-5deg);
+}
+
+.tool-card:nth-child(4)::after {
+  content: "take it with you";
+  position: absolute;
+  bottom: 18px;
+  right: 22px;
+  color: #648c78;
+  font-family: cursive;
+  font-size: 13px;
+  transform: rotate(4deg);
+}
+
+/* Paper-like workspace */
+.welcome .hero-dashboard {
+  background-color: #f7f3fa;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 27px,
+      rgba(116, 130, 170, .045) 28px
+    );
+}
+
+/* Handwritten section annotation */
+.section-heading {
+  position: relative;
+}
+
+.section-heading::after {
+  content: "a little preparation goes a long way";
+  display: inline-block;
+  margin-top: 20px;
+  padding: 9px 17px;
+  background: #f3dfe9;
+  color: #a46f91;
+  font-family: cursive;
+  font-size: 15px;
+  transform: rotate(-2deg);
+  box-shadow: 2px 3px 0 rgba(130, 100, 130, .12);
+}
+
+/* Paper-like section separation */
+.scrapbook-divider {
+  position: relative;
+  border-top: 1px dashed #c6b9d9;
+  border-bottom: 1px dashed #c6b9d9;
+}
+
+/* Keep the details subtle on smaller screens */
+@media (max-width: 600px) {
+  .tool-card:nth-child(n) {
+    transform: none;
+  }
+
+  .section-heading::after {
+    font-size: 12px;
+  }
+}
+
+/* ==========================================
+   THREE DOORS â€” FINAL SCRAPBOOK FINISH
+   CSS-only details; no Pinterest artwork used
+   ========================================== */
+
+:root {
+  --td-paper: #f8f4ec;
+  --td-tape-blue: #8eafd0;
+  --td-tape-pink: #d8a6bb;
+  --td-tape-sage: #a5bca0;
+  --td-tape-lilac: #b9a2d6;
+  --td-pencil: #8c789d;
+}
+
+/* Add a quiet paper grain without changing the card palette */
+.tool-card {
+  position: relative;
+  overflow: visible;
+  isolation: isolate;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(70, 66, 82, .018) 0,
+      rgba(70, 66, 82, .018) 1px,
+      transparent 1px,
+      transparent 5px
+    );
+}
+
+/* Re-enable the washi tape that earlier rules hid */
+.tool-card::before {
+  display: block;
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: -9px;
+  right: 28px;
+  width: 76px;
+  height: 21px;
+  border: 1px solid rgba(75, 75, 90, .08);
+  border-radius: 1px;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      var(--card-tape, var(--td-tape-blue)) 0,
+      var(--card-tape, var(--td-tape-blue)) 8px,
+      rgba(255,255,255,.24) 8px,
+      rgba(255,255,255,.24) 11px
+    );
+  opacity: .92;
+  transform: rotate(4deg);
+  clip-path: polygon(0 5%, 97% 0, 100% 92%, 3% 100%);
+  pointer-events: none;
+}
+
+/* Individual tape colors */
+.tool-card-access { --card-tape: var(--td-tape-blue); }
+.tool-card-medication { --card-tape: #e7bd69; }
+.tool-card-journal { --card-tape: var(--td-tape-pink); }
+.tool-card-packet { --card-tape: var(--td-tape-sage); }
+
+/* Keep the illustrations feeling like pasted-in paper pieces */
+.card-artwork {
+  position: relative;
+  isolation: isolate;
+}
+
+.card-artwork::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 78%;
+  height: 76%;
+  border-radius: 48% 52% 43% 57% / 54% 42% 58% 46%;
+  background: rgba(255, 255, 255, .38);
+  transform: rotate(-4deg);
+  pointer-events: none;
+}
+
+.tool-card-medication .card-artwork::before {
+  background: rgba(255, 255, 255, .42);
+  transform: rotate(3deg);
+}
+
+.tool-card-journal .card-artwork::before {
+  background: rgba(255, 255, 255, .34);
+  transform: rotate(-7deg);
+}
+
+.tool-card-packet .card-artwork::before {
+  background: rgba(255, 255, 255, .42);
+  transform: rotate(5deg);
+}
+
+/* Handwritten annotations: small accents, not extra headlines */
+.tool-card-journal::after {
+  content: "little reminders";
+  position: absolute;
+  z-index: 2;
+  top: 16px;
+  right: 20px;
+  color: #a46f91;
+  font-family: "Comic Sans MS", "Segoe Print", cursive;
+  font-size: 12px;
+  letter-spacing: .01em;
+  transform: rotate(4deg);
+  pointer-events: none;
+}
+
+.tool-card-packet::after {
+  content: "keep this close! ";
+  position: absolute;
+  z-index: 2;
+  right: 20px;
+  bottom: 16px;
+  color: #638a74;
+  font-family: "Comic Sans MS", "Segoe Print", cursive;
+  font-size: 12px;
+  transform: rotate(-3deg);
+  pointer-events: none;
+}
+
+/* Make the tool heading read like a presentation title */
+.section-heading {
+  position: relative;
+}
+
+.section-heading::after {
+  content: "a little preparation goes a long way";
+  display: inline-block;
+  margin-top: 19px;
+  padding: 8px 15px 9px;
+  border: 1px solid rgba(164, 111, 145, .16);
+  background: #f5e5eb;
+  color: #986b88;
+  box-shadow: 2px 3px 0 rgba(130, 100, 130, .10);
+  font-family: "Comic Sans MS", "Segoe Print", cursive;
+  font-size: 13px;
+  transform: rotate(-1.8deg);
+}
+
+/* Add a small collage-like detail to the section divider */
+.scrapbook-divider {
+  position: relative;
+  min-height: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(22px, 5vw, 58px);
+  border-top: 1px dashed #c8b9d4;
+  border-bottom: 1px dashed #c8b9d4;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.35), transparent 35%, rgba(255,255,255,.3)),
+    #f5f1f8;
+}
+
+.scrapbook-divider span {
+  display: inline-block;
+  line-height: 1;
+  text-shadow: 1px 2px 0 rgba(95, 82, 120, .08);
+}
+
+.scrapbook-divider .divider-flower {
+  color: #c88eaa;
+  font-size: 25px;
+  transform: rotate(-12deg);
+}
+
+.scrapbook-divider .divider-star {
+  color: #c59b52;
+  font-size: 19px;
+  transform: rotate(9deg);
+}
+
+.scrapbook-divider .divider-flower-blue {
+  color: #789bc2;
+  font-size: 28px;
+  transform: rotate(8deg);
+}
+
+.scrapbook-divider .divider-star-green {
+  color: #8ca88f;
+}
+
+.scrapbook-divider .divider-flower-yellow {
+  color: #d1a85d;
+}
+
+/* A subtle editorial finish for the journey cards */
+.journey-step {
+  position: relative;
+  border-radius: 5px 20px 6px 18px;
+}
+
+.journey-step::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 26px;
+  width: 58px;
+  height: 16px;
+  background: rgba(185, 162, 214, .72);
+  transform: rotate(-4deg);
+  clip-path: polygon(0 5%, 100% 0, 96% 100%, 4% 92%);
+  pointer-events: none;
+}
+
+.journey-step:nth-child(2)::before {
+  background: rgba(216, 166, 187, .75);
+  transform: rotate(3deg);
+}
+
+.journey-step:nth-child(3)::before {
+  background: rgba(165, 188, 160, .8);
+  transform: rotate(-2deg);
+}
+
+/* Keep the collage details tidy on phones */
+@media (max-width: 600px) {
+  .tool-card::before {
+    right: 18px;
+    width: 62px;
+    height: 18px;
+  }
+
+  .tool-card-journal::after,
+  .tool-card-packet::after {
+    font-size: 10px;
+  }
+
+  .section-heading::after {
+    max-width: 90%;
+    font-size: 11px;
+  }
+
+  .scrapbook-divider {
+    min-height: 65px;
+    gap: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool-card,
+  .card-illustration,
+  .scrapbook-divider span {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Access Scan workspace uses the same cornflower-and-sage palette as its home card. */
+.app-access {
+  background: #faf6ed;
+}
+
+.app-access .site-footer {
+  background: #253653;
+  color: #e4eff6;
+}
+
+.tool-page.access-workspace-shell {
+  max-width: 1200px;
+  padding: 38px 28px 72px;
+}
+
+.access-workspace-shell .back-button,
+.access-workspace-shell .viewer-heading a {
+  color: #426d96;
+}
+
+.access-workspace-shell .back-button:hover,
+.access-workspace-shell .viewer-heading a:hover {
+  color: #253653;
+}
+
+.access-workspace-shell .workspace-heading .eyebrow,
+.access-workspace-shell .med-step,
+.access-workspace-shell .eyebrow {
+  color: #426d96;
+}
+
+.access-workspace-shell .workspace-heading {
+  min-height: 250px;
+  margin-bottom: 32px;
+  padding: 40px;
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at 14% 18%, rgba(81, 101, 232, .35), transparent 43%),
+    radial-gradient(ellipse at 84% 64%, rgba(167, 139, 250, .25), transparent 43%),
+    linear-gradient(135deg, #0b1228 0%, #111b38 55%, #20275a 100%);
+}
+
+.access-workspace-shell .workspace-heading .eyebrow {
+  color: #b5bfff;
+}
+
+.access-workspace-shell .workspace-heading h1,
+.access-workspace-shell .med-panel-heading h2,
+.access-workspace-shell .empty-report h2,
+.access-workspace-shell .report-intro h2,
+.access-workspace-shell .viewer-heading h3,
+.access-workspace-shell .walkthrough-heading h3,
+.access-workspace-shell .observation h3 {
+  color: #253653;
+}
+
+.access-workspace-shell .workspace-heading h1 {
+  color: #fff;
+  font-size: 48px;
+  font-weight: 400;
+}
+
+.access-workspace-shell .workspace-heading p,
+.access-workspace-shell .med-panel-heading p,
+.access-workspace-shell .empty-report > p {
+  color: #697386;
+}
+
+.access-workspace-shell .workspace-heading p {
+  color: #d1d9ef;
+  font-size: 15px;
+}
+
+.access-workspace-shell .workspace-seal {
+  border-color: rgba(255, 255, 255, .28);
+  background: rgba(255, 255, 255, .07);
+  color: #f5f6ff;
+}
+
+.access-workspace-shell .med-panel {
+  border-color: #d7e2e8;
+  border-radius: 12px;
+  box-shadow: 5px 6px 0 #dce7ec;
+}
+
+.access-workspace-shell .field-label,
+.access-workspace-shell .profile-fieldset legend {
+  color: #253653;
+}
+
+.access-workspace-shell .text-input {
+  border-color: #b5cedd;
+  background: #fff;
+  color: #253653;
+}
+
+.access-workspace-shell .text-input:focus {
+  border-color: #739acb;
+  outline-color: #739acb;
+}
+
+.access-workspace-shell .profile-option {
+  border-color: #d7e2e8;
+  color: #566480;
+}
+
+.access-workspace-shell .profile-option.selected {
+  border-color: #739acb;
+  background: #e4eff6;
+  color: #253653;
+}
+
+.access-workspace-shell .profile-option input {
+  accent-color: #426d96;
+}
+
+.access-workspace-shell .profile-icon,
+.access-workspace-shell .status-text,
+.access-workspace-shell .walkthrough-findings small {
+  color: #426d96;
+}
+
+.access-workspace-shell .action-primary,
+.access-workspace-shell .action-secondary {
+  border-color: #426d96;
+}
+
+.access-workspace-shell .action-primary {
+  background: #426d96;
+}
+
+.access-workspace-shell .action-primary:hover:not(:disabled) {
+  background: #253653;
+  border-color: #253653;
+}
+
+.access-workspace-shell .action-secondary {
+  color: #426d96;
+}
+
+.access-workspace-shell .action-secondary:hover:not(:disabled) {
+  background: #e4eff6;
+}
+
+.access-workspace-shell .empty-mark {
+  background: #c1d9e8;
+  color: #426d96;
+}
+
+.access-workspace-shell .status-pill {
+  background: #e4eff6;
+  color: #426d96;
+}
+
+.access-workspace-shell .floor-plan {
+  border-color: #d7e2e8;
+  background: #f4f8fa;
+}
+
+.access-workspace-shell .plan-wall {
+  stroke: #9cafa9;
+}
+
+.access-workspace-shell .plan-route,
+.access-workspace-shell .plan-dot {
+  stroke: #fff;
+}
+
+.access-workspace-shell .plan-route {
+  stroke: #426d96;
+}
+
+.access-workspace-shell .plan-dot {
+  fill: #739acb;
+}
+
+.access-workspace-shell :focus-visible {
+  outline-color: #739acb;
+}
+
+@media (max-width: 700px) {
+  .tool-page.access-workspace-shell {
+    padding: 28px 20px 60px;
+  }
+
+  .access-workspace-shell .workspace-heading h1 {
+    font-size: 36px;
+  }
+
+  .access-workspace-shell .workspace-heading {
+    min-height: 0;
+    padding: 28px 24px;
+  }
+}

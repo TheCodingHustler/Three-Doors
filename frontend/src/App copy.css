@@ -1,0 +1,1208 @@
+.welcome {
+  min-height: 100vh;
+  background: #f5faf8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.logo {
+  color: #247e79;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  margin-bottom: 45px;
+}
+
+.welcome h1 {
+  font-size: clamp(42px, 6vw, 76px);
+  line-height: 1.12;
+  font-weight: 600;
+  letter-spacing: -2px;
+  color: #173b43;
+  margin: 0;
+}
+
+.welcome p {
+  color: #718587;
+  font-size: 18px;
+  line-height: 1.8;
+  max-width: 540px;
+  margin: 28px 0 35px;
+}
+
+.welcome button {
+  background: #247e79;
+  color: white;
+  border: none;
+  border-radius: 100px;
+  padding: 18px 36px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.welcome button:hover {
+  background: #173b43;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px #247e7933;
+}
+
+.footer-text {
+  margin-top: 80px;
+  color: #91a6a5;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+/* Overall website */
+.app {
+  background: #f5faf8;
+  min-height: 100vh;
+}
+
+/* Navigation bar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 7%;
+  background: white;
+  border-bottom: 1px solid #e2ece8;
+}
+
+.brand {
+  background: none;
+  border: none;
+  color: #247e79;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.nav-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #91a6a5;
+}
+
+/* Homepage adjustments */
+.welcome {
+  min-height: 550px;
+  padding: 90px 24px;
+}
+
+.explore-button {
+  display: inline-block;
+  background: #247e79;
+  color: white;
+  text-decoration: none;
+  padding: 18px 36px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.explore-button:hover {
+  background: #173b43;
+  transform: translateY(-3px);
+}
+
+/* Three feature cards */
+.tools-section {
+  max-width: 1200px;
+  margin: auto;
+  padding: 80px 24px 110px;
+}
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.section-heading h2 {
+  font-size: 40px;
+  color: #173b43;
+  margin: 15px 0;
+}
+
+.section-heading p {
+  color: #718587;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.tool-card {
+  background: white;
+  border: 1px solid #e2ece8;
+  border-radius: 22px;
+  padding: 32px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 320px;
+  transition: 0.3s ease;
+}
+
+.tool-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 45px #173b4315;
+  border-color: #b2d5ca;
+}
+
+.card-number {
+  font-size: 11px;
+  color: #91a6a5;
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+}
+
+.card-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: #eaf5f0;
+  color: #247e79;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  font-size: 26px;
+}
+
+.tool-card h3 {
+  color: #173b43;
+  font-size: 21px;
+  margin: 22px 0 10px;
+}
+
+.tool-card p {
+  color: #718587;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.card-link {
+  color: #247e79;
+  font-weight: 600;
+  font-size: 13px;
+  margin-top: auto;
+}
+
+/* Individual tool pages */
+.tool-page {
+  max-width: 950px;
+  min-height: 70vh;
+  margin: auto;
+  padding: 70px 24px;
+}
+
+.tool-page h1 {
+  font-size: 48px;
+  color: #173b43;
+}
+
+.tool-page > p {
+  color: #718587;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: #5165E8;
+  cursor: pointer;
+  margin-bottom: 45px;
+  font-size: 14px;
+}
+
+.coming-soon {
+  background: white;
+  border: 1px solid #e2ece8;
+  border-radius: 24px;
+  padding: 60px 30px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.coming-soon p {
+  color: #718587;
+}
+
+/* Footer */
+.site-footer {
+  text-align: center;
+  background: #111B38;
+  color: #AEB9D8;
+  padding: 35px;
+  font-size: 13px;
+}
+
+/* Mobile-friendly layout */
+@media (max-width: 760px) {
+  .tool-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-heading h2 {
+    font-size: 30px;
+  }
+
+  .navbar {
+    padding: 20px;
+  }
+
+  .nav-label {
+    display: none;
+  }
+}
+
+/* Three Doors — Updated Healthcare Color Palette */
+
+.app {
+  background-color: var(--color-background);
+}
+
+body {
+  background-color: var(--color-background);
+}
+
+h1, h2, h3 {
+  color: var(--color-heading);
+}
+
+/* Three Doors — Primary button colors */
+
+.hero button {
+  background-color: var(--color-primary);
+  color: white;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.hero button:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+}
+
+/* Three Doors — Updated tool cards */
+
+.tool-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 22px;
+  transition: transform 0.2s ease,
+              box-shadow 0.2s ease,
+              border-color 0.2s ease;
+}
+
+.tool-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-primary-hover);
+  box-shadow: 0 12px 30px rgba(0, 118, 107, 0.12);
+}
+
+/* Keep tool cards light when hovering */
+
+.tool-card:hover {
+  background-color: #E4F8F2;
+  border-color: #00B8AC;
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 118, 107, 0.12);
+}
+
+/* =====================================
+   THREE DOORS — HOMEPAGE REDESIGN
+   ===================================== */
+
+/* Premium hero background */
+.welcome {
+  position: relative;
+  min-height: 650px;
+  padding: 110px 24px 120px;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(79, 216, 172, 0.25),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 85% 75%,
+      rgba(168, 217, 232, 0.3),
+      transparent 40%
+    ),
+    linear-gradient(
+      135deg,
+      #F4F9F7 0%,
+      #FFFFFF 55%,
+      #EAF8F2 100%
+    );
+}
+
+/* Small heading above the hero */
+.welcome .logo {
+  margin-bottom: 28px;
+  color: #00766B;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+/* Main headline */
+.welcome h1 {
+  font-size: clamp(48px, 6.5vw, 88px);
+  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: -3px;
+  color: #193D45;
+}
+
+/* Highlight the central message */
+.hero-highlight {
+  color: #00766B;
+}
+
+/* Hero description */
+.welcome p {
+  max-width: 610px;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #617A7D;
+  margin: 30px 0 38px;
+}
+
+/* Main action button */
+.explore-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 36px;
+  border-radius: 100px;
+  background: #00766B;
+  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+
+  box-shadow: 0 12px 28px rgba(0, 118, 107, 0.16);
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.explore-button:hover {
+  background: #005C54;
+  transform: translateY(-4px);
+  box-shadow: 0 18px 35px rgba(0, 118, 107, 0.22);
+}
+
+/* Mobile adjustments */
+@media (max-width: 760px) {
+  .welcome {
+    min-height: 560px;
+    padding: 90px 20px;
+  }
+
+  .welcome h1 {
+    font-size: clamp(42px, 10vw, 64px);
+    letter-spacing: -2px;
+  }
+
+  .welcome p {
+    font-size: 16px;
+  }
+}
+
+/* Three main tool cards */
+.tool-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.tool-card {
+  min-height: 330px;
+  border-radius: 24px;
+  padding: 34px;
+}
+
+.tool-card:hover {
+  transform: translateY(-7px);
+}
+
+/* Featured Visit Packet */
+.packet-feature {
+  width: 100%;
+  margin-top: 28px;
+  padding: 38px 42px;
+  background: linear-gradient(120deg, #193D45, #075E59);
+  border: none;
+  border-radius: 26px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 18px 40px rgba(25, 61, 69, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.packet-feature:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 24px 48px rgba(25, 61, 69, 0.2);
+}
+
+.packet-feature-icon {
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  background: rgba(79, 216, 172, 0.15);
+  color: #4FD8AC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.packet-feature-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.packet-feature-label {
+  color: #4FD8AC;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.packet-feature-content strong {
+  color: white;
+  font-size: clamp(22px, 3vw, 30px);
+  letter-spacing: -0.5px;
+}
+
+.packet-feature-content > span:last-child {
+  color: #D2E3E0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.packet-feature-link {
+  color: #4FD8AC;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Responsive layout */
+@media (max-width: 900px) {
+  .tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .packet-feature {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .tool-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .packet-feature {
+    padding: 28px;
+    gap: 18px;
+  }
+
+  .packet-feature-link {
+    width: 100%;
+  }
+}
+
+/* Fix Visit Packet featured card width */
+.packet-feature {
+  width: 100%;
+  box-sizing: border-box;
+  grid-column: 1 / -1;
+}
+
+/* =====================================
+   THREE DOORS — NAVIGATION REDESIGN
+   ===================================== */
+
+.navbar {
+  position: relative;
+  z-index: 10;
+  padding: 22px 7%;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid #E3EEE9;
+  box-shadow: 0 4px 24px rgba(25, 61, 69, 0.03);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #193D45;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  transition: color 0.2s ease;
+}
+
+.brand:hover {
+  color: #00766B;
+}
+
+.nav-label {
+  color: #00766B;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* Keyboard accessibility */
+.brand:focus-visible,
+.tool-card:focus-visible,
+.packet-feature:focus-visible,
+.explore-button:focus-visible {
+  outline: 3px solid #00B8AC;
+  outline-offset: 4px;
+}
+/* Three Doors — Refined feature icons */
+
+.card-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #E4F8F2, #DDF1ED);
+  color: #00766B;
+  font-size: 30px;
+  font-weight: 600;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.tool-card:hover .card-icon {
+  transform: scale(1.08);
+  background: #D0F3E7;
+}
+
+/* =====================================
+   THREE DOORS — FINAL HOMEPAGE POLISH
+   ===================================== */
+
+/* Consistent typography */
+.app {
+  font-family: var(--font-body);
+}
+
+/* More elegant section heading */
+.section-heading h2 {
+  font-size: clamp(32px, 4vw, 46px);
+  font-weight: 750;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+}
+
+.section-heading p {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* More breathing room between sections */
+.tools-section {
+  padding-top: 100px;
+  padding-bottom: 120px;
+}
+
+.section-heading {
+  margin-bottom: 55px;
+}
+
+/* Refined tool card typography */
+.tool-card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1.3;
+}
+
+.tool-card p {
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* Subtle visual transition */
+.tool-card,
+.packet-feature,
+.explore-button {
+  will-change: transform;
+}
+
+/* Smaller screens */
+@media (max-width: 760px) {
+  .tools-section {
+    padding-top: 65px;
+    padding-bottom: 75px;
+  }
+
+  .section-heading {
+    margin-bottom: 35px;
+  }
+
+  .tool-card {
+    min-height: 280px;
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .tool-card,
+  .packet-feature,
+  .explore-button,
+  .card-icon {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* =====================================
+   THREE DOORS — FUTURISTIC HERO
+   ===================================== */
+
+.welcome {
+  position: relative;
+  isolation: isolate;
+  min-height: 650px;
+  padding: 110px 24px 120px;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      ellipse at 18% 25%,
+      rgba(81, 101, 232, 0.4),
+      transparent 45%
+    ),
+    radial-gradient(
+      ellipse at 82% 70%,
+      rgba(167, 139, 250, 0.3),
+      transparent 45%
+    ),
+    linear-gradient(
+      135deg,
+      #0B1228 0%,
+      #111B38 55%,
+      #20275A 100%
+    );
+}
+
+/* Small label above the headline */
+.welcome .logo {
+  color: #A8B5FF;
+  letter-spacing: 3px;
+  margin-bottom: 28px;
+}
+
+/* Main hero headline */
+.welcome h1 {
+  color: #FFFFFF;
+  font-size: clamp(48px, 6.5vw, 88px);
+  line-height: 1.08;
+  font-weight: 750;
+  letter-spacing: -3px;
+}
+
+/* Gradient text */
+.hero-highlight {
+  background: linear-gradient(
+    90deg,
+    #65E3DB,
+    #8DABFF,
+    #C5A3FF
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Supporting description */
+.welcome p {
+  color: #CED7EF;
+  font-size: 18px;
+  line-height: 1.8;
+  max-width: 610px;
+  margin: 30px 0 38px;
+}
+
+/* Futuristic button */
+.explore-button {
+  background: linear-gradient(110deg, #5165E8, #9066F5);
+  color: white;
+  box-shadow: 0 12px 35px rgba(81, 101, 232, 0.3);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.explore-button:hover {
+  background: linear-gradient(110deg, #6678FF, #A17BFF);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 45px rgba(144, 102, 245, 0.35);
+}
+
+/* Bright background beneath the hero */
+.app {
+  background: #FAFBFF;
+}
+
+.tools-section {
+  background: #FAFBFF;
+}
+
+@media (max-width: 760px) {
+  .welcome {
+    min-height: 560px;
+    padding: 90px 20px;
+  }
+
+  .welcome h1 {
+    font-size: clamp(42px, 10vw, 64px);
+    letter-spacing: -2px;
+  }
+
+  .welcome p {
+    font-size: 16px;
+  }
+}
+
+/* =====================================
+   THREE DOORS — COLORFUL FEATURE CARDS
+   ===================================== */
+
+/* Bright section beneath the dark hero */
+.tools-section {
+  padding-top: 100px;
+  padding-bottom: 120px;
+}
+
+.section-heading .logo {
+  color: #5165E8;
+}
+
+.section-heading h2 {
+  color: #111B38;
+}
+
+/* All three cards */
+.tool-card {
+  border-radius: 26px;
+  padding: 36px;
+  min-height: 340px;
+  box-shadow: 0 12px 35px rgba(17, 27, 56, 0.04);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.tool-card h3 {
+  color: #111B38;
+}
+
+.tool-card p {
+  color: #566480;
+}
+
+/* Access Scan — blue */
+.tool-card:nth-child(1) {
+  background: #EFF3FF;
+  border-color: #DCE5FF;
+}
+
+.tool-card:nth-child(1) .card-icon {
+  background: #DCE5FF;
+  color: #5165E8;
+}
+
+.tool-card:nth-child(1) .card-link {
+  color: #5165E8;
+}
+
+/* Medication Reader — lavender */
+.tool-card:nth-child(2) {
+  background: #F5F0FF;
+  border-color: #E8DCFF;
+}
+
+.tool-card:nth-child(2) .card-icon {
+  background: #E8DCFF;
+  color: #9066E8;
+}
+
+.tool-card:nth-child(2) .card-link {
+  color: #9066E8;
+}
+
+/* Symptom Journal — coral */
+.tool-card:nth-child(3) {
+  background: #FFF1F0;
+  border-color: #FFE0DC;
+}
+
+.tool-card:nth-child(3) .card-icon {
+  background: #FFE0DC;
+  color: #E66C72;
+}
+
+.tool-card:nth-child(3) .card-link {
+  color: #E66C72;
+}
+
+/* Colorful hover effects */
+.tool-card:nth-child(1):hover {
+  background: #E3EAFF;
+  border-color: #A8B9FF;
+}
+
+.tool-card:nth-child(2):hover {
+  background: #EDE4FF;
+  border-color: #C9B1FF;
+}
+
+.tool-card:nth-child(3):hover {
+  background: #FFE7E5;
+  border-color: #FFB9B9;
+}
+
+.tool-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 22px 48px rgba(17, 27, 56, 0.1);
+}
+
+/* Prevent older green hover rules overriding icons */
+.tool-card:nth-child(1):hover .card-icon {
+  background: #D2DEFF;
+}
+
+.tool-card:nth-child(2):hover .card-icon {
+  background: #E1D2FF;
+}
+
+.tool-card:nth-child(3):hover .card-icon {
+  background: #FFD4D1;
+}
+
+/* =====================================
+   THREE DOORS — VISIT PACKET REDESIGN
+   ===================================== */
+
+.packet-feature {
+  background: linear-gradient(
+    115deg,
+    #111B38 0%,
+    #30336F 55%,
+    #6651B4 100%
+  );
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  box-shadow: 0 18px 45px rgba(48, 51, 111, 0.18);
+}
+
+.packet-feature:hover {
+  box-shadow: 0 25px 55px rgba(81, 101, 232, 0.25);
+}
+
+.packet-feature-icon {
+  background: rgba(255, 255, 255, 0.12);
+  color: #C5B5FF;
+}
+
+.packet-feature-label {
+  color: #C5B5FF;
+}
+
+.packet-feature-content strong {
+  color: #FFFFFF;
+}
+
+.packet-feature-content > span:last-child {
+  color: #E0E4FA;
+}
+
+.packet-feature-link {
+  color: #C5B5FF;
+}
+
+/* =====================================
+   THREE DOORS — FUTURISTIC NAVBAR
+   ===================================== */
+
+.navbar {
+  background: #FFFFFF;
+  border-bottom: 1px solid #E8EAF5;
+  padding: 24px 7%;
+}
+
+.brand {
+  color: #111B38;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.brand:hover {
+  color: #5165E8;
+}
+
+.nav-label {
+  color: #5165E8;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.brand:focus-visible {
+  outline: 3px solid #A78BFA;
+  outline-offset: 5px;
+  border-radius: 4px;
+}
+
+/* Three Doors — Floating hero pillars */
+
+.hero-pillars {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 65px;
+}
+
+.hero-pillar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 28px;
+  min-width: 150px;
+  border-radius: 18px;
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 35px rgba(5, 10, 30, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.hero-pillar:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.13);
+}
+
+.hero-pillar-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(167, 139, 250, 0.2);
+  color: #B8C5FF;
+  font-size: 22px;
+}
+
+.hero-pillar > span:last-child {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+@media (max-width: 600px) {
+  .hero-pillars {
+    gap: 10px;
+    margin-top: 45px;
+  }
+
+  .hero-pillar {
+    min-width: 0;
+    padding: 12px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-pillar {
+    transition: none;
+  }
+
+  .hero-pillar:hover {
+    transform: none;
+  }
+}
+
+/* =====================================
+   THREE DOORS — FUTURISTIC DASHBOARD
+   ===================================== */
+
+.hero-dashboard {
+  width: min(100%, 1050px);
+  box-sizing: border-box;
+  margin-top: 85px;
+  padding: 30px;
+  border-radius: 26px;
+  text-align: left;
+  background: #F9FAFF;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 35px 90px rgba(0, 0, 0, 0.3),
+    0 0 75px rgba(142, 112, 255, 0.16);
+  color: #111B38;
+}
+
+.dashboard-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #E6EAF5;
+}
+
+.dashboard-brand {
+  color: #303B72;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.dashboard-demo {
+  color: #7569BC;
+  background: #EEE9FF;
+  padding: 8px 12px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.dashboard-heading {
+  margin: 32px 0;
+}
+
+.dashboard-heading > span {
+  color: #6B65C5;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.dashboard-heading h3 {
+  color: #111B38;
+  font-size: clamp(24px, 3vw, 34px);
+  letter-spacing: -1px;
+  margin: 12px 0;
+}
+
+.dashboard-heading p {
+  color: #66728B;
+  font-size: 14px;
+  margin: 0;
+}
+
+.dashboard-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.dashboard-preview-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 13px;
+  min-width: 0;
+  padding: 24px;
+  border-radius: 18px;
+}
+
+.dashboard-access {
+  background: #EDF2FF;
+}
+
+.dashboard-medication {
+  background: #F2EDFF;
+}
+
+.dashboard-journal {
+  background: #FFF0EF;
+}
+
+.dashboard-preview-icon {
+  font-size: 26px;
+  color: #5965C9;
+}
+
+.dashboard-preview-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #6C70A0;
+}
+
+.dashboard-preview-card strong {
+  font-size: 18px;
+  color: #111B38;
+}
+
+.dashboard-preview-card p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #58657B;
+  margin: 0;
+}
+
+.dashboard-preview-link {
+  margin-top: auto;
+  font-size: 12px;
+  font-weight: 700;
+  color: #5965C9;
+}
+
+.dashboard-preview-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid #E6EAF5;
+  color: #8A92A9;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 760px) {
+  .hero-dashboard {
+    margin-top: 55px;
+    padding: 20px;
+  }
+
+  .dashboard-preview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-preview-footer {
+    flex-direction: column;
+  }
+}
