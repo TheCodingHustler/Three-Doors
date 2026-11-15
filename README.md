@@ -109,8 +109,9 @@ Target: **7440 Cypress Creek Pky, Houston**, model `x37LjPx62VA`, profile
    scan locations, requests Gemini review, localizes findings, and saves each
    screenshot and result. It publishes only after every planned view finishes.
 4. Open <http://localhost:5175/?clinic=x37LjPx62VA&profile=step-free> to load the
-   report. It reuses saved geometry, findings and evidence without provider/AI
-   calls. Pins restore after the SDK connects and confirms the scan fingerprint.
+   report. It reuses saved indoor geometry, findings and evidence, and separately
+   loads Vexcel aerial imagery for Gemini's arrival review and red outlines.
+   Pins restore after the SDK connects and confirms the scan fingerprint.
 
 `python3 -m backend.prepare` prints the preparation URL and current saved state.
 Reopening the preparation page starts a refresh; a failed or partial refresh does

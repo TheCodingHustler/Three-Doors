@@ -527,10 +527,13 @@ def review_aerial(building, profile, image):
         "short-walk": "Look for visible drop-off areas and pedestrian paths toward the building.",
     }
     prompt = (
-        "Review this Vexcel overhead image for possible exterior access barriers near " + building + ". "
+        "Review this Vexcel overhead image for visible arrival and access features near " + building + ". "
         "Look near likely entrances for curb ramps, nearby parking or drop-off areas, painted access aisles, "
         "crossings, and sidewalks that might shorten the walk. " + focus[profile] + " Report at most four distinct, "
-        "clearly visible features. Describe where each appears using visible landmarks and say when it is unclear. "
+        "clearly visible features, including helpful features as well as possible barriers. "
+        "Include visible painted parking access aisles and pedestrian approaches even when no barrier is apparent. "
+        "Describe the visible markings without claiming they confirm accessible parking or a usable ramp. "
+        "Describe where each appears using visible landmarks and say when it is unclear. "
         "The image covers the surrounding area, so do not assign a parking space, path or entrance to this venue "
         "unless the image clearly supports it. Do not infer accessible parking availability, a step-free entrance, "
         "curb ramp or route continuity from missing or ambiguous markings. Do not estimate slopes, dimensions, "
@@ -539,7 +542,10 @@ def review_aerial(building, profile, image):
     )
     result = gemini_request({
         "contents": [{"parts": [
-            {"text": prompt + BOX_PROMPT},
+            {"text": prompt + " For each visible arrival feature, return box_2d: [ymin, xmin, ymax, xmax], "
+             "normalized to 0–1000 with origin at top left. Enclose the specific visible feature so the UI can "
+             "circle it. Return an empty array if it cannot be localized; never invent a location. "
+             "Return anchor_2d as an empty array; aerial features do not need indoor surface anchors."},
             {"inline_data": {"mime_type": mime_type, "data": base64.b64encode(raw).decode("ascii")}},
         ]}],
         "generationConfig": {
@@ -580,9 +586,9 @@ def location_report(body, records, audits=None, prepared_store=None):
     model = None
     if cached:
         geometry = cached["geometry"]
-        imagery = cached["images"]
-        sources.update({"Matterport": "Prepared scan review · " + cached["source"],
-                        "Vexcel": "Not included in this prepared indoor review"})
+        exterior, sources["Vexcel"] = providers.vexcel(building)
+        imagery = {**cached["images"], **exterior}
+        sources["Matterport"] = "Prepared scan review · " + cached["source"]
     elif demo:
         geometry = route.sample_geometry()
         sources.update({"Matterport": "Skipped in guided demo", "Vexcel": "Skipped in guided demo"})
@@ -599,12 +605,26 @@ def location_report(body, records, audits=None, prepared_store=None):
             geometry = {"walls": [], "scans": [], "status": "Live indoor geometry is unavailable."}
     candidate = (route.candidate_between(geometry, "0", "4") if demo
                  else route.example_candidate(geometry))
-    ai = ({"source": "Prepared Gemini walkthrough review", "status": "Cached · Matterport review", "reviewed": ["Matterport"],
-           "observations": cached["findings"], "confirmations": [],
-           "limitations": "Prepared review of sampled views, not a complete access audit. Confirm current conditions with staff."}
-          if cached else gemini_review(building, profile, imagery)) if not demo else {
-        "status": "Skipped in guided demo", "observations": [], "confirmations": [], "limitations": "Simulated evidence is not analyzed.",
-    }
+    if demo:
+        ai = {"status": "Skipped in guided demo", "observations": [], "confirmations": [],
+              "limitations": "Simulated evidence is not analyzed."}
+    elif cached:
+        # Prepared captures cover the interior only. Review the aerial image
+        # separately and retain its boxes alongside the cached indoor findings.
+        arrival = gemini_review(building, profile, exterior)
+        arrival_reviewed = "Vexcel" in arrival.get("reviewed", [])
+        ai = {
+            "source": "Prepared Gemini walkthrough review and arrival imagery review",
+            "status": ("Cached · Matterport review + live Vexcel review" if arrival_reviewed
+                       else "Cached · Matterport review; arrival review unavailable"),
+            "reviewed": ["Matterport", *arrival.get("reviewed", [])],
+            "observations": [*cached["findings"], *arrival["observations"]],
+            "confirmations": arrival["confirmations"],
+            "limitations": "Prepared review of sampled views, not a complete access audit. "
+                           "Confirm current conditions with staff. " + arrival["limitations"],
+        }
+    else:
+        ai = gemini_review(building, profile, imagery)
     profiles = {
         "step-free": [
             "Confirm a step-free entrance and working lift to the appointment floor.",

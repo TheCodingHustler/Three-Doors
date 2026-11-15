@@ -173,6 +173,10 @@ class GeminiResponseTests(unittest.TestCase):
         payload = next(item for item in payloads if "Vexcel overhead image" not in item["contents"][0]["parts"][0]["text"])
         aerial_payload = next(item for item in payloads if item is not payload)
         self.assertIn("Vexcel overhead image", aerial_payload["contents"][0]["parts"][0]["text"])
+        aerial_prompt = aerial_payload["contents"][0]["parts"][0]["text"]
+        self.assertIn("including helpful features as well as possible barriers", aerial_prompt)
+        self.assertIn("box_2d: [ymin, xmin, ymax, xmax]", aerial_prompt)
+        self.assertNotIn("Report barriers, not beneficial features", aerial_prompt)
         self.assertEqual(aerial_payload["contents"][0]["parts"][1]["inline_data"]["data"], "YWVyaWFs")
         self.assertIn("Ask staff about the crossing.", result["confirmations"])
         self.assertIn("Matterport and Vexcel", result["status"])
@@ -387,7 +391,9 @@ class ProxyHttpTests(unittest.TestCase):
                 return json.loads(response.read())
         with TemporaryDirectory() as directory:
             self.server.prepared_store = PreparedStore(Path(directory) / "prepared.sqlite3")
-            with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}), patch("backend.server.providers.matterport", return_value=(None, {}, "Geometry unavailable")) as provider:
+            with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}), \
+                    patch("backend.server.providers.matterport", return_value=(None, {}, "Geometry unavailable")) as provider, \
+                    patch("backend.server.providers.vexcel", return_value=({}, "Unavailable")):
                 job = post("/api/prepared/start", {"building": "x37LjPx62VA", "profile": "step-free", "fingerprint": "a" * 64,
                            "plan": [{"scanId": "scan", "rotation": {"x": 0, "y": 0}}]})
                 post("/api/prepared/view", {"jobId": job["jobId"], "viewId": 0, "building": "Clinic", "profile": "step-free",
@@ -396,7 +402,7 @@ class ProxyHttpTests(unittest.TestCase):
                 self.assertTrue(post("/api/prepared/publish", {"jobId": job["jobId"]})["published"])
                 report = post("/api/plan", {"building": "x37LjPx62VA", "profile": "step-free"})
                 self.assertEqual(report["preparedWalkthrough"]["reviewedViews"], 1)
-                self.assertEqual(report["ai"]["status"], "Cached · Matterport review")
+                self.assertEqual(report["ai"]["status"], "Cached · Matterport review; arrival review unavailable")
                 provider.assert_called_once_with("x37LjPx62VA", include_images=False)
             status_url = self.url.replace("/api/audit", "/api/prepared/status?model=x37LjPx62VA&profile=step-free")
             with urllib.request.urlopen(status_url) as response:

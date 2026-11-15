@@ -1,4 +1,5 @@
 import tempfile
+import os
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -76,13 +77,41 @@ class PreparedTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "anchor"):
             self.save(job, findings=[bad])
 
-    def test_cached_report_needs_no_provider_or_gemini_calls(self):
+    def test_cached_report_preserves_indoor_review_when_arrival_is_unavailable(self):
         job = self.job(); self.save(job); self.store.publish(job)
         record = {"id": "clinic", "name": "Clinic", "address": "7440 Cypress Creek Pky", "city": "Houston"}
-        with patch("backend.server.providers.matterport") as matterport, patch("backend.server.providers.vexcel") as vexcel, patch("backend.server.gemini_review") as gemini:
+        with patch("backend.server.providers.matterport") as matterport, patch("backend.server.providers.vexcel", return_value=({}, "Unavailable")) as vexcel, patch("backend.server.gemini_request") as gemini:
             report = location_report({"building": "clinic", "profile": "step-free"}, {"clinic": record}, AuditStore(), self.store)
-        matterport.assert_not_called(); vexcel.assert_not_called(); gemini.assert_not_called()
-        self.assertEqual(report["ai"]["status"], "Cached · Matterport review")
+        matterport.assert_not_called(); vexcel.assert_called_once_with(record); gemini.assert_not_called()
+        self.assertEqual(report["ai"]["reviewed"], ["Matterport"])
+        self.assertIn("arrival review unavailable", report["ai"]["status"])
         self.assertEqual(report["evidence"][0]["id"], report["ai"]["observations"][0]["evidence"])
         self.assertEqual(report["preparedWalkthrough"]["versionId"], job)
         self.assertNotIn("images", report["preparedWalkthrough"])
+
+    def test_cached_report_restores_aerial_image_and_gemini_circle_coordinates(self):
+        job = self.job(); self.save(job); self.store.publish(job)
+        record = {"id": "clinic", "name": "Clinic", "address": "1 Main St", "city": "Houston"}
+        aerial = {"aerial": ("Vexcel overhead imagery", b"aerial", "image/jpeg", None)}
+        box = [100, 200, 300, 400]
+        review = {"observations": [{"title": "Crossing", "detail": "Painted crossing near parking.", "box_2d": box}],
+                  "confirmations": ["Ask staff which entrance the crossing leads to."], "limitations": "Overhead view only."}
+        audits = AuditStore()
+        with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}), \
+                patch("backend.server.providers.matterport") as matterport, \
+                patch("backend.server.providers.vexcel", return_value=(aerial, "Aerial imagery loaded")), \
+                patch("backend.server.gemini_request", return_value=review) as gemini:
+            report = location_report({"building": "clinic", "profile": "step-free"}, {"clinic": record}, audits, self.store)
+        matterport.assert_not_called()
+        gemini.assert_called_once()
+        parts = gemini.call_args.args[0]["contents"][0]["parts"]
+        self.assertIn("Vexcel overhead image", parts[0]["text"])
+        self.assertEqual(parts[1]["inline_data"]["data"], "YWVyaWFs")
+        self.assertEqual(report["ai"]["reviewed"], ["Matterport", "Vexcel"])
+        self.assertEqual(report["ai"]["observations"][0]["anchor"], FINDING["anchor"])
+        self.assertEqual(report["ai"]["observations"][-1]["evidence"], "aerial")
+        self.assertEqual(report["ai"]["observations"][-1]["box_2d"], box)
+        self.assertIn(review["confirmations"][0], report["ai"]["confirmations"])
+        evidence = next(item for item in report["evidence"] if item["id"] == "aerial")
+        self.assertEqual(evidence["url"], f'/api/evidence/{report["auditId"]}/aerial')
+        self.assertEqual(audits.get(report["auditId"])[1]["aerial"][1], b"aerial")

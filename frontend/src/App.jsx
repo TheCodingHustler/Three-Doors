@@ -57,9 +57,9 @@ function Findings({ items, evidence, profile, onShow, showPhotos = false }) {
           {onShow && <button type="button" className="text-action" onClick={() => onShow({ title, detail, impact, preparedMarkerId, evidence: id })}>{preparedMarkerId ? "Show in walkthrough" : "Open source scan"}</button>}
           {showPhotos && evidence.has(id) && (
             <details>
-              <summary>See barrier location</summary>
+              <summary>{id === "aerial" ? "See arrival feature location" : "See barrier location"}</summary>
               <EvidenceImage image={evidence.get(id)} findings={[{ title, detail, box_2d }]} />
-              <p className="barrier-location-note">{box_2d ? "Red outline: AI-identified possible barrier. Location is approximate." : "A precise location could not be identified in this image."}</p>
+              <p className="barrier-location-note">{box_2d ? `Red outline: AI-identified ${id === "aerial" ? "arrival feature" : "possible barrier"}. Location is approximate.` : "A precise location could not be identified in this image."}</p>
             </details>
           )}
         </li>
@@ -133,9 +133,10 @@ function Report({ report, onReset, onOpenPacket }) {
           <section className="arrival-evidence" aria-labelledby="arrival-heading">
             <h3 id="arrival-heading">Parking, ramps & getting to the door</h3>
             {aerial && <EvidenceImage image={{ ...aerial, title: "Aerial view of the clinic and surrounding streets" }} findings={outdoorFindings} />}
-            {outdoorFindings.length > 0 ? <Findings items={outdoorFindings} evidence={evidence} />
+            {aerial && outdoorFindings.some((item) => item.box_2d) && <p className="barrier-location-note">Red outlines: AI-identified arrival features. Locations are approximate; confirm access with staff.</p>}
+            {outdoorFindings.length > 0 ? <Findings items={outdoorFindings} evidence={evidence} profile={report.profile} showPhotos />
               : <p>{report.ai.reviewed?.includes("Vexcel")
-                ? "The aerial view didn’t show a clear ramp or parking option for your access needs."
+                ? "Gemini reviewed this aerial image and did not identify a clear arrival feature to circle. This does not confirm a step-free entrance or accessible parking."
                 : "An automated review of the arrival area is unavailable."}</p>}
             <p>Ask staff which parking space or drop-off is closest to the entrance you can use, and whether the path has a curb ramp.</p>
           </section>
