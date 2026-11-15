@@ -1088,8 +1088,7 @@ button.tool-card:hover {
   font-size: 12px;
 }
 
-.matterport-viewer,
-.room-measurements {
+.matterport-viewer {
   display: grid;
   gap: 12px;
 }
@@ -1133,45 +1132,6 @@ button.tool-card:hover {
   width: 100%;
   height: 100%;
   border: 0;
-}
-
-.measurements-scroll {
-  max-width: 100%;
-  overflow-x: auto;
-  border-top: 1px solid #e2ece8;
-}
-
-.room-measurements table {
-  width: 100%;
-  min-width: 520px;
-  border-collapse: collapse;
-  color: #718587;
-  font-size: 11px;
-}
-
-.room-measurements th,
-.room-measurements td {
-  padding: 9px 8px;
-  border-bottom: 1px solid #e7efeb;
-  text-align: left;
-  white-space: nowrap;
-}
-
-.room-measurements thead th {
-  color: #496368;
-  font-size: 10px;
-}
-
-.room-measurements tbody th {
-  color: #173b43;
-  font-weight: 600;
-}
-
-.measurement-caveat {
-  margin: 0;
-  color: #8a7952;
-  font-size: 11px;
-  line-height: 1.55;
 }
 
 .floor-plan {
@@ -4371,3 +4331,234 @@ button.tool-card:hover {
     padding: 28px 24px;
   }
 }
+.route-review,
+.arrival-evidence {
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+}
+
+.route-review h3,
+.arrival-evidence h3 {
+  margin-top: 0;
+}
+
+.route-form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.route-form select {
+  display: block;
+  margin-top: 0.3rem;
+  max-width: 100%;
+}
+
+.route-form button,
+.confirm-panel button {
+  justify-self: start;
+  margin-top: 0.6rem;
+}
+
+.route-marks label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 32px;
+}
+
+.audit-evidence-image {
+  margin: 0.75rem 0;
+  min-width: 0;
+}
+
+.audit-evidence-image img {
+  display: block;
+  width: 100%;
+  max-height: 380px;
+  object-fit: contain;
+  background: #f5faf8;
+  border-radius: 8px;
+}
+
+.audit-evidence-image figcaption {
+  margin-top: 0.35rem;
+  font-size: 0.88rem;
+}
+
+.audit-layout.has-report {
+  display: block;
+}
+
+.audit-form-panel[hidden] {
+  display: none;
+}
+
+.has-report .results-panel {
+  min-height: 0;
+}
+
+.report-stack h3 {
+  margin: 0 0 0.65rem;
+  color: #253653;
+}
+
+.report-findings {
+  padding: 0;
+  list-style: none;
+}
+
+.report-findings li {
+  border-top: 1px solid var(--color-border);
+  padding: 0.85rem 0;
+}
+
+.report-findings p {
+  margin: 0.35rem 0;
+}
+
+.clinic-findings > h3 {
+  display: inline;
+}
+
+.barrier-help {
+  display: inline;
+  margin-left: 0.5rem;
+}
+
+.barrier-help > summary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #426d96;
+  border-radius: 50%;
+  background: #edf5fa;
+  color: #253653;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+  vertical-align: middle;
+}
+
+.barrier-help > summary::-webkit-details-marker {
+  display: none;
+}
+
+.barrier-help > summary:hover,
+.barrier-help[open] > summary {
+  background: #dceaf5;
+}
+
+.barrier-help > summary:focus-visible {
+  outline: 3px solid #426d96;
+  outline-offset: 3px;
+}
+
+.barrier-help-content {
+  margin: 0.65rem 0;
+  padding: 1rem;
+  border: 1px solid #b2c3d5;
+  border-radius: 10px;
+  background: #f1f7fb;
+  color: #253653;
+  line-height: 1.6;
+}
+
+.barrier-help-content p {
+  margin: 0.4rem 0;
+}
+
+.barrier-help-content ul {
+  padding-left: 1.25rem;
+}
+
+.barrier-help-note {
+  font-size: 0.9rem;
+}
+
+.report-findings summary,
+.route-editor summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.route-stops {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+}
+
+.route-stops button {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid #b2c3d5;
+  border-radius: 8px;
+  background: white;
+  color: #253653;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.route-stops button[aria-pressed="true"] {
+  border-color: #253653;
+  background: #e4eff6;
+}
+
+.route-stop-number {
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: #426d96;
+  color: #fff;
+}
+
+.route-map-stop circle,
+.route-map-selected {
+  fill: #426d96;
+  stroke: #fff;
+  stroke-width: 2px;
+}
+
+.route-map-stop.is-active circle,
+.route-map-selected {
+  fill: #253653;
+}
+
+.floor-plan .route-map-stop text {
+  fill: #fff;
+  font-size: 16px;
+}
+
+.route-editor .route-form {
+  margin-top: 0.75rem;
+}
+
+.route-marks {
+  min-width: 0;
+  border: 1px solid var(--color-border);
+}
+
+/* Keep overlay coordinates tied to the image, including portrait evidence. */
+.barrier-image-stage { position: relative; width: fit-content; max-width: 100%; margin: auto; }
+.audit-evidence-image .barrier-image-stage img { width: auto; height: auto; max-width: 100%; max-height: 380px; }
+.barrier-image-overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.barrier-image-overlay ellipse { fill: rgb(210 35 35 / 8%); stroke: #d22323; stroke-width: 4px; vector-effect: non-scaling-stroke; }
+.barrier-location-note { font-size: 0.88rem; }
+
+.barrier-tour-frame { position: relative; }
+.barrier-tour-controls { padding: 1rem; background: #f5faf8; border-radius: 8px; }
+.barrier-tour-controls select { display: block; max-width: 100%; padding: 0.6rem; margin: 0.5rem 0; }
+.barrier-tour-controls button { margin: 0.4rem 0.6rem 0.4rem 0; }
+
+.clinic-preparation { max-width: 1100px; padding: 2rem; margin: auto; }
+.clinic-preparation iframe { width: 100%; height: 620px; border: 0; border-radius: 12px; }
+.clinic-preparation progress { width: 100%; }

@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import './labels.css'
 import { readLabel } from './ocr.js'
 import { parseLabel, shouldRetryOCR } from './parseLabel.js'
-import { countUnclearFields, createFallbackStub, mergeValidatedFallback } from './parseFallback.js'
 import {
   FALLBACK_TRANSLATION_LANGUAGES,
   getTranslationLanguages,
@@ -135,15 +134,7 @@ function Medications() {
             ? lineConfidences.reduce((total, confidence) => total + confidence, 0) / lineConfidences.length
             : ocrResult.confidence
           const lowConfidence = shouldRetryOCR(regionLines)
-          let parsed = lowConfidence ? null : parseLabel(regionText, regionLines)
-          let fallbackStatus = 'not-needed'
-
-          if (parsed && countUnclearFields(parsed) >= 3) {
-            setReadingStatus(`Checking unclear fields in ${file.name}…`)
-            const fallback = createFallbackStub()
-            parsed = mergeValidatedFallback(parsed, fallback.fields, regionText)
-            fallbackStatus = 'stub'
-          }
+          const parsed = lowConfidence ? null : parseLabel(regionText, regionLines)
 
           results.push({
             name: file.name,
@@ -155,7 +146,6 @@ function Medications() {
             cropApplied: refinedOcr.cropApplied,
             lowConfidence,
             parsed,
-            fallbackStatus,
           })
         }
       } catch {
@@ -166,6 +156,7 @@ function Medications() {
     setOcrResults(results)
     setIsReading(false)
     setReadingStatus('')
+    translateResults(results, displayLanguage)
   }
 
   function handleReadAloud(text) {
@@ -189,7 +180,7 @@ function Medications() {
     setSpeechLoadingKey(key)
     setSpeechError(null)
     setSpeechAudio(null)
-    window.speechSynthesis.cancel()
+    if (speechAvailable) window.speechSynthesis.cancel()
     setIsSpeaking(false)
     console.info('[Three Doors cloud TTS]', {
       requestedLanguage: language,
@@ -258,8 +249,8 @@ function Medications() {
     }
   }
 
-  async function handleTranslateResult(result, index) {
-    const key = translationKey(index, result.name, displayLanguage)
+  async function handleTranslateResult(result, index, language = displayLanguage) {
+    const key = translationKey(index, result.name, language)
     setTranslations((current) => ({
       ...current,
       [key]: { loading: true, error: '', texts: null },
@@ -272,7 +263,7 @@ function Medications() {
     try {
       const translatedTexts = await translateLabelSentences(
         getPlainLanguageSentences(result.parsed),
-        displayLanguage,
+        language,
         protectedTerms,
         fetch,
         TRANSLATE_API_URL,
@@ -295,8 +286,8 @@ function Medications() {
     }
   }
 
-  async function handleTranslateLowConfidenceResult(result, index) {
-    const key = translationKey(index, result.name, displayLanguage)
+  async function handleTranslateLowConfidenceResult(result, index, language = displayLanguage) {
+    const key = translationKey(index, result.name, language)
     setTranslations((current) => ({
       ...current,
       [key]: { loading: true, error: '', texts: null },
@@ -305,7 +296,7 @@ function Medications() {
     try {
       const translatedTexts = await translateLabelSentences(
         [result.text],
-        displayLanguage,
+        language,
         [],
         fetch,
         TRANSLATE_API_URL,
@@ -324,6 +315,25 @@ function Medications() {
         },
       }))
     }
+  }
+
+  function translateResults(results, language) {
+    if (language === 'en') return
+    results.forEach((result, index) => {
+      if (result.error) return
+      if (result.lowConfidence) void handleTranslateLowConfidenceResult(result, index, language)
+      else void handleTranslateResult(result, index, language)
+    })
+  }
+
+  function changeLanguage(language) {
+    if (speechAvailable) window.speechSynthesis.cancel()
+    setIsSpeaking(false)
+    setDisplayLanguage(language)
+    setTranslations({})
+    setSpeechAudio(null)
+    setSpeechError(null)
+    translateResults(ocrResults, language)
   }
 
   function retryLanguageList() {
@@ -372,14 +382,8 @@ function Medications() {
           <select
             id="label-reader-language"
             value={displayLanguage}
-            onChange={(event) => {
-              if (speechAvailable) window.speechSynthesis.cancel()
-              setIsSpeaking(false)
-              setDisplayLanguage(event.target.value)
-              setTranslations({})
-              setSpeechAudio(null)
-              setSpeechError(null)
-            }}
+            disabled={isReading}
+            onChange={(event) => changeLanguage(event.target.value)}
             aria-describedby="label-reader-language-note"
           >
             <option value="en">English</option>
@@ -507,8 +511,46 @@ function Medications() {
               </>
             ) : (
               <>
+                <div className="label-reader-language-control">
+                  <label htmlFor={`result-language-${index}`}>Translate and listen</label>
+                  <select id={`result-language-${index}`} value={displayLanguage} disabled={isReading}
+                    onChange={(event) => changeLanguage(event.target.value)}>
+                    <option value="en">English (original)</option>
+                    {translateLanguages.filter((language) => !language.code.toLowerCase().startsWith('en'))
+                      .map((language) => <option value={language.code} key={language.code}>{language.name}</option>)}
+                  </select>
+                  <p role="status">{displayLanguage === 'en'
+                    ? 'Showing English. Choose another language to translate this reading.'
+                    : translation?.loading ? 'Translating your reading…'
+                    : translation?.texts ? 'Translation ready. Read it below or generate audio, then press Play.'
+                    : 'Translation is unavailable. The original text is shown below.'}</p>
+                  <div className="label-reader-actions">
+                    {displayLanguage === 'en' && speechAvailable ? (
+                      <>
+                        <button className="label-reader-button label-reader-button-primary" type="button"
+                          onClick={() => handleReadAloud(result.parsed ? getSpokenSummary(result.parsed) : result.text)}
+                          disabled={isSpeaking}>Read English aloud</button>
+                        <button className="label-reader-button label-reader-button-secondary" type="button"
+                          onClick={handleStopReading} disabled={!isSpeaking}>Stop reading</button>
+                      </>
+                    ) : (
+                      <button className="label-reader-button label-reader-button-primary" type="button"
+                        disabled={speechLoadingKey === resultSpeechKey || (displayLanguage !== 'en' && !translation?.texts)}
+                        onClick={() => handleGenerateTranslatedSpeech(displayLanguage === 'en'
+                          ? (result.parsed ? getSpokenSummary(result.parsed) : result.text)
+                          : translation.texts.join(' '), index, result.name)}>
+                        {speechLoadingKey === resultSpeechKey ? 'Generating audio…' : 'Generate reading audio'}
+                      </button>
+                    )}
+                    {speechAudio?.key === resultSpeechKey && (
+                      <audio className="label-reader-cloud-audio" controls preload="none" src={speechAudio.url}
+                        ref={audioRef} aria-label="Label reading audio" />
+                    )}
+                  </div>
+                  {displayLanguage === 'en' && !speechAvailable && <p>This browser does not support built-in read-aloud. Audio generation uses the server speech service.</p>}
+                  {speechError?.key === resultSpeechKey && <p role="alert">{speechError.message}</p>}
+                </div>
                 {result.cropApplied && <p className="label-reader-status" role="status">Cropped to confident text and reread in this browser.</p>}
-                {result.fallbackStatus === 'stub' && <p className="label-reader-status" role="status">Fallback is a local sample stub; the pattern-parser results remain authoritative.</p>}
                 {result.lowConfidence ? (
                   <div className="label-reader-result-columns">
                     <section aria-label="Plain-language label reading">
@@ -532,29 +574,6 @@ function Medications() {
                         </div>
                       )}
                       {translation?.texts && <p className="label-reader-low-confidence-translation">{translation.texts[0]}</p>}
-                      {translation?.texts && (
-                        <>
-                          <button
-                            className="label-reader-button label-reader-button-primary"
-                            type="button"
-                            onClick={() => handleGenerateTranslatedSpeech(translation.texts[0], index, result.name)}
-                            disabled={speechLoadingKey === resultSpeechKey}
-                          >
-                            {speechLoadingKey === resultSpeechKey ? 'Generating translated audio…' : `Generate ${translateLanguages.find((language) => language.code === displayLanguage)?.name ?? 'translated'} audio`}
-                          </button>
-                          {speechAudio?.key === resultSpeechKey && (
-                            <audio
-                              className="label-reader-cloud-audio"
-                              controls
-                              preload="none"
-                              src={speechAudio.url}
-                              ref={audioRef}
-                              aria-label="Translated label audio"
-                            />
-                          )}
-                          {speechError?.key === resultSpeechKey && <p role="alert">{speechError.message}</p>}
-                        </>
-                      )}
                       <p className="label-reader-reminder" role="note">Please confirm this label information with your pharmacist.</p>
                     </section>
                     <section className="label-reader-original" aria-label="Original label text in English">
@@ -601,37 +620,6 @@ function Medications() {
                             </div>
                           )
                         })}
-                        {speechAvailable && displayLanguage === 'en' && (
-                          <div className="label-reader-actions">
-                            <button className="label-reader-button label-reader-button-primary" type="button" onClick={() => handleReadAloud(getSpokenSummary(result.parsed))} disabled={isSpeaking}>
-                              Read English summary aloud
-                            </button>
-                            <button className="label-reader-button label-reader-button-secondary" type="button" onClick={handleStopReading} disabled={!isSpeaking}>Stop reading</button>
-                          </div>
-                        )}
-                        {displayLanguage !== 'en' && translation?.texts && (
-                          <div className="label-reader-actions">
-                            <button
-                              className="label-reader-button label-reader-button-primary"
-                              type="button"
-                              onClick={() => handleGenerateTranslatedSpeech(translation.texts.join(' '), index, result.name)}
-                              disabled={speechLoadingKey === resultSpeechKey}
-                            >
-                              {speechLoadingKey === resultSpeechKey ? 'Generating translated audio…' : `Generate ${translateLanguages.find((language) => language.code === displayLanguage)?.name ?? 'translated'} audio`}
-                            </button>
-                            {speechAudio?.key === resultSpeechKey && (
-                              <audio
-                                className="label-reader-cloud-audio"
-                                controls
-                                preload="none"
-                                src={speechAudio.url}
-                                ref={audioRef}
-                                aria-label="Translated label audio"
-                              />
-                            )}
-                            {speechError?.key === resultSpeechKey && <p role="alert">{speechError.message}</p>}
-                          </div>
-                        )}
                         <p className="label-reader-reminder" role="note">
                           {translation?.texts?.[FIELD_LABELS.length] ?? 'Please confirm this label information with your pharmacist.'}
                         </p>

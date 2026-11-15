@@ -1,5 +1,11 @@
 export const FIELD_CONFIDENCE_THRESHOLD = 60
 
+// Exact label text only: this is not fuzzy drug-name correction or identification.
+const RECOGNIZED_STANDALONE_NAMES = new Set([
+  'ibuprofen', 'acetaminophen', 'paracetamol', 'aspirin', 'naproxen',
+  'amoxicillin', 'metformin', 'lisinopril',
+])
+
 export const ABBREVIATION_MEANINGS = {
   BID: 'twice daily',
   TID: 'three times daily',
@@ -55,7 +61,7 @@ function isLowConfidence(candidate) {
 }
 
 function resolveCandidates(candidates) {
-  if (candidates.length === 0) return makeField()
+  if (candidates.length === 0) return { ...makeField(), reason: 'missing' }
 
   const uniqueValues = new Map()
   for (const candidate of candidates) {
@@ -68,6 +74,8 @@ function resolveCandidates(candidates) {
 
   if (uniqueValues.size !== 1 || candidates.some((candidate) => candidate.uncertain || isLowConfidence(candidate))) {
     const field = makeField(null, originalText)
+    field.reason = uniqueValues.size !== 1 ? 'conflicting'
+      : candidates.some(isLowConfidence) ? 'low-confidence' : 'ambiguous'
     field.confidence = candidates.every((candidate) => Number.isFinite(candidate.confidence))
       ? Math.min(...candidates.map((candidate) => candidate.confidence))
       : null
@@ -177,6 +185,13 @@ function getDirectionsCandidates(lines) {
 function getDrugNameCandidates(lines, doseCandidates) {
   const candidates = []
 
+  for (const line of lines) {
+    const named = line.text.trim().match(/^(?:drug(?: name)?|medication|name)\s*[:=-]\s*(.+)$/i)
+    if (named && isPlausibleDrugName(named[1].trim())) {
+      candidates.push({ value: named[1].trim(), originalText: line.text, confidence: line.confidence })
+    }
+  }
+
   for (const dose of doseCandidates) {
     const prefix = dose.lineText.slice(0, dose.index).trim()
       .replace(/^(?:drug(?: name)?|medication|name)\s*[:=-]\s*/i, '')
@@ -200,7 +215,7 @@ function getDrugNameCandidates(lines, doseCandidates) {
         value,
         originalText: previousLine.text,
         confidence: previousLine.confidence,
-        uncertain: true,
+        uncertain: !RECOGNIZED_STANDALONE_NAMES.has(normalizeText(value)),
       })
     }
   }
@@ -255,7 +270,14 @@ export function parseLabel(text, ocrLines = []) {
     /\b(?:refills?|rf)\s*[:#-]?\s*\d+\b/gi,
     (match) => match[0].match(/\d+$/)[0],
   )
-  const dose = resolveCandidates(doseCandidates)
+  // Preserve the existing strength field when present. Otherwise extract an
+  // explicitly directed tablet/capsule amount without inferring its strength.
+  const amountCandidates = findMatches(
+    lines.filter((line) => /\b(?:take|swallow|dissolve)\b/i.test(line.text)),
+    /\b(?:\d+(?:\.\d+)?|one|two|three|four|half)\s+(?:tablets?|capsules?)\b/gi,
+    (match) => match[0].replace(/\s+/g, ' '),
+  )
+  const dose = resolveCandidates(doseCandidates.length > 0 ? doseCandidates : amountCandidates)
   const directions = resolveCandidates(getDirectionsCandidates(lines))
 
   return {

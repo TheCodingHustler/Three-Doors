@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./VisitPacket.css";
+import { profiles, readVisitReport } from "./visitReport.js";
 
 function VisitPacket() {
   // Load saved journal entries
@@ -26,6 +27,12 @@ function VisitPacket() {
 
   // Store the question currently being typed
   const [newQuestion, setNewQuestion] = useState("");
+  const [report] = useState(readVisitReport);
+  const [includeJournal, setIncludeJournal] = useState(false);
+  const clinicName = report?.address && report.building?.endsWith(` · ${report.address}`)
+    ? report.building.slice(0, -report.address.length - 3) : report?.building;
+  const routeStops = report?.route?.stops || [report?.route?.start, report?.route?.end].filter(Boolean);
+  const accessNeed = profiles.find((profile) => profile.id === report?.profile)?.title;
   const [clinicAddress] = useState(() => {
     return localStorage.getItem("threeDoorsClinicAddress") || "";
   });
@@ -85,19 +92,36 @@ function VisitPacket() {
           <div>
             <h3>Arrival & Accessibility</h3>
 
-            {clinicAddress ? (
+            {report?.building ? (
               <>
-                <p>
-                  <strong>Healthcare facility address:</strong>
-                </p>
-                <p>{clinicAddress}</p>
-
-                <span className="packet-pending">
-                  Accessibility review not yet completed
-                </span>
+                <p><strong>{report.demo ? "Guided demo · Sample medical office" : clinicName}</strong></p>
+                {!report.demo && report.address && <p>{report.address}</p>}
+                {accessNeed && <p>Access need · {accessNeed}</p>}
+                {report.demo && <p>Simulated floor plan and route for demonstration.</p>}
+                {report.route && <>
+                  <p>{report.demo ? "Example route" : "Possible route inside"} · About {report.route.metres} m</p>
+                  <ol>{routeStops.map((stop, index) => <li key={index}>{stop}</li>)}</ol>
+                  {!report.demo && <p>Confirm the entrance, check-in, and step-free access with staff.</p>}
+                </>}
+                {report.findings?.length > 0 && (
+                  <>
+                    <h4>Potential barriers in the captured evidence</h4>
+                    <ul>{report.findings.map(({ title, detail, source }, index) => (
+                      <li key={index}><strong>{title}.</strong> {detail} {source && <small>({source})</small>}</li>
+                    ))}</ul>
+                  </>
+                )}
+                {report.confirmations?.length > 0 && (
+                  <>
+                    <h4>Questions and checks for venue staff</h4>
+                    <ul>{report.confirmations.map((item) => <li key={item}>{item}</li>)}</ul>
+                  </>
+                )}
               </>
+            ) : clinicAddress ? (
+              <p>Healthcare facility address · {clinicAddress}</p>
             ) : (
-              <p>No clinic address has been entered yet.</p>
+              <p>Save a location report from Access Scan to add it here.</p>
             )}
           </div>
         </div>
@@ -125,9 +149,14 @@ function VisitPacket() {
   <div>
     <h3>Symptom & Food Timeline</h3>
 
-    {journalEntries.length === 0 ? (
-      <p>No journal entries have been recorded yet.</p>
-    ) : (
+      {journalEntries.length > 0 && (
+      <label className="packet-include-journal">
+        <input type="checkbox" checked={includeJournal} onChange={(event) => setIncludeJournal(event.target.checked)} />
+        Include journal entries in the packet
+      </label>
+    )}
+    {journalEntries.length === 0 && <p>No journal entries have been recorded yet.</p>}
+    {includeJournal && journalEntries.length > 0 && (
       <div className="packet-journal-list">
         {[...journalEntries]
           .sort((a, b) => a.date.localeCompare(b.date))

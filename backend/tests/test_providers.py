@@ -37,7 +37,8 @@ class ProviderTests(unittest.TestCase):
                     "skybox": {"children": ["https://cdn.example/face"] * 6},
                 }]}
             else:
-                self.assertIn("dimensions(units: metric)", query["query"])
+                self.assertIn("floors", query["query"])
+                self.assertNotIn("rooms", query["query"])
                 model = {"floors": [{"id": "floor-1"}], "panoLocations": [{"id": "scan-1"}]}
             return Response(json.dumps({"data": {"model": model}}).encode())
 
@@ -46,10 +47,27 @@ class ProviderTests(unittest.TestCase):
                 with patch.object(providers, "urlopen", return_value=Response(JPEG)):
                     model, images, status = providers.matterport("x37LjPx62VA")
         self.assertEqual(model["floors"][0]["id"], "floor-1")
+        self.assertEqual(model["scan_previews"], {"scan-1": "https://cdn.example/face"})
         self.assertEqual(images["interior-1-face-1"][3], "scan-1")
         self.assertEqual(images["interior-1-face-1"][2], "image/jpeg")
         self.assertEqual(len(images), 6)
         self.assertEqual(status, "Geometry and scan imagery loaded")
+
+    def test_geometry_query_does_not_request_room_dimensions(self):
+        queries = []
+        def graph_response(request, timeout):
+            query = json.loads(request.data)["query"]
+            queries.append(query)
+            model = {"floors": [], "rooms": [], "panoLocations": []}
+            return Response(json.dumps({"data": {"model": model}}).encode())
+        with patch.dict(os.environ, {"MATTERPORT_API_KEY": "key", "MATTERPORT_API_TOKEN": "token"}):
+            with patch.object(providers, "open_without_redirect", side_effect=graph_response):
+                model, images, status = providers.matterport("model-id")
+        self.assertIsNotNone(model)
+        self.assertEqual(images, {})
+        self.assertIn("Geometry loaded", status)
+        self.assertEqual(queries[0], providers.GEOMETRY_QUERY)
+        self.assertNotIn("rooms", queries[0])
 
     def test_vexcel_uses_configured_key_and_bounded_area(self):
         def image_response(request, timeout):

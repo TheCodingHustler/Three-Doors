@@ -11,7 +11,9 @@ export const FIELD_LABELS = [
 
 export function getFieldSentence(key, field, label) {
   if (field?.status !== 'found') {
-    return `Couldn't read the ${label.toLowerCase()}, please check the label.`
+    if (field?.reason === 'conflicting') return `Conflicting ${label.toLowerCase()} text found. Please check the original label.`
+    if (field?.originalText) return `Possible ${label.toLowerCase()} text found, but it could not be confirmed. Please check the original label.`
+    return `No ${label.toLowerCase()} information identified in the label text.`
   }
 
   if (key === 'directions') return field.value
