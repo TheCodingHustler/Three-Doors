@@ -897,3 +897,20 @@
       6px 6px 0 #b9d5e8;
   }
 }
+.packet-include-journal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block: 0.5rem;
+  cursor: pointer;
+}
+
+.packet-source-status {
+  margin-top: 0.75rem;
+}
+
+@media print {
+  .packet-include-journal {
+    display: none !important;
+  }
+}

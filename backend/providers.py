@@ -11,10 +11,8 @@ MATTERPORT_API = "https://api.matterport.com/api/models/graph"
 VEXCEL_API = "https://api.vexcelgroup.com/v2/ortho/extract"
 MAX_IMAGE_BYTES = 12_000_000
 MAX_WALKTHROUGH_BYTES = 10_000_000
-ROOMS_QUERY = """query Rooms($id: ID!) { model(id: $id) {
+GEOMETRY_QUERY = """query Geometry($id: ID!) { model(id: $id) {
     floors { id label vertices { id position { x y } } edges { id type thickness vertices { id } } }
-    rooms { id floor { id } classifications { label confidence } boundary { edges { id } }
-        dimensions(units: metric) { areaFloor width depth height } }
   panoLocations { id label position { x y z } }
 } }"""
 PANOS_QUERY = """query Panos($id: ID!) { model(id: $id) {
@@ -53,6 +51,13 @@ def read_image(request, *, timeout=15, allow_redirects=False, max_bytes=MAX_IMAG
     return data, mime_type
 
 
+def scan_image_url(url):
+    parsed = urlsplit(url) if isinstance(url, str) else None
+    if parsed and parsed.scheme == "https" and parsed.hostname and not (parsed.username or parsed.password):
+        return url
+    return None
+
+
 def matterport(model_id):
     key, token = os.environ.get("MATTERPORT_API_KEY"), os.environ.get("MATTERPORT_API_TOKEN")
     if not key or not token:
@@ -74,7 +79,7 @@ def matterport(model_id):
         return result["data"]["model"]
 
     try:
-        model = graph(ROOMS_QUERY)
+        model = graph(GEOMETRY_QUERY)
     except (HTTPError, URLError, OSError, ValueError, KeyError, TypeError, json.JSONDecodeError):
         return None, {}, "Model query unavailable"
 
@@ -85,6 +90,12 @@ def matterport(model_id):
             item for item in locations
             if len(((item.get("skybox") or {}).get("children") or [])) >= 5
         ]
+        model["scan_previews"] = {}
+        for item in available:
+            children = item["skybox"]["children"]
+            url = next((valid for index in (2, 1, 3, 4) if (valid := scan_image_url(children[index]))), None)
+            if item.get("id") and url:
+                model["scan_previews"][item["id"]] = url
         if len(available) <= 3:
             sampled = available
         else:
@@ -96,9 +107,8 @@ def matterport(model_id):
                 children = (item.get("skybox") or {}).get("children") or []
                 if face_index >= len(children) or total_bytes >= MAX_WALKTHROUGH_BYTES:
                     continue
-                url = children[face_index]
-                parsed = urlsplit(url) if isinstance(url, str) else None
-                if not parsed or parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password:
+                url = scan_image_url(children[face_index])
+                if not url:
                     continue
                 remaining = MAX_WALKTHROUGH_BYTES - total_bytes
                 try:
@@ -111,7 +121,7 @@ def matterport(model_id):
                 total_bytes += len(data)
                 evidence_id = "interior-" + str(scan_index) + "-face-" + str(face_index)
                 images[evidence_id] = (
-                    "Matterport scan " + str(item.get("label", "unnamed")) + " · skybox face " + str(face_index),
+                    "Matterport scan " + str(item.get("label", "unnamed")) + " · view " + str(face_index),
                     data,
                     mime_type,
                     item.get("id"),
