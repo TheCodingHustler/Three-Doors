@@ -14,6 +14,7 @@ from backend.server import (
     Handler,
     GeminiServiceError,
     SpeechConfigurationError,
+    SpeechServiceError,
     decode_image,
     deepl_api_base,
     gemini_synthesize_speech,
@@ -285,18 +286,16 @@ class SpeechTests(unittest.TestCase):
     def test_requires_a_server_side_gemini_key(self):
         with patch.dict(os.environ, {
             "GEMINI_API_KEY": "",
-            "GEMINI_TTS_PAID_TIER_CONFIRMED": "true",
         }):
             with self.assertRaises(SpeechConfigurationError):
                 gemini_synthesize_speech("Hola", "es")
 
-    def test_requires_paid_tier_confirmation_before_sending_speech_text(self):
-        with patch.dict(os.environ, {
-            "GEMINI_API_KEY": "test-gemini-key",
-            "GEMINI_TTS_PAID_TIER_CONFIRMED": "false",
-        }):
-            with self.assertRaisesRegex(SpeechConfigurationError, "paid Gemini API tier"):
-                gemini_synthesize_speech("Hola", "es")
+    def test_reports_actual_provider_quota_and_access_errors(self):
+        for code, message in ((429, "quota or rate limit"), (403, "denied speech access"), (500, "HTTP 500")):
+            with self.subTest(code=code), patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}), \
+                    patch("backend.server.urlopen", side_effect=urllib.error.HTTPError("https://example.com", code, "error", {}, None)):
+                with self.assertRaisesRegex(SpeechServiceError, message):
+                    gemini_synthesize_speech("Hola", "es")
 
     def test_synthesizes_only_the_translated_text_with_the_server_key(self):
         wave = b"RIFF" + b"0000" + b"WAVE" + b"sample"
@@ -307,7 +306,7 @@ class SpeechTests(unittest.TestCase):
         response.__enter__.return_value.read.return_value = api_response
         with patch.dict(os.environ, {
             "GEMINI_API_KEY": "test-gemini-key",
-            "GEMINI_TTS_PAID_TIER_CONFIRMED": "true",
+            "GEMINI_TTS_PAID_TIER_CONFIRMED": "false",
         }):
             with patch("backend.server.urlopen", return_value=response) as request:
                 audio = gemini_synthesize_speech("النص المترجم", "ar")
@@ -332,7 +331,6 @@ class SpeechTests(unittest.TestCase):
         response.__enter__.return_value.read.return_value = api_response
         with patch.dict(os.environ, {
             "GEMINI_API_KEY": "test-gemini-key",
-            "GEMINI_TTS_PAID_TIER_CONFIRMED": "true",
         }):
             with patch("backend.server.urlopen", return_value=response):
                 audio = gemini_synthesize_speech("Hola", "es")

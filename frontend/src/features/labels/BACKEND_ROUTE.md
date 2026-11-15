@@ -53,7 +53,9 @@ reminder.
 The browser sends only the already translated text and the selected language
 code. The backend uses Gemini TTS and returns WAV audio as base64. The image,
 raw OCR text, and English original are not sent to the speech route. The audio
-player stays in the browser; playback requires a user click.
+playback starts from the single Read aloud button. It tries Gemini first and
+automatically uses a matching installed browser voice if generation or playback
+fails. Stop reading cancels pending playback as well as active audio.
 
 Request:
 
@@ -74,11 +76,11 @@ Response:
 ```
 
 The speech route uses the server-side `GEMINI_API_KEY`; it does not change or
-replace DeepL translation. Use a paid Gemini API tier for prescription text:
-Google's [current pricing page](https://ai.google.dev/gemini-api/docs/pricing)
-says paid-tier requests are not used to improve Google products, while
-free-tier data may be used for that purpose. The route stays disabled until
-`GEMINI_TTS_PAID_TIER_CONFIRMED=true` is set in `backend/.env`.
+replace DeepL translation. No paid-tier confirmation setting is required.
+Google determines model access and available quota for the project; quota and
+access errors appear in the UI. Free device read-aloud remains available.
+Google's [pricing page](https://ai.google.dev/gemini-api/docs/pricing) describes
+free-tier availability and differences in data use between API tiers.
 
 ## Optional `POST /api/parse-label`
 
