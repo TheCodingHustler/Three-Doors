@@ -197,7 +197,8 @@ def validate_translation_request(body):
     if (not isinstance(texts, list) or not 1 <= len(texts) <= MAX_TRANSLATION_TEXTS
             or any(not isinstance(text, str) or not text or len(text) > MAX_TRANSLATION_TEXT_LENGTH for text in texts)):
         raise ValueError("Provide 1 to 20 text strings, each 1-3000 characters.")
-    if not isinstance(target_language, str) or not re.fullmatch(r"[A-Za-z-]{2,10}", target_language):
+    if (not isinstance(target_language, str) or len(target_language) > 20
+            or not re.fullmatch(r"[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*", target_language)):
         raise ValueError("A valid target language code is required.")
     return texts, target_language
 

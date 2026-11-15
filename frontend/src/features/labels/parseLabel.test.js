@@ -1,6 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { parseLabel, shouldRetryOCR } from './parseLabel.js'
+import { getFieldSentence } from './plainLanguage.js'
 
 const sampleLabel = `EXAMPLE MEDICINE 10 MG TABLET
 Take 1 tablet in the evening.
@@ -96,6 +97,47 @@ test('does not confidently guess a drug name from the line above directions', ()
   assert.equal(parsed.drugName.value, null)
   assert.equal(parsed.drugName.originalText, 'ALEX SAMPLE')
   assert.equal(parsed.drugName.status, 'unclear')
+})
+
+test('reads the screenshot label without inventing a strength or route', () => {
+  const parsed = parseLabel('Ibuprofen\nTake twice a day, 2 tablets each time')
+  assert.equal(parsed.drugName.value, 'Ibuprofen')
+  assert.equal(parsed.drugName.status, 'found')
+  assert.equal(parsed.dose.value, '2 tablets')
+  assert.equal(parsed.dose.originalText, '2 tablets')
+  assert.equal(parsed.frequency.value, 'twice daily')
+  assert.equal(parsed.route.value, null)
+  assert.equal(getFieldSentence('drugName', parsed.drugName, 'Medication'), 'Medication: Ibuprofen.')
+  assert.equal(getFieldSentence('dose', parsed.dose, 'Dose'), 'Dose: 2 tablets.')
+})
+
+test('accepts explicit medication names but does not correct unknown standalone text', () => {
+  assert.equal(parseLabel('Medication: ExampleDrug\nTake two capsules daily').drugName.value, 'ExampleDrug')
+  assert.equal(parseLabel('Ibuproten\nTake two capsules daily').drugName.status, 'unclear')
+  assert.equal(parseLabel('Ibuproten\nTake two capsules daily').dose.value, 'two capsules')
+})
+
+test('keeps low-confidence medication names and tablet amounts unclear', () => {
+  const text = 'Ibuprofen\nTake 2 tablets twice daily'
+  const parsed = parseLabel(text, text.split('\n').map((text) => ({ text, confidence: 45 })))
+  assert.equal(parsed.drugName.status, 'unclear')
+  assert.equal(parsed.dose.status, 'unclear')
+  assert.equal(parsed.dose.reason, 'low-confidence')
+  assert.match(getFieldSentence('dose', parsed.dose, 'Dose'), /text found, but it could not be confirmed/)
+})
+
+test('does not mistake bottle contents for the directed dose or resolve conflicting amounts', () => {
+  assert.equal(parseLabel('Ibuprofen\nQty: 30 tablets').dose.status, 'unclear')
+  const parsed = parseLabel('Ibuprofen\nTake 1 tablet daily\nTake 2 tablets daily')
+  assert.equal(parsed.dose.status, 'unclear')
+  assert.equal(parsed.dose.reason, 'conflicting')
+  assert.match(getFieldSentence('dose', parsed.dose, 'Dose'), /Conflicting dose text/)
+})
+
+test('distinguishes missing and uncertain fields in the displayed reading', () => {
+  const parsed = parseLabel('ALEX SAMPLE\nTake daily')
+  assert.match(getFieldSentence('drugName', parsed.drugName, 'Medication'), /Possible medication text found/)
+  assert.match(getFieldSentence('dose', parsed.dose, 'Dose'), /No dose information identified/)
 })
 
 test('one low-confidence line does not block a mostly readable label', () => {

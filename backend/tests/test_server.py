@@ -242,6 +242,21 @@ class TranslationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "valid target language"):
             validate_translation_request({"texts": ["Hello"], "targetLanguage": "../es"})
 
+    def test_accepts_numeric_region_language_codes(self):
+        self.assertEqual(validate_translation_request({"texts": ["Hello"], "targetLanguage": "es-419"}),
+                         (["Hello"], "es-419"))
+        for code in ("419", "es--419", "es/419"):
+            with self.subTest(code=code), self.assertRaises(ValueError):
+                validate_translation_request({"texts": ["Hello"], "targetLanguage": code})
+
+    def test_forwards_latin_american_spanish_catalog_code(self):
+        with patch.dict(os.environ, {"DEEPL_AUTH_KEY": "test-key:fx"}), \
+                patch("backend.server.deepl_target_languages", return_value=[{"code": "es-419", "name": "Spanish (Latin American)"}]), \
+                patch("backend.server.deepl_request", return_value={"translations": [{"text": "Hola"}]}) as request:
+            texts, language = validate_translation_request({"texts": ["Hello"], "targetLanguage": "es-419"})
+            self.assertEqual(translate_texts(texts, language), ["Hola"])
+        self.assertEqual(request.call_args.args[2]["target_lang"], "es-419")
+
     def test_translates_only_to_a_supported_target(self):
         with patch.dict(os.environ, {"DEEPL_AUTH_KEY": "test-key:fx"}):
             with patch("backend.server.deepl_target_languages", return_value=[{"code": "es", "name": "Spanish"}]):
