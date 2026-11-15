@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MedicationReader from "./MedicationReader.jsx";
+import MedicationReader from "./features/labels/Medications.jsx";
 import SymptomJournal from "./SymptomJournal.jsx";
 import VisitPacket from "./VisitPacket.jsx";
 import "./App.css";
@@ -381,6 +381,19 @@ function AccessScan() {
 
 function App() {
   const [selectedTool, setSelectedTool] = useState(null);
+  const [showPageLoader, setShowPageLoader] = useState(true);
+
+  useEffect(() => {
+    const loaderTimer = window.setTimeout(() => setShowPageLoader(false), 800);
+    return () => window.clearTimeout(loaderTimer);
+  }, []);
+
+  function returnHome() {
+    setSelectedTool(null);
+    setShowPageLoader(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.setTimeout(() => setShowPageLoader(false), 800);
+  }
 
   const tools = [
   {
@@ -456,10 +469,16 @@ function App() {
 
   return (
     <div className={`app${selectedTool?.id === "access" ? " app-access" : ""}`}>
+      {showPageLoader && (
+        <div className="page-loader" role="status" aria-live="polite">
+          <span className="page-loader-mark" aria-hidden="true">✦</span>
+          <span className="page-loader-label">Opening Three Doors</span>
+        </div>
+      )}
       <header className="navbar">
         <button
           className="brand"
-          onClick={() => setSelectedTool(null)}
+          onClick={returnHome}
         >
           ✦ THREE DOORS
         </button>
