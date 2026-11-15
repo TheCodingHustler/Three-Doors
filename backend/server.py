@@ -14,7 +14,7 @@ from urllib.parse import parse_qs, quote, urlsplit
 from urllib.request import Request, urlopen
 
 from . import catalog
-from . import providers, route
+from . import providers, route, prepared
 
 ROOT = Path(__file__).resolve().parent.parent
 MAX_IMAGE_BYTES = 8 * 1024 * 1024
@@ -87,7 +87,31 @@ class GeminiConfigurationError(Exception):
 
 
 class GeminiServiceError(Exception):
-    pass
+    def __init__(self, message, *, retry_after=None, quota_type=None):
+        super().__init__(message)
+        self.retry_after = retry_after
+        self.quota_type = quota_type
+
+
+def gemini_rate_limit(error):
+    retry_after, quota_type = 60, "temporary"
+    try:
+        header = (error.headers or {}).get("Retry-After", "")
+        if str(header).isdigit():
+            retry_after = max(1, min(300, int(header)))
+        payload = json.loads(error.read(16000).decode("utf-8"))
+        for detail in payload.get("error", {}).get("details", []):
+            delay = detail.get("retryDelay", "")
+            if isinstance(delay, str) and re.fullmatch(r"[0-9.]+s", delay):
+                retry_after = max(1, min(300, int(float(delay[:-1])) + 1))
+            for violation in detail.get("violations", []):
+                if "perday" in violation.get("quotaId", "").replace("_", "").lower():
+                    quota_type = "daily"
+    except (AttributeError, TypeError, ValueError, OSError):
+        pass
+    if quota_type == "daily":
+        return GeminiServiceError("Gemini daily quota reached. Saved preparation progress is preserved; retry after quota resets or use a project with available quota.", quota_type="daily")
+    return GeminiServiceError("Gemini rate limit reached. Saved progress is preserved.", retry_after=retry_after, quota_type="temporary")
 
 
 def load_local_env():
@@ -205,7 +229,7 @@ def gemini_request(payload, *, compact=False):
         if error.code == 503:
             raise GeminiServiceError("Gemini is temporarily experiencing high demand. Try again shortly.")
         if error.code == 429:
-            raise GeminiServiceError("Gemini rate limit reached. Try again shortly.")
+            raise gemini_rate_limit(error)
         raise GeminiServiceError("Gemini request failed with HTTP " + str(error.code) + ". Check the key and model settings.")
     except (URLError, TimeoutError, OSError):
         raise GeminiServiceError("Gemini could not be reached. Check the connection and try again.")
@@ -359,7 +383,7 @@ def is_local_request(headers):
     return host in allowed_hosts and (origin_host is None or origin_host in allowed_hosts)
 
 
-def location_report(body, records, audits=None):
+def location_report(body, records, audits=None, prepared_store=None):
     if not isinstance(body, dict):
         raise ValueError("Choose a building and an access profile.")
     building_id = body.get("building")
@@ -370,10 +394,16 @@ def location_report(body, records, audits=None):
     if not building:
         raise ValueError("Choose a building from the local list.")
     demo = body.get("demo") is True
+    cached = prepared_store.load(building_id, profile, images=True) if prepared_store is not None and not demo else None
     sources = {"CoStar": building.get("property_source", "Property record unavailable")}
     imagery = {}
     model = None
-    if demo:
+    if cached:
+        geometry = cached["geometry"]
+        imagery = cached["images"]
+        sources.update({"Matterport": "Prepared scan review · " + cached["source"],
+                        "Vexcel": "Not included in this prepared indoor review"})
+    elif demo:
         geometry = route.sample_geometry()
         sources.update({"Matterport": "Skipped in guided demo", "Vexcel": "Skipped in guided demo"})
     else:
@@ -389,7 +419,10 @@ def location_report(body, records, audits=None):
             geometry = {"walls": [], "scans": [], "status": "Live indoor geometry is unavailable."}
     candidate = (route.candidate_between(geometry, "0", "4") if demo
                  else route.example_candidate(geometry))
-    ai = gemini_review(building, profile, imagery) if not demo else {
+    ai = ({"source": "Prepared Gemini walkthrough review", "status": "Cached · Matterport review", "reviewed": ["Matterport"],
+           "observations": cached["findings"], "confirmations": [],
+           "limitations": "Prepared review of sampled views, not a complete access audit. Confirm current conditions with staff."}
+          if cached else gemini_review(building, profile, imagery)) if not demo else {
         "status": "Skipped in guided demo", "observations": [], "confirmations": [], "limitations": "Simulated evidence is not analyzed.",
     }
     profiles = {
@@ -409,6 +442,8 @@ def location_report(body, records, audits=None):
     previews = (model or {}).get("scan_previews", {})
     audit_id = audits.add(geometry, imagery, profile, previews) if audits is not None else None
     return {
+        "preparedWalkthrough": {key: value for key, value in cached.items()
+                                if key not in {"images", "geometry", "source", "scanEvidence"}} if cached else None,
         "auditId": audit_id,
         "evidence": [
             {"id": key, "title": title, "scanId": scan_id,
@@ -417,10 +452,13 @@ def location_report(body, records, audits=None):
         ] if audit_id else [],
         "address": building["address"] + ", " + building["city"],
         "clinicName": building["name"],
-        "scanPreviews": {
+        "scanPreviews": ({
+            scan["id"]: "/api/evidence/" + audit_id + "/" + cached["scanEvidence"][scan["id"]]
+            for scan in geometry["scans"] if scan["id"] in cached["scanEvidence"]
+        } if cached and audit_id else {
             scan["id"]: "/api/viewpoint/" + audit_id + "/" + quote(scan["id"], safe="")
             for scan in geometry["scans"] if scan["id"] in previews
-        } if audit_id else {},
+        } if audit_id else {}),
         "source": "Guided demo · simulated evidence" if demo else "Building access evidence review",
         "building": building["name"] + " · " + building["address"] + ", " + building["city"],
         "profile": profile,
@@ -592,6 +630,12 @@ class Handler(BaseHTTPRequestHandler):
                     if separator and name.strip() == "MATTERPORT_SDK_KEY":
                         sdk_key = value.strip().strip("\"'")
             return self.reply({"sdkKey": sdk_key})
+        if parsed.path == "/api/prepared/status":
+            params = parse_qs(parsed.query)
+            store = getattr(self.server, "prepared_store", prepared.PreparedStore())
+            cached = store.load(params.get("model", [""])[0], params.get("profile", [""])[0])
+            return self.reply({"ready": bool(cached), "preparation": store.progress(params.get("model", [""])[0], params.get("profile", [""])[0]), "cache": {key: value for key, value in cached.items()
+                               if key not in {"images", "geometry", "source", "scanEvidence"}} if cached else None})
         evidence = re.fullmatch(r"/api/evidence/([a-f0-9]{32})/([a-z0-9-]+)", parsed.path)
         if evidence:
             entry = self.server.audits.get(evidence[1])
@@ -629,7 +673,7 @@ class Handler(BaseHTTPRequestHandler):
         return self.reply(catalog.search_catalog(records, query))
 
     def do_POST(self):
-        if self.path not in {"/api/audit", "/api/plan", "/api/route", "/api/walkthrough-review"}:
+        if self.path not in {"/api/audit", "/api/plan", "/api/route", "/api/walkthrough-review", "/api/prepared/start", "/api/prepared/view", "/api/prepared/publish"}:
             return self.reply({"error": "Endpoint unavailable."}, 404)
         if not is_local_request(self.headers):
             return self.reply({"error": "Requests must come from the local app."}, 403)
@@ -638,6 +682,28 @@ class Handler(BaseHTTPRequestHandler):
             if not 0 < length <= MAX_REQUEST_BYTES:
                 return self.reply({"error": "Request is empty or too large."}, 413)
             body = json.loads(self.rfile.read(length).decode("utf-8"))
+            if self.path.startswith("/api/prepared/"):
+                if not isinstance(body, dict):
+                    raise ValueError("Invalid preparation request")
+                store = getattr(self.server, "prepared_store", prepared.PreparedStore())
+                if self.path == "/api/prepared/start":
+                    records = getattr(self.server, "catalog_records", None) or catalog.load_catalog()
+                    if body.get("building") != catalog.DEMO_ID or body.get("profile") != "step-free":
+                        raise ValueError("This preparation is configured for the Houston clinic and step-free access.")
+                    if not os.environ.get("GEMINI_API_KEY"):
+                        raise GeminiConfigurationError("Add GEMINI_API_KEY before preparing the clinic.")
+                    record = records[catalog.DEMO_ID]
+                    model, _, source = providers.matterport(record["id"], include_images=False)
+                    try:
+                        geometry = route.floor_geometry(model) if model else {"walls": [], "scans": [], "rooms": [], "status": source}
+                    except (ValueError, TypeError, KeyError):
+                        geometry = {"walls": [], "scans": [], "rooms": [], "status": "Geometry unavailable"}
+                    return self.reply(store.start(record["id"], "step-free", body.get("fingerprint"), body.get("plan"), geometry, source))
+                if self.path == "/api/prepared/view":
+                    _, _, mime, image_data = validate_submission(body)
+                    raw = decode_image(mime, image_data)
+                    return self.reply(store.save_view(body.get("jobId"), body.get("viewId"), body.get("localized"), body.get("unplaced"), mime, raw))
+                return self.reply(store.publish(body.get("jobId")))
             if self.path == "/api/route":
                 result = select_route(body, self.server.audits)
                 if result is None:
@@ -645,7 +711,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self.reply(result)
             if self.path == "/api/plan":
                 records = getattr(self.server, "catalog_records", None) or catalog.load_catalog()
-                return self.reply(location_report(body, records, self.server.audits))
+                return self.reply(location_report(body, records, self.server.audits, getattr(self.server, "prepared_store", None)))
             building, profile, mime_type, image_data = validate_submission(body)
             result = (review_walkthrough_frame(profile, mime_type, image_data)
                       if self.path == "/api/walkthrough-review"
@@ -656,7 +722,12 @@ class Handler(BaseHTTPRequestHandler):
         except GeminiConfigurationError as error:
             return self.reply({"error": str(error)}, 503)
         except GeminiServiceError as error:
-            return self.reply({"error": str(error)}, 502)
+            details = {"error": str(error)}
+            if error.retry_after is not None:
+                details["retryAfterSeconds"] = error.retry_after
+            if error.quota_type:
+                details["quotaType"] = error.quota_type
+            return self.reply(details, 429 if error.quota_type else 502)
 
 
 def main():
@@ -665,6 +736,7 @@ def main():
     with ThreadingHTTPServer(("127.0.0.1", port), Handler) as server:
         server.catalog_records = catalog.load_catalog()
         server.audits = AuditStore()
+        server.prepared_store = prepared.PreparedStore()
         print("Access Scan Gemini proxy ready at http://127.0.0.1:" + str(server.server_port), flush=True)
         try:
             server.serve_forever()

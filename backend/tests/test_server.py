@@ -85,6 +85,19 @@ class GeminiResponseTests(unittest.TestCase):
         with self.assertRaises(GeminiServiceError):
             parse_gemini_response(body)
 
+    def test_rate_limit_preserves_retry_delay_and_identifies_daily_quotas(self):
+        from io import BytesIO
+        from backend.server import gemini_rate_limit
+        def limited(details, headers=None):
+            return urllib.error.HTTPError("https://example.test", 429, "Limited", headers or {},
+                                          BytesIO(json.dumps({"error": {"details": details}}).encode()))
+        temporary = gemini_rate_limit(limited([{"retryDelay": "31s"}]))
+        self.assertEqual(temporary.retry_after, 32)
+        self.assertEqual(temporary.quota_type, "temporary")
+        daily = gemini_rate_limit(limited([{"violations": [{"quotaId": "GenerateContentRequestsPerDayPerProjectPerModel-FreeTier"}]}]))
+        self.assertEqual(daily.quota_type, "daily")
+        self.assertIsNone(daily.retry_after)
+
     def test_rejects_unstructured_response(self):
         body = json.dumps({"candidates": [{"content": {"parts": [{"text": "not json"}]}}]}).encode()
         with self.assertRaises(GeminiServiceError):
@@ -252,6 +265,34 @@ class ProxyHttpTests(unittest.TestCase):
             with urllib.request.urlopen(request) as response:
                 self.assertEqual(json.loads(response.read()), {"observations": []})
             review.assert_called_once_with("step-free", "image/jpeg", payload["imageData"])
+
+    def test_prepare_publish_and_cached_report_over_http(self):
+        from tempfile import TemporaryDirectory
+        from pathlib import Path
+        from backend.prepared import PreparedStore
+        def post(path, payload):
+            request = urllib.request.Request(self.url.replace("/api/audit", path), data=json.dumps(payload).encode(),
+                                             headers={"Content-Type": "application/json"})
+            with urllib.request.urlopen(request, timeout=4) as response:
+                return json.loads(response.read())
+        with TemporaryDirectory() as directory:
+            self.server.prepared_store = PreparedStore(Path(directory) / "prepared.sqlite3")
+            with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}), patch("backend.server.providers.matterport", return_value=(None, {}, "Geometry unavailable")) as provider:
+                job = post("/api/prepared/start", {"building": "x37LjPx62VA", "profile": "step-free", "fingerprint": "a" * 64,
+                           "plan": [{"scanId": "scan", "rotation": {"x": 0, "y": 0}}]})
+                post("/api/prepared/view", {"jobId": job["jobId"], "viewId": 0, "building": "Clinic", "profile": "step-free",
+                     "mimeType": "image/jpeg", "imageData": base64.b64encode(b"\xff\xd8\xffimage").decode(),
+                     "localized": [], "unplaced": []})
+                self.assertTrue(post("/api/prepared/publish", {"jobId": job["jobId"]})["published"])
+                report = post("/api/plan", {"building": "x37LjPx62VA", "profile": "step-free"})
+                self.assertEqual(report["preparedWalkthrough"]["reviewedViews"], 1)
+                self.assertEqual(report["ai"]["status"], "Cached · Matterport review")
+                provider.assert_called_once_with("x37LjPx62VA", include_images=False)
+            status_url = self.url.replace("/api/audit", "/api/prepared/status?model=x37LjPx62VA&profile=step-free")
+            with urllib.request.urlopen(status_url) as response:
+                status = json.loads(response.read())
+            self.assertTrue(status["ready"])
+            self.assertEqual(status["preparation"]["savedViews"], 1)
 
     def test_selected_step_free_candidate_avoids_marked_segment(self):
         def post(path, body):

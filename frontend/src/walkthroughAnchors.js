@@ -48,7 +48,7 @@ export function screenshotPayload(image) {
   return { mimeType, imageData };
 }
 
-export async function analyzeWalkthroughView({ sdk, width, height, profile, signal, isCurrent, getZoom = () => 1, onStage = () => {}, fetchReview = fetch }) {
+export async function analyzeWalkthroughView({ sdk, width, height, profile, signal, isCurrent, getZoom = () => 1, onStage = () => {}, includeEvidence = false, fetchReview = fetch }) {
   const started = performance.now();
   onStage("capture");
   const startPose = await sdk.Camera.getPose();
@@ -74,7 +74,12 @@ export async function analyzeWalkthroughView({ sdk, width, height, profile, sign
       body: JSON.stringify({ building: "Current clinic walkthrough view", profile, ...screenshot }),
     });
     review = await response.json();
-    if (!response.ok) throw new Error(review.error || "Automatic barrier review failed.");
+    if (!response.ok) {
+      const error = new Error(review.error || "Automatic barrier review failed.");
+      error.retryAfterSeconds = review.retryAfterSeconds;
+      error.quotaType = review.quotaType;
+      throw error;
+    }
   } finally { clearTimeout(timeout); signal?.removeEventListener("abort", abort); }
   if (!await unchanged()) return { stale: true };
   const reviewed = performance.now();
@@ -97,7 +102,7 @@ export async function analyzeWalkthroughView({ sdk, width, height, profile, sign
       localized.push({ ...finding, anchor: { ...anchor, zoom } });
     } catch { unplaced.push({ ...finding, placementReason: "The scanned geometry could not locate this feature." }); }
   }
-  return { localized, unplaced, stale: false, timings: {
+  return { localized, unplaced, stale: false, ...(includeEvidence ? { screenshot } : {}), timings: {
     captureMs: Math.round(captured - started), reviewMs: Math.round(reviewed - captured),
     localizationMs: Math.round(performance.now() - reviewed),
   } };

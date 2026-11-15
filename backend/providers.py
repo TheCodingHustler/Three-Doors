@@ -58,7 +58,7 @@ def scan_image_url(url):
     return None
 
 
-def matterport(model_id):
+def matterport(model_id, *, include_images=True):
     key, token = os.environ.get("MATTERPORT_API_KEY"), os.environ.get("MATTERPORT_API_TOKEN")
     if not key or not token:
         return None, {}, "Credentials missing"
@@ -82,6 +82,9 @@ def matterport(model_id):
         model = graph(GEOMETRY_QUERY)
     except (HTTPError, URLError, OSError, ValueError, KeyError, TypeError, json.JSONDecodeError):
         return None, {}, "Model query unavailable"
+
+    if not include_images:
+        return model, {}, "Geometry loaded"
 
     images = {}
     try:

@@ -1,23 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { connectFrame, connectionError } from "./walkthroughConnection.js";
+import { loadSdk } from "./matterportSdk.js";
+import { getSweepSnapshot, sweepFingerprint, addBarrierTag, waitForPlaying } from "./preparedWalkthrough.js";
+import { connectFrame, connectionError, safeErrorDetail } from "./walkthroughConnection.js";
 import { barrierImpact } from "./barrierImpact.js";
 import { analyzeWalkthroughView, viewKey, resolveScanId, navigateToMarker, markerStemVector, createReviewTracker } from "./walkthroughAnchors.js";
 
-let bootstrap;
-function loadSdk(key) {
-  if (!bootstrap) {
-    bootstrap = new Promise((resolve, reject) => {
-      const script = document.createElement("script");
-      script.src = `https://static.matterport.com/showcase-sdk/bootstrap/3.1.0-0-g1cd7e0997a/sdk.js?applicationKey=${encodeURIComponent(key)}`;
-      script.onload = () => window.MP_SDK ? resolve(window.MP_SDK) : reject(new Error("SDK unavailable"));
-      script.onerror = () => { script.remove(); reject(new Error("SDK download failed")); };
-      document.head.appendChild(script);
-    }).catch((error) => { bootstrap = null; throw error; });
-  }
-  return bootstrap;
-}
-
-export default function MatterportWalkthrough({ matterport, evidence, profile, request }) {
+export default function MatterportWalkthrough({ matterport, evidence, profile, request, prepared }) {
   const frame = useRef(null);
   const section = useRef(null);
   const tags = useRef([]);
@@ -38,6 +26,8 @@ export default function MatterportWalkthrough({ matterport, evidence, profile, r
   const [unplaced, setUnplaced] = useState([]);
   const [selected, setSelected] = useState("");
   const [timings, setTimings] = useState(null);
+  const [restoreAttempt, setRestoreAttempt] = useState(0);
+  const [cacheMode, setCacheMode] = useState(prepared ? "checking" : "live");
 
   useEffect(() => {
     let active = true;
@@ -66,8 +56,11 @@ export default function MatterportWalkthrough({ matterport, evidence, profile, r
     loadSdk(key).then((api) => {
       if (!active || frame.current !== loadedFrame) return null;
       return connectFrame(api, loadedFrame, key);
-    }).then((connection) => {
-      if (active && connection) { setConnectionFailed(false); setSdk(connection); }
+    }).then(async (connection) => {
+      if (!active || !connection) return;
+      const model = await connection.Model.getData();
+      if (model.sid !== matterport.modelId) throw new Error("The connected tour does not match the report’s model.");
+      if (active) { setConnectionFailed(false); setSdk(connection); }
     }).catch((error) => {
       if (active) { setConnectionFailed(true); setStatus(connectionError(error, key, window.location.origin)); }
     }).finally(() => clearTimeout(timer));
@@ -87,7 +80,52 @@ export default function MatterportWalkthrough({ matterport, evidence, profile, r
   }, [sdk]);
 
   useEffect(() => {
-    if (!sdk) return;
+    if (!sdk || !prepared) return;
+    let active = true;
+    const controller = new AbortController();
+    const added = [];
+    setCacheMode("checking");
+    let stage = "Checking saved review";
+    async function restore() {
+      if (prepared.modelId !== matterport.modelId || prepared.profile !== profile || prepared.expiresAt * 1000 <= Date.now()) {
+        throw new Error("Saved review is expired or belongs to a different clinic/profile.");
+      }
+      stage = "Waiting for the walkthrough to finish loading";
+      setStatus("Waiting for Matterport to finish loading before restoring saved markers…");
+      await waitForPlaying(sdk, controller.signal);
+      stage = "Matching the saved model scans";
+      const scans = await getSweepSnapshot(sdk, controller.signal);
+      if (await sweepFingerprint(scans) !== prepared.modelFingerprint) throw new Error("The model’s scan layout changed since preparation.");
+      const failures = [];
+      for (const finding of prepared.findings.filter((item) => item.anchor)) {
+        if (!active) return;
+        stage = `Adding saved marker: ${finding.title}`;
+        let tagId;
+        try { tagId = await addBarrierTag(sdk, finding, profile, true); }
+        catch (error) { failures.push(`${finding.title}: ${safeErrorDetail(error, key)}`); continue; }
+        if (!active) { await sdk.Tag.remove(tagId); return; }
+        added.push({ ...finding, tagId, modelId: matterport.modelId });
+        setMarkers([...added]);
+      }
+      if (active) {
+        setUnplaced(prepared.findings.filter((item) => !item.anchor));
+        setCacheMode(failures.length ? "partial" : "cached");
+        setStatus(failures.length ? `Could not add ${failures.length} saved markers: ${failures.join("; ")}` : "");
+      }
+    }
+    restore().catch((error) => {
+      if (active) {
+        for (const marker of added) sdk.Tag.remove(marker.tagId).catch(() => {});
+        added.length = 0;
+        setMarkers([]); setCacheMode("unavailable");
+        setStatus(`${stage}: ${safeErrorDetail(error, key)} Saved findings are intact; retry marker restoration without rerunning Gemini.`);
+      }
+    });
+    return () => { active = false; controller.abort(); for (const marker of added) sdk.Tag.remove(marker.tagId).catch(() => {}); };
+  }, [sdk, prepared, profile, matterport.modelId, restoreAttempt]);
+
+  useEffect(() => {
+    if (!sdk || cacheMode !== "live") return;
     let active = true, busy = false, timer, latestPose, lastViewKey = "";
     const reviews = createReviewTracker();
     const controller = new AbortController();
@@ -189,7 +227,19 @@ export default function MatterportWalkthrough({ matterport, evidence, profile, r
       subscription.cancel(); zoomChanges.cancel(); resize.disconnect();
       for (const marker of added) sdk.Tag.remove(marker.tagId).catch(() => {});
     };
-  }, [sdk, profile, matterport.modelId]);
+  }, [sdk, profile, matterport.modelId, cacheMode]);
+
+  useEffect(() => {
+    if (!sdk || !markers.length || !sdk.Tag.openTags?.subscribe) return;
+    const subscription = sdk.Tag.openTags.subscribe({
+      onChanged(state) {
+        const selectedIds = state.selected ? [...state.selected] : [];
+        const id = [state.docked, ...selectedIds].find((candidate) => markers.some((marker) => marker.tagId === candidate));
+        if (id) setSelected(id);
+      },
+    });
+    return () => subscription.cancel();
+  }, [sdk, markers]);
 
   navigate.current = (finding) => {
     section.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -199,15 +249,18 @@ export default function MatterportWalkthrough({ matterport, evidence, profile, r
     navigation.current = navigation.current.catch(() => {}).then(async () => {
       if (version !== navigationVersion.current) return;
       try {
-        if (finding.tagId) {
-          await navigateToMarker(sdk, finding, matterport.modelId, sweeps.current);
-          setSelected(finding.tagId);
+        const cachedMarker = finding.preparedMarkerId ? markers.find((item) => item.preparedMarkerId === finding.preparedMarkerId) : null;
+        if (finding.preparedMarkerId && !cachedMarker) throw new Error("The saved marker is not ready or cannot be matched to the current model.");
+        const target = cachedMarker || finding;
+        if (target.tagId) {
+          await navigateToMarker(sdk, target, matterport.modelId, sweeps.current);
+          setSelected(target.tagId);
         } else {
           const scanId = resolveScanId(evidence.get(finding.evidence)?.scanId, sweeps.current);
           await sdk.Sweep.moveTo(scanId, {});
           setStatus("Opened the photo’s source scan. Its original facing direction is unavailable; see the evidence photo for the exact feature.");
         }
-      } catch (error) { setStatus(error.message || "This viewpoint could not be opened."); }
+      } catch (error) { setStatus(safeErrorDetail(error, key) || "This viewpoint could not be opened."); }
       finally { if (version === navigationVersion.current) navigating.current = false; }
     });
   };
@@ -229,7 +282,9 @@ export default function MatterportWalkthrough({ matterport, evidence, profile, r
           onLoad={(event) => setLoadedFrame(event.currentTarget)} title="Clinic walkthrough"
           allow="fullscreen; xr-spatial-tracking" allowFullScreen /> }
       </div>
-      <p role="status">{status}</p>
+      {status && !status.includes("No live AI request was needed.") && <p role="status">{status}</p>}
+      {prepared && sdk && ["unavailable", "partial"].includes(cacheMode) && <button type="button"
+        onClick={() => setRestoreAttempt((value) => value + 1)}>Retry saved markers</button>}
       {connectionFailed && <div className="barrier-tour-controls">
         <button type="button" onClick={() => {
           navigationVersion.current++; navigating.current = false;
@@ -242,7 +297,7 @@ export default function MatterportWalkthrough({ matterport, evidence, profile, r
       {timings && <details><summary>Last view analysis timing</summary>
         <p>Capture: {(timings.captureMs / 1000).toFixed(1)} s · AI request and network: {(timings.reviewMs / 1000).toFixed(1)} s · Positioning and pins: {((timings.localizationMs + timings.pinMs) / 1000).toFixed(1)} s</p>
       </details>}
-      <p>Views are checked automatically when the camera stops. Red markers show possible barriers for your access needs; positions are approximate.</p>
+      {!prepared && <p>Views are checked automatically when the camera stops. Red markers show possible barriers for your access needs; positions are approximate.</p>}
       {markers.length > 0 && <div className="barrier-tour-controls">
         <label>Detected in the walkthrough <select value={selected} onChange={(event) => {
           const marker = markers.find((item) => item.tagId === event.target.value);

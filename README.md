@@ -96,3 +96,37 @@ questions. The report's normal photo review retains its full response. Expand
 **Last view analysis timing** under the tour to compare screenshot capture,
 AI request plus network, and 3D placement durations. This does not measure pure
 model inference separately from provider queuing or network latency.
+
+### Prepare the Houston hackathon clinic
+
+Target: **7440 Cypress Creek Pky, Houston**, model `x37LjPx62VA`, profile
+`step-free` (step-free & wheelchair access).
+
+1. Start the Python backend and Vite normally.
+2. Open <http://localhost:5175/?prepare=houston-step-free> using the host allowed
+   by the supplied SDK key. Leave the tab open and the camera untouched.
+3. The internal page automatically captures six headings at up to three aligned
+   scan locations, requests Gemini review, localizes findings, and saves each
+   screenshot and result. It publishes only after every planned view finishes.
+4. Open <http://localhost:5175/?clinic=x37LjPx62VA&profile=step-free> to load the
+   report. It reuses saved geometry, findings and evidence without provider/AI
+   calls. Pins restore after the SDK connects and confirms the scan fingerprint.
+
+`python3 -m backend.prepare` prints the preparation URL and current saved state.
+Reopening the preparation page starts a refresh; a failed or partial refresh does
+not replace the previous successful version. Runtime SQLite data and screenshots
+live in `.data/walkthroughs.sqlite3`, which is ignored by Git. They survive backend
+restarts and can be reused by browsers visiting this backend.
+
+Cache versions expire after 24 hours and are invalidated by a pipeline-version
+change. At restoration the SDK scan IDs, positions and rotations must match the
+saved fingerprint. Changes to mesh details without changed scan metadata require
+an explicit refresh; this is not full model revision detection. Unlocalized
+findings remain linked photo evidence. Prepared reviews cover sampled indoor
+views, not every room or arrival/parking imagery. Capture time is preparation
+time, not the original Matterport scan date.
+
+Interrupted preparation resumes matching saved views on reload, rather than
+paying for them again. Temporary Gemini rate limits use the provider's retry
+delay (60 seconds if unspecified); each remaining view has at most three tries.
+Daily quota limits stop with an explicit message and preserve all saved views.

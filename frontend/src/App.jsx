@@ -36,7 +36,7 @@ function EvidenceImage({ image, findings = [] }) {
 function Findings({ items, evidence, profile, onShow, showPhotos = false }) {
   return (
     <ul className="report-findings">
-      {items.map(({ title, detail, impact, box_2d, evidence: id }, index) => (
+      {items.map(({ title, detail, impact, box_2d, preparedMarkerId, evidence: id }, index) => (
         <li key={`${id}-${index}`}>
           <strong>{title}</strong>
           {showPhotos && (
@@ -54,7 +54,7 @@ function Findings({ items, evidence, profile, onShow, showPhotos = false }) {
             </details>
           )}
           <p>{detail}</p>
-          {onShow && <button type="button" className="text-action" onClick={() => onShow({ title, detail, impact, evidence: id })}>Open source scan</button>}
+          {onShow && <button type="button" className="text-action" onClick={() => onShow({ title, detail, impact, preparedMarkerId, evidence: id })}>{preparedMarkerId ? "Show in walkthrough" : "Open source scan"}</button>}
           {showPhotos && evidence.has(id) && (
             <details>
               <summary>See barrier location</summary>
@@ -104,7 +104,7 @@ function Report({ report, onReset, onOpenPacket }) {
       {report.matterport?.viewerUrl && (
         <MatterportWalkthrough key={`${report.matterport.modelId}.${report.profile}`}
           matterport={report.matterport} evidence={evidence}
-          profile={report.profile} request={walkthroughRequest} />
+          profile={report.profile} request={walkthroughRequest} prepared={report.preparedWalkthrough} />
       )}
 
       {!report.demo && (
@@ -200,6 +200,23 @@ function AccessScan({ onOpenPacket }) {
       clearTimeout(timer);
     };
   }, [buildingQuery]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const target = params.get("clinic");
+    if (!target || params.get("profile") !== "step-free") return;
+    let active = true;
+    const controller = new AbortController();
+    setBusy(true); setProfile("step-free"); setStatus("Loading the prepared clinic report…");
+    fetch("/api/plan", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ building: target, profile: "step-free" }), signal: controller.signal,
+    }).then(async (response) => {
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Could not open clinic report");
+      if (active) { setReport(result); setStatus("Your clinic review is ready."); }
+    }).catch((error) => { if (active) setStatus(error.message); }).finally(() => { if (active) setBusy(false); });
+    return () => { active = false; controller.abort(); };
+  }, []);
 
   async function showDemo() {
     setBusy(true);
@@ -345,7 +362,7 @@ function AccessScan({ onOpenPacket }) {
 }
 
 function App() {
-  const [selectedTool, setSelectedTool] = useState(null);
+  const [selectedTool, setSelectedTool] = useState(() => new URLSearchParams(window.location.search).has("clinic") ? { id: "access" } : null);
   const workspace = useRef(null);
 
   useEffect(() => {
