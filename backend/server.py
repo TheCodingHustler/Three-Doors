@@ -241,12 +241,6 @@ def gemini_synthesize_speech(text, language):
         raise SpeechConfigurationError(
             "Cloud speech is not configured. .env.example is not loaded; set GEMINI_API_KEY in ignored .env or backend/.env."
         )
-    paid_tier_confirmed = os.environ.get("GEMINI_TTS_PAID_TIER_CONFIRMED", "").strip().lower()
-    if paid_tier_confirmed != "true":
-        raise SpeechConfigurationError(
-            "Cloud speech requires a paid Gemini API tier. Confirm it with GEMINI_TTS_PAID_TIER_CONFIRMED=true."
-        )
-
     payload = {
         "model": "gemini-3.8-flash-tts",
         "input": [{
@@ -272,7 +266,13 @@ def gemini_synthesize_speech(text, language):
     try:
         with urlopen(request, timeout=60) as response:
             result = json.loads(response.read(MAX_SPEECH_RESPONSE_BYTES + 1).decode("utf-8"))
-    except (HTTPError, URLError, TimeoutError, OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+    except HTTPError as error:
+        if error.code == 429:
+            raise SpeechServiceError("Gemini speech quota or rate limit reached. Try later or use free device read-aloud.") from error
+        if error.code in (401, 403):
+            raise SpeechServiceError("Gemini denied speech access. Check the API key and project model access, or use free device read-aloud.") from error
+        raise SpeechServiceError(f"Gemini speech request failed (HTTP {error.code}). Try again or use free device read-aloud.") from error
+    except (URLError, TimeoutError, OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
         raise SpeechServiceError("Cloud speech could not be generated. Try again.") from error
     if not isinstance(result, dict):
         raise SpeechServiceError("Cloud speech returned an invalid response.")

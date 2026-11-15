@@ -15,7 +15,7 @@ import {
   saveLabel,
 } from './labelStorage.js'
 import { FIELD_LABELS, getFieldSentence, getPlainLanguageSentences, getSpokenSummary } from './plainLanguage.js'
-import { getTranslatedSpeechAudio } from './speech.js'
+import { getTranslatedSpeechAudio, readWithSpeechFallback, speakLocalReading } from './speech.js'
 
 const TRANSLATE_API_URL = '/api/translate'
 const TRANSLATE_LANGUAGES_API_URL = '/api/translate/languages'
@@ -39,6 +39,8 @@ function Medications() {
   const [speechLoadingKey, setSpeechLoadingKey] = useState('')
   const [speechError, setSpeechError] = useState(null)
   const audioRef = useRef(null)
+  const speechSessionRef = useRef({ id: 0, controller: null })
+  const speechRateRef = useRef(speechRate)
   const [translateLanguages, setTranslateLanguages] = useState(FALLBACK_TRANSLATION_LANGUAGES)
   const [languageListStatus, setLanguageListStatus] = useState('loading')
   const [languageListAttempt, setLanguageListAttempt] = useState(0)
@@ -81,13 +83,20 @@ function Medications() {
     images.forEach(({ preview }) => URL.revokeObjectURL(preview))
   }, [images])
 
-  useEffect(() => () => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel()
+  useEffect(() => {
+    // Warm the browser's voice list while cloud speech is being prepared.
+    if (speechAvailable) window.speechSynthesis.getVoices()
+    const session = speechSessionRef.current
+    return () => {
+      session.id++
+      session.controller?.abort()
+      audioRef.current?.pause()
+      if (speechAvailable) window.speechSynthesis.cancel()
     }
-  }, [])
+  }, [speechAvailable])
 
   useEffect(() => {
+    speechRateRef.current = speechRate
     if (audioRef.current) audioRef.current.playbackRate = speechRate
   }, [speechRate, speechAudio])
 
@@ -103,7 +112,7 @@ function Medications() {
     setImages(files.map((file) => ({ file, preview: URL.createObjectURL(file) })))
     setOcrResults([])
     setTranslations({})
-    setSpeechAudio(null)
+    handleStopReading()
     setSpeechError(null)
   }
 
@@ -114,7 +123,7 @@ function Medications() {
     setReadingStatus('Reading labels in this browser…')
     setOcrResults([])
     setTranslations({})
-    setSpeechAudio(null)
+    handleStopReading()
     setSpeechError(null)
     const results = []
 
@@ -159,48 +168,62 @@ function Medications() {
     translateResults(results, displayLanguage)
   }
 
-  function handleReadAloud(text) {
-    if (!speechAvailable) return
-    window.speechSynthesis.cancel()
-    const utterance = new SpeechSynthesisUtterance(text)
-    const voice = window.speechSynthesis.getVoices()
-      .find((availableVoice) => availableVoice.lang.toLowerCase().startsWith('en'))
-    if (voice) utterance.voice = voice
-    utterance.lang = voice?.lang ?? 'en'
-    utterance.rate = speechRate
-    utterance.onstart = () => setIsSpeaking(true)
-    utterance.onend = () => setIsSpeaking(false)
-    utterance.onerror = () => setIsSpeaking(false)
-    window.speechSynthesis.speak(utterance)
-  }
-
-  async function handleGenerateTranslatedSpeech(text, index, resultName) {
-    const language = displayLanguage
-    const key = translationKey(index, resultName, language)
-    setSpeechLoadingKey(key)
+  async function handleReadAloud(text, language, key) {
+    handleStopReading()
     setSpeechError(null)
-    setSpeechAudio(null)
-    if (speechAvailable) window.speechSynthesis.cancel()
-    setIsSpeaking(false)
-    console.info('[Three Doors cloud TTS]', {
-      requestedLanguage: language,
-      provider: 'Gemini 3.8 Flash TTS',
-      textCharacters: text.length,
-      arabicCharacters: (text.match(/[\u0600-\u06ff]/g) ?? []).length,
-    })
+    const session = speechSessionRef.current
+    const id = session.id
+    const controller = new AbortController()
+    session.controller = controller
+    const isCurrent = () => session.id === id
+    const finish = () => { if (isCurrent()) setIsSpeaking(false) }
+    setSpeechLoadingKey(key)
     try {
-      const blob = await getTranslatedSpeechAudio(text, language, fetch, '/api/speech')
-      setSpeechAudio({ key, url: URL.createObjectURL(blob) })
+      await readWithSpeechFallback({
+        text, language, isCurrent,
+        getCloudAudio: (text, language) => getTranslatedSpeechAudio(text, language, fetch, '/api/speech', controller.signal),
+        playCloudAudio: async (blob) => {
+          const url = URL.createObjectURL(blob)
+          const audio = new Audio(url)
+          audioRef.current = audio
+          audio.playbackRate = speechRateRef.current
+          audio.onended = finish
+          audio.onerror = finish
+          setSpeechAudio({ key, url })
+          await audio.play()
+          if (isCurrent()) setIsSpeaking(true)
+          else audio.pause()
+        },
+        speakBrowser: (text, language) => {
+          audioRef.current?.pause()
+          setSpeechAudio(null)
+          if (!speechAvailable) throw new Error('Read-aloud is unavailable. Please try again, or open this page in Chrome or Safari for browser speech.')
+          speakLocalReading({
+            text, language, rate: speechRateRef.current,
+            synth: window.speechSynthesis, Utterance: window.SpeechSynthesisUtterance,
+            onStart: () => { if (isCurrent()) setIsSpeaking(true) }, onEnd: finish,
+            onError: (message) => { if (isCurrent()) { setIsSpeaking(false); setSpeechError({ key, message }) } },
+          })
+          setIsSpeaking(true)
+        },
+      })
     } catch (error) {
-      setSpeechError({ key, message: error?.message || 'Could not generate translated audio.' })
+      if (isCurrent()) { setIsSpeaking(false); setSpeechError({ key, message: error.message }) }
     } finally {
-      setSpeechLoadingKey((current) => current === key ? '' : current)
+      if (isCurrent()) setSpeechLoadingKey('')
     }
   }
 
   function handleStopReading() {
-    if (!speechAvailable) return
-    window.speechSynthesis.cancel()
+    const session = speechSessionRef.current
+    session.id++
+    session.controller?.abort()
+    session.controller = null
+    audioRef.current?.pause()
+    audioRef.current = null
+    if (speechAvailable) window.speechSynthesis.cancel()
+    setSpeechAudio(null)
+    setSpeechLoadingKey('')
     setIsSpeaking(false)
   }
 
@@ -327,11 +350,9 @@ function Medications() {
   }
 
   function changeLanguage(language) {
-    if (speechAvailable) window.speechSynthesis.cancel()
-    setIsSpeaking(false)
     setDisplayLanguage(language)
     setTranslations({})
-    setSpeechAudio(null)
+    handleStopReading()
     setSpeechError(null)
     translateResults(ocrResults, language)
   }
@@ -402,7 +423,7 @@ function Medications() {
           </p>
           {displayLanguage !== 'en' && (
             <p className="label-reader-speech-note">
-              Generating audio sends the translated text to Gemini. Images and raw OCR text are not sent for speech.
+              Read aloud plays the reading in your selected language, with browser speech as a backup.
             </p>
           )}
           {languageListStatus === 'unavailable' && (
@@ -522,32 +543,18 @@ function Medications() {
                   <p role="status">{displayLanguage === 'en'
                     ? 'Showing English. Choose another language to translate this reading.'
                     : translation?.loading ? 'Translating your reading…'
-                    : translation?.texts ? 'Translation ready. Read it below or generate audio, then press Play.'
+                    : translation?.texts ? 'Translation ready. Read it below or select Read aloud.'
                     : 'Translation is unavailable. The original text is shown below.'}</p>
                   <div className="label-reader-actions">
-                    {displayLanguage === 'en' && speechAvailable ? (
-                      <>
-                        <button className="label-reader-button label-reader-button-primary" type="button"
-                          onClick={() => handleReadAloud(result.parsed ? getSpokenSummary(result.parsed) : result.text)}
-                          disabled={isSpeaking}>Read English aloud</button>
-                        <button className="label-reader-button label-reader-button-secondary" type="button"
-                          onClick={handleStopReading} disabled={!isSpeaking}>Stop reading</button>
-                      </>
-                    ) : (
-                      <button className="label-reader-button label-reader-button-primary" type="button"
-                        disabled={speechLoadingKey === resultSpeechKey || (displayLanguage !== 'en' && !translation?.texts)}
-                        onClick={() => handleGenerateTranslatedSpeech(displayLanguage === 'en'
-                          ? (result.parsed ? getSpokenSummary(result.parsed) : result.text)
-                          : translation.texts.join(' '), index, result.name)}>
-                        {speechLoadingKey === resultSpeechKey ? 'Generating audio…' : 'Generate reading audio'}
-                      </button>
-                    )}
-                    {speechAudio?.key === resultSpeechKey && (
-                      <audio className="label-reader-cloud-audio" controls preload="none" src={speechAudio.url}
-                        ref={audioRef} aria-label="Label reading audio" />
-                    )}
+                    <button className="label-reader-button label-reader-button-primary" type="button"
+                      disabled={isSpeaking || Boolean(speechLoadingKey) || (displayLanguage !== 'en' && !translation?.texts)}
+                      onClick={() => handleReadAloud(displayLanguage === 'en'
+                        ? (result.parsed ? getSpokenSummary(result.parsed) : result.text)
+                        : translation.texts.join(' '), displayLanguage, resultSpeechKey)}>
+                      {speechLoadingKey === resultSpeechKey ? 'Preparing audio…' : 'Read aloud'}</button>
+                    <button className="label-reader-button label-reader-button-secondary" type="button"
+                      onClick={handleStopReading} disabled={!isSpeaking && !speechLoadingKey}>Stop reading</button>
                   </div>
-                  {displayLanguage === 'en' && !speechAvailable && <p>This browser does not support built-in read-aloud. Audio generation uses the server speech service.</p>}
                   {speechError?.key === resultSpeechKey && <p role="alert">{speechError.message}</p>}
                 </div>
                 {result.cropApplied && <p className="label-reader-status" role="status">Cropped to confident text and reread in this browser.</p>}
