@@ -19,6 +19,12 @@ from . import providers, route, prepared
 ROOT = Path(__file__).resolve().parent.parent
 MAX_IMAGE_BYTES = 8 * 1024 * 1024
 MAX_REQUEST_BYTES = 12 * 1024 * 1024
+MAX_TRANSLATION_REQUEST_BYTES = 50 * 1024
+MAX_TRANSLATION_TEXTS = 20
+MAX_TRANSLATION_TEXT_LENGTH = 3000
+MAX_SPEECH_REQUEST_BYTES = 64 * 1024
+MAX_SPEECH_TEXT_LENGTH = 20_000
+MAX_SPEECH_RESPONSE_BYTES = 12 * 1024 * 1024
 ALLOWED_MIME_TYPES = {"image/jpeg", "image/png", "image/webp"}
 ALLOWED_PROFILES = {"step-free", "low-vision", "short-walk"}
 BOX_SCHEMA = {
@@ -114,18 +120,192 @@ def gemini_rate_limit(error):
     return GeminiServiceError("Gemini rate limit reached. Saved progress is preserved.", retry_after=retry_after, quota_type="temporary")
 
 
+class DeepLConfigurationError(Exception):
+    pass
+
+
+class DeepLServiceError(Exception):
+    pass
+
+
+class SpeechConfigurationError(Exception):
+    pass
+
+
+class SpeechServiceError(Exception):
+    pass
+
+
 def load_local_env():
-    env_file = ROOT / ".env"
-    if not env_file.is_file():
-        return
-    for line in env_file.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line or line.startswith("#") or "=" not in line:
+    for env_file in (ROOT / ".env", ROOT / "backend" / ".env"):
+        if not env_file.is_file():
             continue
-        key, value = line.split("=", 1)
-        value = value.strip().strip("\"'")
-        if key.strip() and value:
-            os.environ.setdefault(key.strip(), value)
+        for line in env_file.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            value = value.strip().strip("\"'")
+            if key.strip() and value:
+                os.environ.setdefault(key.strip(), value)
+
+
+def deepl_api_base(auth_key):
+    return "https://api-free.deepl.com" if auth_key.strip().endswith(":fx") else "https://api.deepl.com"
+
+
+def deepl_request(path, auth_key, payload=None):
+    data = json.dumps(payload).encode("utf-8") if payload is not None else None
+    request = Request(
+        deepl_api_base(auth_key) + path,
+        data=data,
+        headers={
+            "Authorization": "DeepL-Auth-Key " + auth_key.strip(),
+            "Content-Type": "application/json",
+        },
+        method="POST" if data is not None else "GET",
+    )
+    try:
+        with urlopen(request, timeout=20) as response:
+            return json.loads(response.read(1_000_001).decode("utf-8"))
+    except (HTTPError, URLError, TimeoutError, OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise DeepLServiceError("DeepL could not be reached. Check its configuration and try again.") from error
+
+
+def deepl_target_languages():
+    auth_key = os.environ.get("DEEPL_AUTH_KEY", "").strip()
+    if not auth_key:
+        raise DeepLConfigurationError("DeepL is not configured. Add DEEPL_AUTH_KEY to backend/.env.")
+    languages = deepl_request("/v3/languages?resource=translate_text", auth_key)
+    if not isinstance(languages, list):
+        raise DeepLServiceError("DeepL returned an invalid language list.")
+    return [
+        {"code": item["lang"], "name": item["name"]}
+        for item in languages
+        if isinstance(item, dict)
+        and item.get("usable_as_target") is True
+        and isinstance(item.get("lang"), str)
+        and isinstance(item.get("name"), str)
+    ]
+
+
+def validate_translation_request(body):
+    if not isinstance(body, dict):
+        raise ValueError("Provide translation text and a target language.")
+    texts = body.get("texts")
+    target_language = body.get("targetLanguage")
+    if (not isinstance(texts, list) or not 1 <= len(texts) <= MAX_TRANSLATION_TEXTS
+            or any(not isinstance(text, str) or not text or len(text) > MAX_TRANSLATION_TEXT_LENGTH for text in texts)):
+        raise ValueError("Provide 1 to 20 text strings, each 1-3000 characters.")
+    if not isinstance(target_language, str) or not re.fullmatch(r"[A-Za-z-]{2,10}", target_language):
+        raise ValueError("A valid target language code is required.")
+    return texts, target_language
+
+
+def translate_texts(texts, target_language):
+    auth_key = os.environ.get("DEEPL_AUTH_KEY", "").strip()
+    if not auth_key:
+        raise DeepLConfigurationError("DeepL is not configured. Add DEEPL_AUTH_KEY to backend/.env.")
+    languages = deepl_target_languages()
+    target = next((item for item in languages if item["code"].casefold() == target_language.casefold()), None)
+    if not target:
+        raise ValueError("DeepL does not support this target language.")
+    response = deepl_request("/v2/translate", auth_key, {
+        "text": texts,
+        "source_lang": "EN",
+        "target_lang": target["code"],
+    })
+    translations = response.get("translations") if isinstance(response, dict) else None
+    if (not isinstance(translations, list) or len(translations) != len(texts)
+            or any(not isinstance(item, dict) or not isinstance(item.get("text"), str) for item in translations)):
+        raise DeepLServiceError("DeepL returned an invalid translation response.")
+    return [item["text"] for item in translations]
+
+
+def validate_speech_request(body):
+    if not isinstance(body, dict):
+        raise ValueError("Provide translated text and its selected language.")
+    text = body.get("text")
+    language = body.get("language")
+    if not isinstance(text, str) or not text.strip() or len(text) > MAX_SPEECH_TEXT_LENGTH:
+        raise ValueError("Translated text must be between 1 and 20000 characters.")
+    if not isinstance(language, str) or not re.fullmatch(r"[A-Za-z0-9-]{2,20}", language):
+        raise ValueError("A valid selected language code is required.")
+    return text, language
+
+
+def gemini_synthesize_speech(text, language):
+    api_key = os.environ.get("GEMINI_API_KEY", "").strip()
+    if not api_key:
+        raise SpeechConfigurationError(
+            "Cloud speech is not configured. .env.example is not loaded; set GEMINI_API_KEY in ignored .env or backend/.env."
+        )
+    paid_tier_confirmed = os.environ.get("GEMINI_TTS_PAID_TIER_CONFIRMED", "").strip().lower()
+    if paid_tier_confirmed != "true":
+        raise SpeechConfigurationError(
+            "Cloud speech requires a paid Gemini API tier. Confirm it with GEMINI_TTS_PAID_TIER_CONFIRMED=true."
+        )
+
+    payload = {
+        "model": "gemini-3.8-flash-tts",
+        "input": [{
+            "type": "user_input",
+            "content": [{
+                "type": "text",
+                "text": text,
+                "annotations": [{
+                    "type": "speech_metadata",
+                    "style": f"Read this transcript verbatim in language {language}. Do not translate, paraphrase, correct, or add words.",
+                }],
+            }],
+        }],
+        "response_format": {"type": "audio", "mime_type": "audio/wav"},
+        "generation_config": {"speech_config": [{"voice": "Kore"}]},
+    }
+    request = Request(
+        "https://generativelanguage.googleapis.com/v1beta/interactions",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json", "x-goog-api-key": api_key},
+        method="POST",
+    )
+    try:
+        with urlopen(request, timeout=60) as response:
+            result = json.loads(response.read(MAX_SPEECH_RESPONSE_BYTES + 1).decode("utf-8"))
+    except (HTTPError, URLError, TimeoutError, OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise SpeechServiceError("Cloud speech could not be generated. Try again.") from error
+    if not isinstance(result, dict):
+        raise SpeechServiceError("Cloud speech returned an invalid response.")
+    encoded_audio = None
+    # The Interactions REST API returns generated media as content items in
+    # model_output steps. Keep the convenience/legacy shape as a fallback.
+    steps = result.get("steps")
+    if isinstance(steps, list):
+        for step in reversed(steps):
+            if not isinstance(step, dict) or step.get("type") != "model_output":
+                continue
+            content = step.get("content")
+            if not isinstance(content, list):
+                continue
+            for item in reversed(content):
+                if isinstance(item, dict) and item.get("type") == "audio":
+                    encoded_audio = item.get("data")
+                    if isinstance(encoded_audio, str):
+                        break
+            if isinstance(encoded_audio, str):
+                break
+    if not isinstance(encoded_audio, str):
+        output_audio = result.get("output_audio") or result.get("outputAudio")
+        if isinstance(output_audio, dict):
+            encoded_audio = output_audio.get("data") or output_audio.get("audioData")
+    if not isinstance(encoded_audio, str):
+        raise SpeechServiceError("Cloud speech returned no audio. The translated text is still available.")
+    try:
+        audio = base64.b64decode(encoded_audio, validate=True)
+    except (ValueError, TypeError) as error:
+        raise SpeechServiceError("Cloud speech returned invalid audio.") from error
+    if not audio or len(audio) > MAX_SPEECH_RESPONSE_BYTES or not audio.startswith(b"RIFF") or audio[8:12] != b"WAVE":
+        raise SpeechServiceError("Cloud speech returned an unsupported audio format.")
+    return encoded_audio
 
 
 def decode_image(mime_type, encoded):
@@ -663,6 +843,13 @@ class Handler(BaseHTTPRequestHandler):
                 else:
                     return self.send_bytes(raw, mime_type)
             return self.reply({"error": "This viewpoint is unavailable."}, 404)
+        if parsed.path == "/api/translate/languages":
+            try:
+                return self.reply({"languages": deepl_target_languages()})
+            except DeepLConfigurationError as error:
+                return self.reply({"error": str(error)}, 503)
+            except DeepLServiceError:
+                return self.reply({"error": "Could not load DeepL target languages."}, 502)
         if parsed.path != "/api/buildings":
             return self.reply({"error": "Endpoint unavailable."}, 404)
         records = getattr(self.server, "catalog_records", None)
@@ -673,20 +860,34 @@ class Handler(BaseHTTPRequestHandler):
         return self.reply(catalog.search_catalog(records, query))
 
     def do_POST(self):
-        if self.path not in {"/api/audit", "/api/plan", "/api/route", "/api/walkthrough-review", "/api/prepared/start", "/api/prepared/view", "/api/prepared/publish"}:
+        path = urlsplit(self.path).path
+        if path not in {"/api/audit", "/api/plan", "/api/route", "/api/walkthrough-review", "/api/prepared/start", "/api/prepared/view", "/api/prepared/publish", "/api/translate", "/api/speech"}:
             return self.reply({"error": "Endpoint unavailable."}, 404)
         if not is_local_request(self.headers):
             return self.reply({"error": "Requests must come from the local app."}, 403)
         try:
             length = int(self.headers.get("Content-Length") or "0")
+            if path == "/api/translate":
+                if not 0 < length <= MAX_TRANSLATION_REQUEST_BYTES:
+                    return self.reply({"error": "Translation request is empty or too large."}, 413)
+                body = json.loads(self.rfile.read(length).decode("utf-8"))
+                texts, target_language = validate_translation_request(body)
+                return self.reply({"translatedTexts": translate_texts(texts, target_language)})
+            if path == "/api/speech":
+                if not 0 < length <= MAX_SPEECH_REQUEST_BYTES:
+                    return self.reply({"error": "Speech request is empty or too large."}, 413)
+                body = json.loads(self.rfile.read(length).decode("utf-8"))
+                text, language = validate_speech_request(body)
+                audio_base64 = gemini_synthesize_speech(text, language)
+                return self.reply({"audioBase64": audio_base64, "mimeType": "audio/wav"})
             if not 0 < length <= MAX_REQUEST_BYTES:
                 return self.reply({"error": "Request is empty or too large."}, 413)
             body = json.loads(self.rfile.read(length).decode("utf-8"))
-            if self.path.startswith("/api/prepared/"):
+            if path.startswith("/api/prepared/"):
                 if not isinstance(body, dict):
                     raise ValueError("Invalid preparation request")
                 store = getattr(self.server, "prepared_store", prepared.PreparedStore())
-                if self.path == "/api/prepared/start":
+                if path == "/api/prepared/start":
                     records = getattr(self.server, "catalog_records", None) or catalog.load_catalog()
                     if body.get("building") != catalog.DEMO_ID or body.get("profile") != "step-free":
                         raise ValueError("This preparation is configured for the Houston clinic and step-free access.")
@@ -699,22 +900,22 @@ class Handler(BaseHTTPRequestHandler):
                     except (ValueError, TypeError, KeyError):
                         geometry = {"walls": [], "scans": [], "rooms": [], "status": "Geometry unavailable"}
                     return self.reply(store.start(record["id"], "step-free", body.get("fingerprint"), body.get("plan"), geometry, source))
-                if self.path == "/api/prepared/view":
+                if path == "/api/prepared/view":
                     _, _, mime, image_data = validate_submission(body)
                     raw = decode_image(mime, image_data)
                     return self.reply(store.save_view(body.get("jobId"), body.get("viewId"), body.get("localized"), body.get("unplaced"), mime, raw))
                 return self.reply(store.publish(body.get("jobId")))
-            if self.path == "/api/route":
+            if path == "/api/route":
                 result = select_route(body, self.server.audits)
                 if result is None:
                     return self.reply({"error": "Run the location report again to refresh the floor plan."}, 409)
                 return self.reply(result)
-            if self.path == "/api/plan":
+            if path == "/api/plan":
                 records = getattr(self.server, "catalog_records", None) or catalog.load_catalog()
                 return self.reply(location_report(body, records, self.server.audits, getattr(self.server, "prepared_store", None)))
             building, profile, mime_type, image_data = validate_submission(body)
             result = (review_walkthrough_frame(profile, mime_type, image_data)
-                      if self.path == "/api/walkthrough-review"
+                      if path == "/api/walkthrough-review"
                       else review_photo(building.strip(), profile, mime_type, image_data))
             return self.reply(result)
         except (UnicodeDecodeError, json.JSONDecodeError, ValueError) as error:
@@ -728,6 +929,14 @@ class Handler(BaseHTTPRequestHandler):
             if error.quota_type:
                 details["quotaType"] = error.quota_type
             return self.reply(details, 429 if error.quota_type else 502)
+        except DeepLConfigurationError as error:
+            return self.reply({"error": str(error)}, 503)
+        except DeepLServiceError as error:
+            return self.reply({"error": str(error)}, 502)
+        except SpeechConfigurationError as error:
+            return self.reply({"error": str(error)}, 503)
+        except SpeechServiceError as error:
+            return self.reply({"error": str(error)}, 502)
 
 
 def main():
